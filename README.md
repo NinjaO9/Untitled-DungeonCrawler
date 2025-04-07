@@ -5,6 +5,6 @@ David Montes (NinjaO9) - Lab Section 10
 
 Jamie Scott (mrthomaslibrary)- Lab Section 1
 
-Sage Emberlin (Emberlin01)- Lab Section I Forgor
+Sage Emberlin (Emberlin01)- Lab Section 6
 
 Cody Ray (Cobalt66-exe)- Lab Section 12
