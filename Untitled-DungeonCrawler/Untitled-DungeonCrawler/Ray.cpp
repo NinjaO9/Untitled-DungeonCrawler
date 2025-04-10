@@ -1,28 +1,25 @@
 #include "Ray.hpp"
 
-void Ray::displayRay(sf::RenderWindow& window)
+void RayCast::displayRay(sf::RenderWindow& window)
 {
     window.draw(line);
 }
 
-void Ray::rayCast(sf::RectangleShape& obj,sf::RenderWindow& window)
+void RayCast::rayCast(sf::RectangleShape& obj,sf::RenderWindow& window, sf::Vector2f origin)
 {
-    std::vector<Ray*> rays;
-    for (int degree = -180; degree < 180; degree++)
+    
+    for (float i = 0; i < rayCount; i++) // generate rays
     {
-        //rays.push_back(new Ray(*this));
-        //rays[degree + 180]->updateRay(obj, window);
-        //rays[degree + 180]->displayRay(window);
+        float angleDeg = (startAngle + (angleStep * i)); // get new degree
+        float angleRad = (angleDeg * 3.14159) / 180; // convert degree to radians
+        std::cout << "Degree: " << angleDeg << " Radians: " << angleRad << std::endl;
+        rayDir = sf::Vector2f(std::cos(angleRad), std::sin(angleRad)); // normalize
+        updateRay(obj, window, origin); //update new ray
         displayRay(window);
-        line[1].position = line[1].position.rotatedBy(sf::Angle(sf::degrees(degree)));
     }
-    //std::cout << rays.size() << std::endl;
-    //rays.clear();
-    //std::cout << rays.size() << std::endl;
-
 }
 
-bool Ray::intersects(sf::RectangleShape& obj, sf::Vector2f& rayCoords)
+bool RayCast::intersects(sf::RectangleShape& obj, sf::Vector2f& rayCoords)
 {
     sf::FloatRect point(rayCoords, sf::Vector2f(1, 1));
     if (obj.getGlobalBounds().findIntersection(point))
@@ -34,7 +31,7 @@ bool Ray::intersects(sf::RectangleShape& obj, sf::Vector2f& rayCoords)
 	return false;
 }
 
-void Ray::setRayCoords()
+void RayCast::setRayCoords()
 {
     line[0].position = sf::Vector2f(sf::Mouse::getPosition());
     line[0].color = sf::Color::Red;
@@ -42,14 +39,37 @@ void Ray::setRayCoords()
     line[1].color = sf::Color::White;
 }
 
-void Ray::updateRay(sf::RectangleShape& obj, sf::RenderWindow& window)
+void RayCast::setDirection(sf::Vector2f& dir)
 {
-    float deltaX = 0, deltaY = 0;
-    line[0].position = (sf::Vector2f)sf::Mouse::getPosition(window);
-    sf::Vector2f origin = line[0].position;
-    for (;hypotf(deltaX, deltaY) < maxDistance; deltaX++, deltaY++)
+    this->rayDir = dir;
+}
+
+void RayCast::setOrigin(sf::RectangleShape& originSpot)
+{
+    this->line[0].position = originSpot.getPosition();
+}
+
+sf::Vector2f& RayCast::getDirection()
+{
+    return rayDir;
+}
+
+sf::VertexArray& RayCast::getRayCoords()
+{
+    return line;
+}
+
+void RayCast::updateRay(sf::RectangleShape& obj, sf::RenderWindow& window, sf::Vector2f origin)
+{
+    float deltaX = 0, deltaY = 0, delta = std::hypotf(deltaX,deltaY);
+    //line[0].position = (sf::Vector2f)sf::Mouse::getPosition(window);
+    line[0].position = origin;
+    sf::Vector2f hitPoint = line[0].position; // start the hit from the beginning of the ray (mouse)
+
+    for (;delta < maxDistance; deltaX++, deltaY++)
     {
-        line[1].position = sf::Vector2f(origin.x + deltaX, origin.y + deltaY);
+        delta = std::hypotf(deltaX, deltaY);
+        line[1].position = hitPoint + (rayDir * delta); // determine distance multiplied by the direction
         if (intersects(obj, line[1].position))
         {
             break;

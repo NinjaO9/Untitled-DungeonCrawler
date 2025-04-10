@@ -137,10 +137,12 @@
   <ItemGroup>
     <ClCompile Include="Generic.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PlayBox.cpp" />
     <ClCompile Include="Ray.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Generic.hpp" />
+    <ClInclude Include="PlayBox.h" />
     <ClInclude Include="Ray.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

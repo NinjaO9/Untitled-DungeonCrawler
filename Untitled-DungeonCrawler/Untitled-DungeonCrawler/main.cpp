@@ -1,7 +1,11 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "Ray.hpp"
+#include "PlayBox.h"
 #include <vector>
+
+using std::cout;
+using std::endl;
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode({ 1000, 1000 }), "SFML works!");
@@ -9,13 +13,16 @@ int main()
     shape.setFillColor(sf::Color::Green);
     std::vector<float> testVect;
     sf::RectangleShape object;
-    Ray testRay(200);
+    RayCast testRay(200);
 
-    object.setSize(sf::Vector2f(10, 10));
+    PlayBox testBox;
+
+    object.setSize(sf::Vector2f(100, 100));
     object.setPosition(sf::Vector2f(500, 500));
     object.setFillColor(sf::Color::Blue);
 
     testRay.setRayCoords();
+    testBox.initialize();
     // draw it
     while (window.isOpen())
     {
@@ -24,12 +31,16 @@ int main()
             if (event->is<sf::Event::Closed>())
                 window.close();
         }
-        testRay.updateRay(object, window);
+        testRay.updateRay(object, window, (sf::Vector2f)sf::Mouse::getPosition());
+        //testBox.getVision().updateRay(object, window, testBox.getOrigin());
 
         window.clear();
         window.draw(object);
-        testRay.displayRay(window);
-        //testRay.rayCast(object, window);
+        window.draw(testBox);
+        //testBox.getVision().rayCast(object, window, testBox.getOrigin());
+        //testBox.rotate(sf::Angle(sf::degrees(10)));
+        //testBox.rotateAll();
+        testRay.rayCast(object, window, (sf::Vector2f)sf::Mouse::getPosition(window));
         window.display();
     }
 }
