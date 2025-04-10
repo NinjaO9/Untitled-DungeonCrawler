@@ -7,7 +7,7 @@ class RayCast
 {
 public:
 
-	RayCast(float maxDistance = 100 /* How far the ray can go before sight is cut off*/, float fov = 60 /* field of view */, int rayCount = 50 /* Count of rays - more rays = more precision, but also more taxing on system*/)
+	RayCast(float maxDistance = 100 /* How far the ray can go before sight is cut off*/, float fov = 60 /* field of view */, int rayCount = 20 /* Count of rays - more rays = more precision, but also more taxing on system*/)
 	{
 		line = sf::VertexArray(sf::PrimitiveType::LineStrip, 2);
 		this->maxDistance = maxDistance;
@@ -25,9 +25,9 @@ public:
 
 	void displayRay(sf::RenderWindow& window);
 
-	void rayCast(sf::RectangleShape& obj, sf::RenderWindow& window, sf::Vector2f origin);
+	void rayCast(std::vector<sf::Sprite>& obj, sf::RenderWindow& window, sf::Vector2f origin);
 
-	bool intersects(sf::RectangleShape& obj, sf::Vector2f& rayCoords);
+	bool intersects(sf::Sprite& obj, sf::Vector2f& rayCoords);
 
 	void setRayCoords();
 
@@ -39,7 +39,7 @@ public:
 
 	sf::VertexArray& getRayCoords();
 
-	void updateRay(sf::RectangleShape& obj, sf::RenderWindow& window, sf::Vector2f origin);
+	void updateRay(std::vector<sf::Sprite>& obj, sf::RenderWindow& window, sf::Vector2f origin);
 
 private:
 

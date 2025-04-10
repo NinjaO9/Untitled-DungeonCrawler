@@ -136,14 +136,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Generic.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PlayBox.cpp" />
     <ClCompile Include="Ray.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Generic.hpp" />
+    <ClInclude Include="Level.hpp" />
     <ClInclude Include="PlayBox.h" />
     <ClInclude Include="Ray.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="TestLevel.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Empty.png" />
+    <Image Include="Wall.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
