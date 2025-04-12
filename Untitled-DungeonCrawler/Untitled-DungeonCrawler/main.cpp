@@ -5,16 +5,17 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode({ 200, 200 }), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode({ 1000, 1000 }), "SFML works!");
     sf::CircleShape shape(100.0f);
     shape.setFillColor(sf::Color::Green);
-    Enemy temp;
-    temp.getModel().setFillColor(sf::Color::Red);
-    temp.getModel().setPosition(sf::Vector2f(0, 0));
-    temp.getModel().setSize(sf::Vector2f(32, 32));
+    Enemy temp(10, 50.0f, 5.0f, 10.0f, sf::Vector2f(300,300));
+    Enemy temp2(20, 50.0f, 5.0f, 10.0f, sf::Vector2f(200,200));
+   
 
     while (window.isOpen())
     {
+        temp.update();
+        temp2.update();
         while (const std::optional event = window.pollEvent())
         {
             if (event->is<sf::Event::Closed>())
@@ -24,6 +25,7 @@ int main()
         window.clear();
         //window.draw(shape);
         window.draw(temp.getModel());
+        window.draw(temp2.getModel());
         window.display();
     }
 }

@@ -1,8 +1,11 @@
 #pragma once
 #include <iostream>
 #include <cmath>
+#include <random>
 #include <SFML/Graphics.hpp>
 using std::string;
+using std::cout;
+using std::endl;
 
 class GameObject // Variables / Functions in this class should be applicable to nearly everything we will have in the game
 {
