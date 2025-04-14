@@ -13,8 +13,8 @@ int main()
     TextureManager* texManager = TextureManager::getInstance();
     texManager->loadTextures("Textures.txt");
 
-    Enemy temp(10, 50.0f, 5.0f, 100.0f, sf::Vector2f(300,300));
-    Enemy temp2(20, 50.0f, 5.0f, 10.0f, sf::Vector2f(200,200));
+    Enemy temp(10, 50.0f, 1.0f, 10000.0f, sf::Vector2f(300,300));
+    Enemy temp2(20, 50.0f, 5.0f, 50.0f, sf::Vector2f(200,200));
    
     temp.getModel().setTexture(&(texManager->getTexture("Temp")));
 
