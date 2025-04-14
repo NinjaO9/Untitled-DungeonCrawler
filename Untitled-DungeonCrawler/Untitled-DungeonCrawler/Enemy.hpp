@@ -13,7 +13,7 @@ class Enemy : public Entity
 {
 public:
 
-	Enemy(int hp = 0, float viewDistance = 50, float attackDistance = 5, float idleTimer = 1000, sf::Vector2f pos = sf::Vector2f(0,0)) 
+	Enemy(int hp = 0, float viewDistance = 50, float attackDistance = 5, float idleTimer = 500, sf::Vector2f pos = sf::Vector2f(0,0)) 
 		: Entity(hp, pos, "Enemy")
 	{
 		this->state = IDLE;
@@ -23,8 +23,8 @@ public:
 		this->defaultTime = idleTimer;
 		this->atTarget = false;
 		this->targetPos = sf::Vector2f(200,200);
-		this->getModel().setSize(sf::Vector2f(32, 32)); // ALSO TEMPORARY
-		this->getModel().setFillColor(sf::Color::Red); // TEMPORARY - DELTE WHEN RECTANGLESHAPE IS CHANGED TO SPRITE
+		this->setModel(new sf::Sprite(TextureManager::getInstance()->getTexture("Temp"))); // temp image (obv)
+		this->getModel().setScale(sf::Vector2f(0.032, 0.032)); // Saul Goodman (Temp image) is too massive (like the low-taper fade meme) so I needed to scale it down
 		this->getModel().setPosition(pos);
 	}
 

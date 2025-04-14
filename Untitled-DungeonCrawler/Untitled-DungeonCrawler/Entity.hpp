@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.hpp"
+#include "TextureManager.hpp"
 
 class Entity : public GameObject
 {
@@ -9,10 +10,12 @@ public:
 		: GameObject(pos, tag)
 	{
 		this->maxHp = maxHp;
-		this->speed = 0.09;
+		this->speed = 0.9;
 	}
 
-	sf::RectangleShape& getModel() { return this->model; } 
+	sf::Sprite& getModel() { return *this->model; } 
+
+	void setModel(sf::Sprite* const newSprite) { this->model = newSprite; }
 
 	float getSpeed() const;
 
@@ -22,7 +25,7 @@ private:
 
 	int maxHp;
 	float speed;
-	sf::RectangleShape model; // temp; likely will change to sf::Sprite later on
+	sf::Sprite* model; // temp; likely will change to sf::Sprite later on
 
 };
 
