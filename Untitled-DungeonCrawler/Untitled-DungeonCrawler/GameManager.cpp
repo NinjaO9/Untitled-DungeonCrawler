@@ -16,6 +16,7 @@ vector<Obstacle*>& GameManager::getObstacles()
 void GameManager::destroyManager()
 {
     delete instance;
+    instance = nullptr;
 }
 
 /* Remove the comment blocks when player finally gets added
