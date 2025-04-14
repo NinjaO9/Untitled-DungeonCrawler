@@ -1,0 +1,5 @@
+# If you are making a comment here, make sure you place a '#' before typing
+# To add another texture, follow the format 'Name-filePath'
+# Keep in mind, the filepath is the path relative to the project:
+
+Temp-Temp.png

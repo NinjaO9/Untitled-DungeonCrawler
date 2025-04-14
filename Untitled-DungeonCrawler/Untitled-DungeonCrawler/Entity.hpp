@@ -9,7 +9,7 @@ public:
 		: GameObject(pos, tag)
 	{
 		this->maxHp = maxHp;
-		this->speed = 4;
+		this->speed = 0.09;
 	}
 
 	sf::RectangleShape& getModel() { return this->model; } 

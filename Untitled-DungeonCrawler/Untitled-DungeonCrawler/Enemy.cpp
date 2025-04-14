@@ -75,7 +75,7 @@ void Enemy::runPatrol()
 
 	if (checkDistance(this->targetPos) <= getSpeed()) // 'close enough' (speed can cause the enemy to overshoot their target, so we will give them an error margin of speed)
 	{
-		idleTimer += defaultTime;
+		idleTimer = defaultTime;
 		getNewTargetPos();
 	}
 }
