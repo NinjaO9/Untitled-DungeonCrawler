@@ -1,8 +1,8 @@
 #include <iostream>
-#include "Enemy.hpp"
-#include "TextureManager.hpp"
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include "GameManager.hpp"
+#include "TextureManager.hpp"
 
 int main()
 {
@@ -10,28 +10,31 @@ int main()
     sf::CircleShape shape(100.0f);
     shape.setFillColor(sf::Color::Green);
 
+    bool isPaused = false;
+
     TextureManager* texManager = TextureManager::getInstance();
+    GameManager* gameManager = GameManager::getInstance();
     texManager->loadTextures("Textures.txt");
-
-    Enemy temp(10, 50.0f, 1.0f, 10000.0f, sf::Vector2f(300,300));
-    Enemy temp2(20, 50.0f, 5.0f, 50.0f, sf::Vector2f(200,200));
+    for (int i = 0; i < 25; i++) // initialize given number of entities (100 is really laggy, 50 is kinda laggy, 25 is somewhat of a sweetspot
+    {
+        gameManager->getEnemies().push_back(new Enemy()); // create a new enemy with default values
+    }
    
-    temp.getModel().setTexture(&(texManager->getTexture("Temp")));
-
     while (window.isOpen())
     {
-        temp.update();
-        temp2.update();
+        window.clear();
         while (const std::optional event = window.pollEvent())
         {
             if (event->is<sf::Event::Closed>())
                 window.close();
         }
-
-        window.clear();
-        //window.draw(shape);
-        window.draw(temp.getModel());
-        window.draw(temp2.getModel());
+        for (Enemy* enemy : gameManager->getEnemies()) // feel free to delete if you need to do something else with drawing and the enemies get annoying
+        {
+            enemy->update();
+            window.draw(enemy->getModel());
+        }
         window.display();
     }
+    texManager->destroyManager();
+    gameManager->destroyManager();
 }

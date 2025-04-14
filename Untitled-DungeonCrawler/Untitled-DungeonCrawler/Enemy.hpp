@@ -13,7 +13,7 @@ class Enemy : public Entity
 {
 public:
 
-	Enemy(int hp = 0, float viewDistance = 50, float attackDistance = 5, float idleTimer = 10, sf::Vector2f pos = sf::Vector2f(0,0)) 
+	Enemy(int hp = 0, float viewDistance = 50, float attackDistance = 5, float idleTimer = 1000, sf::Vector2f pos = sf::Vector2f(0,0)) 
 		: Entity(hp, pos, "Enemy")
 	{
 		this->state = IDLE;
