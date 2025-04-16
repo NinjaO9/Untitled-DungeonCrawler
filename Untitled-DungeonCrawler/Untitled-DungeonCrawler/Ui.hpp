@@ -11,6 +11,7 @@ class Ui {
     string *weponEquip;
     //Player *selectedPlayer; // unvomment once player class exits
   public:
+    //Ui(Player *newPlayer);
     Ui();
     ~Ui();
     void update();

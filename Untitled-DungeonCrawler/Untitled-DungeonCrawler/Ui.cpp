@@ -1,5 +1,9 @@
 #include "Ui.hpp"
 
+/*Ui::Ui(Player *newPlayer) {
+	selectedPlayer = newPlayer;
+};*/
+
 Ui::Ui() {
 
 };
