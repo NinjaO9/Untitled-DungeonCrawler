@@ -7,14 +7,18 @@ using std::string;
 using std::cout;
 using std::endl;
 
+class GameManager; // forward declaration
+
 class GameObject // Variables / Functions in this class should be applicable to nearly everything we will have in the game
 {
 public:
-
+	GameManager* gm; // intentionally public, any gameobject should be able to easily get their pointer to the game manager
 	GameObject(sf::Vector2f pos = sf::Vector2f(0,0), string tag = "Missing-Tag")
 	{ 
 		this->tag = tag; 
 		this->pos = pos;
+		this->gm = nullptr; // just to get rid of warnings
+		initializeGameManager();
 	}
 
 	virtual ~GameObject();
@@ -36,6 +40,9 @@ public:
 	virtual void setPos(sf::Vector2f const newPos) { this->pos = newPos; }
 
 private:
+
+	void initializeGameManager();
+
 	string tag;
 	sf::Vector2f pos;
 };

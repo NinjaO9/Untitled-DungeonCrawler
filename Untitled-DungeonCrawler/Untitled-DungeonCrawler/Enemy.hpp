@@ -13,14 +13,14 @@ class Enemy : public Entity
 {
 public:
 
-	Enemy(int hp = 0, float viewDistance = 50, float attackDistance = 5, float idleTimer = 500, sf::Vector2f pos = sf::Vector2f(0,0)) 
+	Enemy(int hp = 0, float viewDistance /* In pixels */ = 100, float attackDistance/* In pixels */ = 5, float idleTimer/* Time in seconds*/ = 2, sf::Vector2f pos = sf::Vector2f(0, 0))
 		: Entity(hp, pos, "Enemy")
 	{
 		this->state = IDLE;
 		this->viewDistance = viewDistance;
 		this->attackDistance = attackDistance;
-		this->idleTimer = idleTimer;
-		this->defaultTime = idleTimer;
+		this->idleTimer = idleTimer * 1000;
+		this->defaultTime = idleTimer * 1000;
 		this->atTarget = false;
 		this->targetPos = sf::Vector2f(200,200);
 		this->setModel(new sf::Sprite(TextureManager::getInstance()->getTexture("Temp"))); // temp image (obv)

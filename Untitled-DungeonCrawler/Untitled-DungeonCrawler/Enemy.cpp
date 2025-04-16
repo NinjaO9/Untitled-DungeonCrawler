@@ -1,4 +1,5 @@
 #include "Enemy.hpp"
+#include "GameManager.hpp"
 
 void Enemy::update()
 {
@@ -7,11 +8,11 @@ void Enemy::update()
 	{
 	case IDLE:
 		runIdle();
-		cout << "IDLE " << idleTimer <<endl;
+		//cout << "IDLE " << idleTimer <<endl;
 		break;
 	case PATROL:
 		runPatrol();
-		cout << "PATROL" << endl;
+		//cout << "PATROL" << endl;
 		break;
 	case CHASE:
 		runChase();
@@ -30,7 +31,7 @@ void Enemy::update()
 
 State Enemy::updateState()
 {
-	sf::Vector2f TEMP(0, 0); // DELTE ME AFTER GETTING PLAYER POSITION
+	sf::Vector2f TEMP(100000, 1000000); // DELTE ME AFTER GETTING PLAYER POSITION
 	if (canSeePlayer())
 	{
 		if (checkDistance(TEMP /* TEMP IS A TEMPORARY VARIABLE. THIS SHOULD BE REPLACED WITH PLAYER POSITION */) < attackDistance)
@@ -49,13 +50,15 @@ State Enemy::updateState()
 
 bool Enemy::canSeePlayer()
 {
-	if (!playerInRange()) { return false; }
+	if (!playerInRange()) {/*std::cout << "Not in range" << std::endl; */ return false; }
 	return true; // work on making a function to see if the player can be seen by the enemy
 }
 
 bool Enemy::playerInRange()
 {
-	return false; // gotta come back to work on this function eventually
+	sf::Vector2f pos = (sf::Vector2f)sf::Mouse::getPosition(*(gm->getWindow()));
+	//std::cout << "X: " << pos.x << " Y: " << pos.y << std::endl;
+	return checkDistance(pos) < viewDistance; 
 }
 
 void Enemy::runIdle()
@@ -84,6 +87,9 @@ void Enemy::runChase()
 {
 	// chase animation
 	// chase code
+
+	targetPos = (sf::Vector2f)sf::Mouse::getPosition(*(gm->getWindow()));
+	runPatrol();
 }
 
 void Enemy::runAttack()
