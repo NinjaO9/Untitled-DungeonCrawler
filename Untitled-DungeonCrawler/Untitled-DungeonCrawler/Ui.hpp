@@ -1,17 +1,15 @@
-#include <iostream>
-#include <vector>
-#include <SFML/Graphics.hpp>
-#include "GameManager.hpp"
-#include "TextureManager.hpp"
+#include "Entity.hpp"
+//#include "Player.hpp" // uncomment once player class exists
+#include <string>
+using std::string;
 
 class Ui {
   private:
-    /*int health;
+    int health;
     int stamina;
     int level;
-    Player *selectedPlayer;
-    Weapon *selectedWeapon;*/
-
+    string *weponEquip;
+    //Player *selectedPlayer; // unvomment once player class exits
   public:
     Ui();
     ~Ui();
