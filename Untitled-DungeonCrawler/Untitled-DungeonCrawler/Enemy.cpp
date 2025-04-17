@@ -130,30 +130,29 @@ void Enemy::getNewTargetPos() // Super Janky code, but a proof of concept
 	// This code needs to be revised to check if the enemy can actually make it to a given location in a straight line. If not, then a new position needs to be rolled
 	// Chances are, you will have to check within the circumfrence of the enemy's view distance and find a valid position inside of there.
 	int rNum = rand(), yDir = 0, xDir = 0;
-	switch (rNum % 2)
+	yDir = rand();
+	rNum = rand() % 2;
+	switch (rNum)
 	{
 	case 0:
-		yDir = -1;
-		break;
-	case 1:
-		yDir = 1;
-		break;
-	}
-	rNum = rand();
-	switch (rNum % 2)
-	{
-	case 0:
-		xDir = -1;
-		break;
-	case 1:
-		xDir = 1;
+		yDir *= -1;
 		break;
 	default:
+		yDir *= 1;
+	}
+	xDir = rand();
+	rNum = rand() % 2;
+	switch (rNum)
+	{
+	case 0:
+		xDir *= -1;
 		break;
+	default:
+		xDir *= 1;
 	}
 	rNum = rand() % (int)viewDistance;
 	sf::Vector2f direction(xDir, yDir);
-	targetPos = this->getPos() + (direction * (float)rNum);
+	targetPos = this->getPos() + (direction.normalized() * (float)rNum);
 }
 
 bool Enemy::isInFOV()
