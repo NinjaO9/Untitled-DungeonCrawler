@@ -26,6 +26,8 @@ public:
 		this->atTarget = false;
 		this->targetPos = sf::Vector2f(200,200);
 		this->setModel(new sf::Sprite(TextureManager::getInstance()->getTexture("Temp"))); // temp image (obv)
+		sf::FloatRect temp = this->getModel().getLocalBounds();
+		this->getModel().setOrigin(sf::Vector2f(temp.size.x / 2, temp.size.y / 2));
 		this->getModel().setScale(sf::Vector2f(0.032, 0.032)); // Saul Goodman (Temp image) is too massive (like the low-taper fade meme) so I needed to scale it down
 		this->getModel().setPosition(pos);
 	}
