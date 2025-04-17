@@ -13,9 +13,11 @@ class Enemy : public Entity
 {
 public:
 
-	Enemy(int hp = 0, float viewDistance /* In pixels */ = 100, float attackDistance/* In pixels */ = 5, float idleTimer/* Time in seconds*/ = 2, sf::Vector2f pos = sf::Vector2f(0, 0))
+	Enemy(int hp = 0, float viewDistance /* In pixels */ = 200, float attackDistance/* In pixels */ = 5, float idleTimer/* Time in seconds*/ = 2, sf::Vector2f pos = sf::Vector2f(0, 0))
 		: Entity(hp, pos, "Enemy")
 	{
+		this->PlayerRay = sf::VertexArray(sf::PrimitiveType::LineStrip, 2);
+		this->PatrolRay = sf::VertexArray(sf::PrimitiveType::LineStrip, 2);
 		this->state = IDLE;
 		this->viewDistance = viewDistance;
 		this->attackDistance = attackDistance;
@@ -30,12 +32,20 @@ public:
 
 	void update() override;
 
+	sf::VertexArray getPlayerRay() const;
+	sf::VertexArray getPatrolRay() const;
+
+
 private:
 
 	State state;
 	sf::Vector2f targetPos; // used to determine where the enemy wants to walk to
+	sf::VertexArray PlayerRay; // ray to point from this enemy to the player, used for collision detection
+	sf::VertexArray PatrolRay; // ray to point from this enemy to the target position
+
 
 	int defaultTime; // default time for the idleTimer to be at
+	int fov;
 
 	float viewDistance;
 	float attackDistance;
@@ -58,6 +68,8 @@ private:
 	void runAttack();
 
 	void getNewTargetPos();
+
+	bool isInFOV();
 
 };
 

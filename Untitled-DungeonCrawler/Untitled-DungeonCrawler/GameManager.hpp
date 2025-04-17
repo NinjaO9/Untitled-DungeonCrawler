@@ -43,7 +43,7 @@ private:
 	vector<Obstacle*> wallArr; // vector of walls, can be used to iterate (specifically) through each wall instance in a level. (Probably to check for collisions)
 	
 
-	GameManager() { return; }
+	GameManager() { activeWindow = nullptr; return; }
 	GameManager(GameManager& newManager) = delete;
 	GameManager& operator=(GameManager& oldManager) = delete;
 	~GameManager() { return; }

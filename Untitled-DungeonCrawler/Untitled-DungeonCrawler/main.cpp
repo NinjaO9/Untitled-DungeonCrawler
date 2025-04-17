@@ -16,7 +16,7 @@ int main()
     GameManager* gameManager = GameManager::getInstance();
     gameManager->setWindow(window);
     texManager->loadTextures("Textures.txt");
-    for (int i = 0; i < 100; i++) // initialize given number of entities (100 is really laggy, 50 is kinda laggy, 25 is somewhat of a sweetspot
+    for (int i = 0; i < 100; i++) // initialize given number of entities 
     {
         gameManager->getEnemies().push_back(new Enemy()); // create a new enemy with default values
     }
@@ -25,7 +25,7 @@ int main()
     {
         window.clear();
         gameManager->updateMouse();
-        std::cout << gameManager->getMousePos().x << " , " << gameManager->getMousePos().y << std::endl;
+        //std::cout << gameManager->getMousePos().x << " , " << gameManager->getMousePos().y << std::endl;
         while (const std::optional event = window.pollEvent())
         {
             if (event->is<sf::Event::Closed>())
@@ -35,6 +35,8 @@ int main()
         {
             enemy->update();
             window.draw(enemy->getModel());
+            window.draw(enemy->getPlayerRay()); // NOTE: DRAWING THE RAYS IS A PREFORMANCE KILLER! COMMENT THESE OUT BEFORE JUDGING GAME PREFORMANCE
+            window.draw(enemy->getPatrolRay());
         }
         window.display();
     }

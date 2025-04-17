@@ -1,9 +1,8 @@
 #pragma once
 #include "GameObject.hpp"
-class Obstacle
+class Obstacle : public GameObject
 {
 public:
-
 	// enter funcs here
 
 private:

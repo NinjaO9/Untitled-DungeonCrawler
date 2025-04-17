@@ -39,6 +39,7 @@ public:
 
 	virtual void setPos(sf::Vector2f const newPos) { this->pos = newPos; }
 
+
 private:
 
 	void initializeGameManager();

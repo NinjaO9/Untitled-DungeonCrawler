@@ -4,6 +4,8 @@
 void Enemy::update()
 {
 	setPos(this->getModel().getPosition());
+	PlayerRay[0].position = getPos();
+	PatrolRay[0].position = getPos();
 	switch (state)
 	{
 	case IDLE:
@@ -16,25 +18,35 @@ void Enemy::update()
 		break;
 	case CHASE:
 		runChase();
-		cout << "CHASE" << endl;
+		//cout << "CHASE" << endl;
 		break;
 	case ATTACK:
 		runAttack();
-		cout << "ATTACK" << endl;
+		//Scout << "ATTACK" << endl;
 		break;
 	default:
 		break;
 	}
+	PlayerRay[1].position = gm->getMousePos();
+	PatrolRay[1].position = targetPos;
 	state = updateState();
+}
 
+sf::VertexArray Enemy::getPatrolRay() const
+{
+	return PatrolRay;
+}
+
+sf::VertexArray Enemy::getPlayerRay() const
+{
+	return PlayerRay;
 }
 
 State Enemy::updateState()
 {
-	sf::Vector2f TEMP(100000, 1000000); // DELTE ME AFTER GETTING PLAYER POSITION
 	if (canSeePlayer())
 	{
-		if (checkDistance(TEMP /* TEMP IS A TEMPORARY VARIABLE. THIS SHOULD BE REPLACED WITH PLAYER POSITION */) < attackDistance)
+		if (checkDistance(gm->getMousePos() /* THIS IS A TEMPORARY VARIABLE. THIS SHOULD BE REPLACED WITH PLAYER POSITION */) < attackDistance)
 		{
 			return ATTACK; // If the enemy can see the player and is close enough to land an attack, try to attack
 		}
@@ -51,14 +63,26 @@ State Enemy::updateState()
 bool Enemy::canSeePlayer()
 {
 	if (!playerInRange()) {/*std::cout << "Not in range" << std::endl; */ return false; }
-	return true; // work on making a function to see if the player can be seen by the enemy
+	if (!isInFOV() && state != CHASE) { return false; } // if the enemy is already chasing the player, FOV doesn't matter
+
+	float distance = checkDistance(targetPos);
+	sf::Vector2f tempPos = getPos();
+	sf::Vector2f direction(((targetPos.x - getPos().x) / distance), ((targetPos.y - getPos().y) / distance));
+	for (int i = 0; distance > 4; i++) // possibly change i++ to i += 32; this is because we are doing a 32x32 sprite style, so this could be helpful to prevent a higher number of operations
+	{
+		tempPos += direction;
+		for (Obstacle* wall : gm->getObstacles()) // replace with a literal wall class eventually
+		{
+			// Check if the wall intersects with the ray's new position
+			// if a wall intersects the ray's new position, then return false, breaking the loop
+		}
+	}
+	return true; // If everything else passes, the enemy should be able to see the player in a direct line of sight
 }
 
 bool Enemy::playerInRange()
 {
-	sf::Vector2f pos = (sf::Vector2f)sf::Mouse::getPosition(*(gm->getWindow()));
-	//std::cout << "X: " << pos.x << " Y: " << pos.y << std::endl;
-	return checkDistance(pos) < viewDistance; 
+	return checkDistance(gm->getMousePos()) < viewDistance; 
 }
 
 void Enemy::runIdle()
@@ -88,7 +112,7 @@ void Enemy::runChase()
 	// chase animation
 	// chase code
 
-	targetPos = (sf::Vector2f)sf::Mouse::getPosition(*(gm->getWindow()));
+	targetPos = gm->getMousePos(); // change code eventually
 	runPatrol();
 }
 
@@ -127,4 +151,9 @@ void Enemy::getNewTargetPos() // Super Janky code, but a proof of concept
 	rNum = rand() % (int)viewDistance;
 	sf::Vector2f direction(xDir, yDir);
 	targetPos = this->getPos() + (direction * (float)rNum);
+}
+
+bool Enemy::isInFOV()
+{
+	return this->getModel().getPosition().angleTo(targetPos).asDegrees() <= (float)fov/2; // divide fov by 2 to ensure it is split evenly by both searching up and down
 }
