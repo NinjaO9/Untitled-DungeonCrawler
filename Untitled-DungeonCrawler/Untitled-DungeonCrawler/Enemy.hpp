@@ -24,7 +24,9 @@ public:
 		this->idleTimer = idleTimer * 1000;
 		this->defaultTime = idleTimer * 1000;
 		this->atTarget = false;
-		this->targetPos = sf::Vector2f(200,200);
+		this->targetPos = sf::Vector2f(200, 200);
+		this->directon = sf::Vector2f(-1,0);
+		this->fov = 60;
 		this->setModel(new sf::Sprite(TextureManager::getInstance()->getTexture("Temp"))); // temp image (obv)
 		sf::FloatRect temp = this->getModel().getLocalBounds();
 		this->getModel().setOrigin(sf::Vector2f(temp.size.x / 2, temp.size.y / 2));
@@ -37,14 +39,13 @@ public:
 	sf::VertexArray getPlayerRay() const;
 	sf::VertexArray getPatrolRay() const;
 
-
 private:
 
 	State state;
 	sf::Vector2f targetPos; // used to determine where the enemy wants to walk to
+	sf::Vector2f directon;
 	sf::VertexArray PlayerRay; // ray to point from this enemy to the player, used for collision detection
 	sf::VertexArray PatrolRay; // ray to point from this enemy to the target position
-
 
 	int defaultTime; // default time for the idleTimer to be at
 	int fov;
@@ -73,5 +74,8 @@ private:
 
 	bool isInFOV();
 
-};
+	float getDegreeTo(sf::Vector2f& const target);
 
+	void updateDirection();
+
+};

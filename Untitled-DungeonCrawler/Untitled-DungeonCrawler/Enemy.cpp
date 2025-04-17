@@ -1,5 +1,6 @@
 #include "Enemy.hpp"
 #include "GameManager.hpp"
+#define PI 3.14159
 
 void Enemy::update()
 {
@@ -46,12 +47,14 @@ State Enemy::updateState()
 {
 	if (canSeePlayer())
 	{
+		PlayerRay[1].color = sf::Color::Green;
 		if (checkDistance(gm->getMousePos() /* THIS IS A TEMPORARY VARIABLE. THIS SHOULD BE REPLACED WITH PLAYER POSITION */) < attackDistance)
 		{
 			return ATTACK; // If the enemy can see the player and is close enough to land an attack, try to attack
 		}
 		return CHASE; // If the enemy can see the player, but is too far from the player, chase the player down
 	}
+	PlayerRay[1].color = sf::Color::Red;
 	if (idleTimer <= 0)
 	{
 		return PATROL; // Patrol the area where the enemy is if there is time to patrol
@@ -62,8 +65,8 @@ State Enemy::updateState()
 
 bool Enemy::canSeePlayer()
 {
-	if (!playerInRange()) {/*std::cout << "Not in range" << std::endl; */ return false; }
-	if (!isInFOV() && state != CHASE) { return false; } // if the enemy is already chasing the player, FOV doesn't matter
+	if (!playerInRange()) {/*std::cout << "Not in range" << std::endl;*/ return false; }
+	if (!isInFOV()) { /*std::cout << "Not in FOV!" << std::endl;*/ return false; } // if the enemy is already chasing the player, FOV doesn't matter
 
 
 	float distance = checkDistance(gm->getMousePos());
@@ -108,6 +111,7 @@ void Enemy::runPatrol()
 		idleTimer = defaultTime;
 		getNewTargetPos();
 	}
+	updateDirection();
 }
 
 void Enemy::runChase()
@@ -157,5 +161,38 @@ void Enemy::getNewTargetPos() // Super Janky code, but a proof of concept
 
 bool Enemy::isInFOV()
 {
-	return this->getModel().getPosition().angleTo(targetPos).asDegrees() <= (float)fov/2; // divide fov by 2 to ensure it is split evenly by both searching up and down
+	float degree = getDegreeTo(gm->getMousePos());
+	//std::cout << degree << std::endl;
+	return degree < (float)fov/2;
+}
+
+float Enemy::getDegreeTo(sf::Vector2f& const target) // This function took me way too long dude
+{
+	sf::Vector2f dirToTarget = target - getPos();
+	float angle = atan2f(dirToTarget.y, dirToTarget.x) - atan2f(directon.y, directon.x); // get the angle difference in radians from [-pi, pi]
+	angle *= 180 / PI; // convert raidans to degrees
+
+	return abs(angle); // abs value to ensure equal evaluation
+}
+
+void Enemy::updateDirection()
+{
+	if (state == IDLE) { return; } // if the enemy is idle, they can stay looking in the direction they are already looking at
+	sf::Vector2f distanceVector = targetPos - this->getPos();
+	if (distanceVector.x == 0)
+	{
+		if (distanceVector.y == 0) { directon = sf::Vector2f(0, 0); }
+		else { directon = sf::Vector2f(0, 1); /* Janky solution */ }
+	}
+	else if (distanceVector.y == 0)
+	{
+		if (distanceVector.x == 0) { directon == sf::Vector2f(0, 0); }
+		else { directon = sf::Vector2f(1, 0); }
+	}
+	else
+	{
+		directon = sf::Vector2f(distanceVector.normalized().x, distanceVector.normalized().y); // converting difference to the unit vector coords
+	}
+
+//	std::cout << "DIRECTION X: " << directon.x << " DIRECTION Y: " << directon.y << std::endl;
 }

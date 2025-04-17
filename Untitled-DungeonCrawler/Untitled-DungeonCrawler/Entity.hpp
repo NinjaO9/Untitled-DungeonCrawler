@@ -10,7 +10,7 @@ public:
 		: GameObject(pos, tag)
 	{
 		this->maxHp = maxHp;
-		this->speed = 0.9;
+		this->speed = 0.09;
 		this->model = nullptr; // get rid of warnings
 	}
 

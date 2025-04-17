@@ -3,3 +3,4 @@
 # Keep in mind, the filepath is the path relative to the project:
 
 Temp-Temp.png
+Rock-Rock.jpg

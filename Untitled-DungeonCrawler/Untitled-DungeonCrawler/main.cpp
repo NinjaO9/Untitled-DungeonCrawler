@@ -18,7 +18,7 @@ int main()
     texManager->loadTextures("Textures.txt");
     for (int i = 0; i < 100; i++) // initialize given number of entities 
     {
-        gameManager->getEnemies().push_back(new Enemy()); // create a new enemy with default values
+        gameManager->getEnemies().push_back(new Enemy(10, 200, 5, 10, sf::Vector2f(100,100))); // create a new enemy with default values
     }
    
     while (window.isOpen())
@@ -35,8 +35,8 @@ int main()
         {
             enemy->update();
             window.draw(enemy->getModel());
-            window.draw(enemy->getPlayerRay()); // NOTE: DRAWING THE RAYS IS A PREFORMANCE KILLER! COMMENT THESE OUT BEFORE JUDGING GAME PREFORMANCE
-            window.draw(enemy->getPatrolRay()); // NOTE2: PRINTING TO THE CONSOLE CAN ALSO BE A PREFORMANCE KILLER!
+            //window.draw(enemy->getPatrolRay()); // NOTE2: PRINTING TO THE CONSOLE CAN ALSO BE A PREFORMANCE KILLER!
+            //window.draw(enemy->getPlayerRay()); // NOTE: DRAWING THE RAYS IS A PREFORMANCE KILLER! COMMENT THESE OUT BEFORE JUDGING GAME PREFORMANCE
         }
         window.display();
     }
