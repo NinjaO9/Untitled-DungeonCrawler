@@ -65,9 +65,11 @@ bool Enemy::canSeePlayer()
 	if (!playerInRange()) {/*std::cout << "Not in range" << std::endl; */ return false; }
 	if (!isInFOV() && state != CHASE) { return false; } // if the enemy is already chasing the player, FOV doesn't matter
 
-	float distance = checkDistance(targetPos);
+
+	float distance = checkDistance(gm->getMousePos());
 	sf::Vector2f tempPos = getPos();
 	sf::Vector2f direction(((targetPos.x - getPos().x) / distance), ((targetPos.y - getPos().y) / distance));
+
 	for (int i = 0; distance > 4; i++) // possibly change i++ to i += 32; this is because we are doing a 32x32 sprite style, so this could be helpful to prevent a higher number of operations
 	{
 		tempPos += direction;
@@ -76,6 +78,7 @@ bool Enemy::canSeePlayer()
 			// Check if the wall intersects with the ray's new position
 			// if a wall intersects the ray's new position, then return false, breaking the loop
 		}
+		break; // temp
 	}
 	return true; // If everything else passes, the enemy should be able to see the player in a direct line of sight
 }
