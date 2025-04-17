@@ -36,7 +36,7 @@ int main()
             enemy->update();
             window.draw(enemy->getModel());
             window.draw(enemy->getPlayerRay()); // NOTE: DRAWING THE RAYS IS A PREFORMANCE KILLER! COMMENT THESE OUT BEFORE JUDGING GAME PREFORMANCE
-            window.draw(enemy->getPatrolRay());
+            window.draw(enemy->getPatrolRay()); // NOTE2: PRINTING TO THE CONSOLE CAN ALSO BE A PREFORMANCE KILLER!
         }
         window.display();
     }
