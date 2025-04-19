@@ -13,7 +13,7 @@ void GameObject::initializeGameManager()
 float GameObject::checkDistance(sf::Vector2f& const origin, sf::Vector2f& const target)
 {
     float distance = sqrt(powf(target.x - origin.x, 2) + powf(target.y - origin.y, 2));
-    std::cout << distance << std::endl;
+   // std::cout << distance << std::endl;
     return distance;
 }
 

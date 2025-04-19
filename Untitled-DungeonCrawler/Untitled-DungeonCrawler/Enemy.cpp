@@ -7,6 +7,7 @@ void Enemy::update()
 	setPos(this->getModel().getPosition());
 	PlayerRay[0].position = getPos();
 	PatrolRay[0].position = getPos();
+	prevState = state;
 	switch (state)
 	{
 	case IDLE:
@@ -47,14 +48,14 @@ State Enemy::updateState()
 {
 	if (canSeePlayer())
 	{
-		PlayerRay[1].color = sf::Color::Green;
+		PlayerRay[1].color = sf::Color::Green; // visually show that the player is seen by the enemy
 		if (checkDistance(gm->getMousePos() /* THIS IS A TEMPORARY VARIABLE. THIS SHOULD BE REPLACED WITH PLAYER POSITION */) < attackDistance)
 		{
 			return ATTACK; // If the enemy can see the player and is close enough to land an attack, try to attack
 		}
 		return CHASE; // If the enemy can see the player, but is too far from the player, chase the player down
 	}
-	PlayerRay[1].color = sf::Color::Red;
+	PlayerRay[1].color = sf::Color::Red; // visually show that the player is NOT seen by the enemy
 	if (idleTimer <= 0)
 	{
 		return PATROL; // Patrol the area where the enemy is if there is time to patrol
@@ -65,25 +66,10 @@ State Enemy::updateState()
 
 bool Enemy::canSeePlayer()
 {
-	if (!playerInRange()) {/*std::cout << "Not in range" << std::endl;*/ return false; }
-	if (!isInFOV()) { /*std::cout << "Not in FOV!" << std::endl;*/ return false; } // if the enemy is already chasing the player, FOV doesn't matter
-
-
-	float distance = checkDistance(gm->getMousePos());
-	sf::Vector2f tempPos = getPos();
-	sf::Vector2f direction(((targetPos.x - getPos().x) / distance), ((targetPos.y - getPos().y) / distance));
-
-	for (int i = 0; distance > 4; i++) // possibly change i++ to i += 32; this is because we are doing a 32x32 sprite style, so this could be helpful to prevent a higher number of operations
-	{
-		tempPos += direction;
-		for (Obstacle* wall : gm->getObstacles()) // replace with a literal wall class eventually
-		{
-			// Check if the wall intersects with the ray's new position
-			// if a wall intersects the ray's new position, then return false, breaking the loop
-		}
-		break; // temp
-	}
-	return true; // If everything else passes, the enemy should be able to see the player in a direct line of sight
+	if (!playerInRange()) {return false; } // if the player is not in range, there is no need to check for anything else
+	if (!isInFOV()) { return false; } // if the enemy is already chasing the player, FOV doesn't matter
+	
+	return isTargetPosValid(gm->getMousePos()); // If everything else passes, the enemy should be able to see the player in a direct line of sight (replace 'true' with playerSeen)
 }
 
 bool Enemy::playerInRange()
@@ -133,30 +119,33 @@ void Enemy::getNewTargetPos() // Super Janky code, but a proof of concept
 { 
 	// This code needs to be revised to check if the enemy can actually make it to a given location in a straight line. If not, then a new position needs to be rolled
 	// Chances are, you will have to check within the circumfrence of the enemy's view distance and find a valid position inside of there.
-	int rNum = rand(), yDir = 0, xDir = 0;
-	yDir = rand();
-	rNum = rand() % 2;
-	switch (rNum)
+	int rNum = rand() % 2, yDir = rand(), xDir = rand();
+	bool isValid = false;
+	while (!isValid)
 	{
-	case 0:
-		yDir *= -1;
-		break;
-	default:
-		yDir *= 1;
+		switch (rNum)
+		{
+		case 0:
+			yDir *= -1;
+			break;
+		default:
+			yDir *= 1;
+		}
+		rNum = rand() % 2;
+		switch (rNum)
+		{
+		case 0:
+			xDir *= -1;
+			break;
+		default:
+			xDir *= 1;
+		}
+		rNum = rand() % (int)viewDistance;
+		sf::Vector2f direction(xDir, yDir);
+		targetPos = this->getPos() + (direction.normalized() * (float)rNum);
+		isValid = isTargetPosValid(targetPos);
 	}
-	xDir = rand();
-	rNum = rand() % 2;
-	switch (rNum)
-	{
-	case 0:
-		xDir *= -1;
-		break;
-	default:
-		xDir *= 1;
-	}
-	rNum = rand() % (int)viewDistance;
-	sf::Vector2f direction(xDir, yDir);
-	targetPos = this->getPos() + (direction.normalized() * (float)rNum);
+
 }
 
 bool Enemy::isInFOV()
@@ -195,4 +184,32 @@ void Enemy::updateDirection()
 	}
 
 //	std::cout << "DIRECTION X: " << directon.x << " DIRECTION Y: " << directon.y << std::endl;
+}
+
+bool Enemy::isTargetPosValid(sf::Vector2f target)
+{
+	float distance = checkDistance(target);
+	bool isValid = true;
+	sf::Vector2f tempPos = getPos();
+	sf::Vector2f direction(((target.x - getPos().x) / distance), ((target.y - getPos().y) / distance));
+	sf::FloatRect simulationRect(tempPos, sf::Vector2f(this->getModel().getTexture().getSize().x * this->getModel().getScale().x, this->getModel().getTexture().getSize().y * this->getModel().getScale().y));
+	
+	for (int i = 1; checkDistance(tempPos, target) > 32; i++) // possibly change i++ to i += 32; this is because we are doing a 32x32 sprite style, so this could be helpful to prevent a higher number of operations
+	{
+		tempPos = tempPos + (direction * hypotf(i, i));
+		simulationRect.position = tempPos;
+		for (Obstacle* wall : gm->getObstacles()) // replace with a literal wall class eventually
+		{
+			if (wall->getModel().getGlobalBounds().findIntersection(simulationRect))
+			{
+				isValid = false;
+				PlayerRay[1].position = tempPos;
+				break;
+			}
+		}
+		if (!isValid) { break; }
+		//std::cout << "loop" << std::endl;
+	}
+	//std::cout << isValid << std::endl;
+	return isValid;
 }

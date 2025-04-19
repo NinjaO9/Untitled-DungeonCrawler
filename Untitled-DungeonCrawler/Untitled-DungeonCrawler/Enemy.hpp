@@ -24,8 +24,8 @@ public:
 		this->idleTimer = idleTimer * 1000;
 		this->defaultTime = idleTimer * 1000;
 		this->atTarget = false;
-		this->targetPos = sf::Vector2f(200, 200);
-		this->directon = sf::Vector2f(-1,0);
+		this->targetPos = sf::Vector2f(101, 101);
+		updateDirection();
 		this->fov = 60;
 		this->setModel(new sf::Sprite(TextureManager::getInstance()->getTexture("Temp"))); // temp image (obv)
 		sf::FloatRect temp = this->getModel().getLocalBounds();
@@ -41,7 +41,7 @@ public:
 
 private:
 
-	State state;
+	State state, prevState;
 	sf::Vector2f targetPos; // used to determine where the enemy wants to walk to
 	sf::Vector2f directon;
 	sf::VertexArray PlayerRay; // ray to point from this enemy to the player, used for collision detection
@@ -77,5 +77,7 @@ private:
 	float getDegreeTo(sf::Vector2f& const target);
 
 	void updateDirection();
+
+	bool isTargetPosValid(sf::Vector2f target);
 
 };
