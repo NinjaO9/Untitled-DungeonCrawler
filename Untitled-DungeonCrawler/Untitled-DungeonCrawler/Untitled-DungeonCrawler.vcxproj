@@ -140,6 +140,7 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Interactable.cpp" />
+    <ClCompile Include="LevelManger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="TextureManager.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="GameManager.hpp" />
     <ClInclude Include="GameObject.hpp" />
     <ClInclude Include="Interactable.hpp" />
+    <ClInclude Include="LevelManager.hpp" />
     <ClInclude Include="Obstacle.hpp" />
     <ClInclude Include="TextureManager.hpp" />
     <ClInclude Include="Weapon.hpp" />
