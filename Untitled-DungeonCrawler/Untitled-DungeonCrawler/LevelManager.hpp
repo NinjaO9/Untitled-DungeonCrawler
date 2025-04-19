@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Obstacle.hpp"
+#include "TextureManager.hpp"
 #include <iostream>
 #include <fstream>
 #include <cmath>

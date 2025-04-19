@@ -1,5 +1,6 @@
 #include "Enemy.hpp"
 #include "GameManager.hpp"
+#include "LevelManager.hpp"
 #define PI 3.14159
 
 void Enemy::update()
@@ -198,7 +199,7 @@ bool Enemy::isTargetPosValid(sf::Vector2f target)
 	{
 		tempPos = tempPos + (direction * hypotf(i, i));
 		simulationRect.position = tempPos;
-		for (Obstacle* wall : gm->getObstacles()) // replace with a literal wall class eventually
+		for (Obstacle* wall : gm->getLevel()->getTiles()) // replace with a literal wall class eventually
 		{
 			if (wall->getModel().getGlobalBounds().findIntersection(simulationRect))
 			{

@@ -161,6 +161,7 @@
     <Image Include="Temp.png" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Level1.txt" />
     <Text Include="Textures.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

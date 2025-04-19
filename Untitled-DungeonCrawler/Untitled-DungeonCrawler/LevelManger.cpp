@@ -49,19 +49,12 @@ void LevelManager::generateLayer(std::string line)
 
 void LevelManager::placeEmpty()
 {
-	sf::Sprite newTile(emptyTexture);
-	newTile.setTexture(emptyTexture);
-	newTile.setPosition((sf::Vector2f)placementSpot);
-	levelTiles.push_back(newTile);
+	levelTiles.push_back(new Obstacle((sf::Vector2f)placementSpot));
+
 }
 
 void LevelManager::placeWall()
 {
-	sf::Sprite newTile(wallTexture);
-	newTile.setTexture(wallTexture);
-	newTile.setPosition((sf::Vector2f)placementSpot);
-	levelTiles.push_back(newTile);
+	levelTiles.push_back(new Obstacle((sf::Vector2f)placementSpot));
 
-	Obstacle newTile((sf::Vector2f)placementSpot);
-	
 }

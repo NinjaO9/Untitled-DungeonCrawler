@@ -6,6 +6,8 @@
 
 using std::vector;
 
+class LevelManager;
+
 class GameManager
 {
 public:
@@ -14,6 +16,8 @@ public:
 		if (!instance)
 		{
 			instance = new GameManager();
+			lvl = nullptr;
+			instance->initLevelManager();
 		}
 		return instance;
 	}
@@ -34,8 +38,14 @@ public:
 
 	void destroyManager();
 
+	LevelManager*& getLevel();
+
+	void initLevelManager();
+
 private:
 	static GameManager* instance;
+	static LevelManager* lvl;
+
 	sf::Window* activeWindow;
 	// Player* playerInstance; // when we finally get the player class made, the game manager will hold a pointer to the player so that it can be accessed by anything
 	sf::Vector2f mousePos; // temporary variable to test enemy functionality with chasing
