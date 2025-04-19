@@ -2,8 +2,8 @@
 
 void Player::update()
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A || sf::Keyboard::isKeyPressed(sf::Keyboard::S || sf::Keyboard::isKeyPressed(sf::Keyboard::D || sf::Keyboard::isKeyPressed(sf::Keyboard::W) { //not confident in this syntax exactly, might need some help
-		Movement::moveEntity(getSpeed(),this)//dummy movement function will need to be made to let any entity move
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A || sf::Keyboard::isKeyPressed(sf::Keyboard::S || sf::Keyboard::isKeyPressed(sf::Keyboard::D || sf::Keyboard::isKeyPressed(sf::Keyboard::W) {
+		
 	}
 	
 
@@ -18,3 +18,4 @@ void Player::attack()
 		this->equippedWeapon->weaponAttack(); //function for weaponattack needed and will be excecuted here
 	}
 }
+

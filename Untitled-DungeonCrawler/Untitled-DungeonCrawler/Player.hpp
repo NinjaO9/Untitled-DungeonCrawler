@@ -1,7 +1,6 @@
 #pragma once
 #include "Entity.hpp"
 #include "Weapon.hpp"
-#include "Movement.hpp" //needed, unless we make a playermovement class and do most of the work in there as opposed to in player class
 
 class Player : public Entity
 {
@@ -21,14 +20,26 @@ public:
 	virtual void setPos(sf::Vector2f const newPos) override;
 
 
-	void playermovement(); //if we don't have a playermovement class then itll all be here ig
+	void playermovement();
 	void attack(); //should call weapon's attack, this should mostly just be taking in player input
 
 	int getMaxSP() const { return this->maxSP; } //get max stamina for player
 	int getCurSP() const { return this->curSP; } //get current stamina for player
+	int getExp() const { return this->exp; }
+	int getExpToLvl() const { return this->expToNext; }
+	int getLvl() const { return this->level; }
+
+	int setMaxSP(int newmaxsp) { this->maxSP=newmaxsp; } //get max stamina for player
+	int setCurSP(int newcursp) { this->curSP = newcursp; } //get current stamina for player
+	int setExp(int newexp) { this->exp = newexp; }
+	int setExpToNext(int newexptolvl) { this->expToNext=newexptolvl; }
+	int setLvl(int newlvl) { this->level=newlvl; }
 
 private:
 	int maxSP;
 	int curSP;
+	int exp;
+	int expToNext;
+	int level;
 	Weapon* equippedWeapon;
 }
