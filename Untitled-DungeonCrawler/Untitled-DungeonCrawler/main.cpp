@@ -3,9 +3,12 @@
 #include <SFML/Graphics.hpp>
 #include "GameManager.hpp"
 #include "TextureManager.hpp"
+#include "Weapon.hpp"
 
 int main()
 {
+    Weapon testW;
+
     sf::RenderWindow window(sf::VideoMode({ 1000, 1000 }), "SFML works!");
     sf::CircleShape shape(100.0f);
     shape.setFillColor(sf::Color::Green);
@@ -15,7 +18,7 @@ int main()
     TextureManager* texManager = TextureManager::getInstance();
     GameManager* gameManager = GameManager::getInstance();
     texManager->loadTextures("Textures.txt");
-    for (int i = 0; i < 25; i++) // initialize given number of entities (100 is really laggy, 50 is kinda laggy, 25 is somewhat of a sweetspot
+    for (int i = 0; i < 2; i++) // initialize given number of entities (100 is really laggy, 50 is kinda laggy, 25 is somewhat of a sweetspot
     {
         gameManager->getEnemies().push_back(new Enemy()); // create a new enemy with default values
     }
@@ -34,6 +37,11 @@ int main()
             window.draw(enemy->getModel());
         }
         window.display();
+
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+        {
+           testW.BaseWeaponATK(5);   
+        }
     }
     texManager->destroyManager();
     gameManager->destroyManager();

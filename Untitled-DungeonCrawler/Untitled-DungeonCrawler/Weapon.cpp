@@ -1,1 +1,63 @@
 #include "Weapon.hpp"
+#include "GameManager.hpp"
+
+ 
+/*
+* weapon idea
+* 
+* NOTE:	weapon and player sprites either need to be connected or just a player with weapon
+* maybe a separate attacking sprite, just for weapon hit.
+*
+* trigger condition, use in main to trigger function call
+* 
+* if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)
+* {
+* 
+* }
+*/
+
+int Weapon::calcdmg(const int& WDamage)
+{
+	int TotalDMG = 0;
+
+	TotalDMG = WDamage;// *(0.25 * 1);// .25 is a placeholder value for scaling, 1 is a placeholder for level
+
+	return TotalDMG;
+}
+
+int Weapon::getdmg()
+{
+	return dmg;
+}
+
+void Weapon::setdmg(const int& WDamage)
+{
+	dmg = calcdmg(WDamage);// any multiplyers
+}
+
+void Weapon::BaseWeaponATK(const int& WDamage) 
+{
+
+
+
+
+	for (auto* enemy : gm->getEnemies()) 
+	{
+		
+
+		if (enemy->getModel().getGlobalBounds().findIntersection(enemy->getModel().getGlobalBounds()))//placeholder, but overall intersection  
+		{
+			setdmg(WDamage); 
+			cout << "hit! for: " << getdmg() << endl;
+		}
+		else
+		{
+			//setdmg(0);
+		}
+	}
+}
+
+void Weapon::initGameManager()
+{
+	gm = GameManager::getInstance();
+}
