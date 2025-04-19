@@ -18,7 +18,7 @@ int main()
     TextureManager* texManager = TextureManager::getInstance();
     GameManager* gameManager = GameManager::getInstance();
     texManager->loadTextures("Textures.txt");
-    for (int i = 0; i < 2; i++) // initialize given number of entities (100 is really laggy, 50 is kinda laggy, 25 is somewhat of a sweetspot
+    for (int i = 0; i < 5; i++) // initialize given number of entities (100 is really laggy, 50 is kinda laggy, 25 is somewhat of a sweetspot
     {
         gameManager->getEnemies().push_back(new Enemy()); // create a new enemy with default values
     }

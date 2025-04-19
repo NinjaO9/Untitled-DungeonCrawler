@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.hpp"
 #include "Entity.hpp"  
-
+#include "TextureManager.hpp"
 class GameManager;
 
 class Weapon : public GameObject

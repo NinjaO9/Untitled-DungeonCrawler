@@ -7,19 +7,19 @@ void Enemy::update()
 	{
 	case IDLE:
 		runIdle();
-		cout << "IDLE " << idleTimer <<endl;
+		//cout << "IDLE " << idleTimer <<endl;
 		break;
 	case PATROL:
 		runPatrol();
-		cout << "PATROL" << endl;
+		//cout << "PATROL" << endl;
 		break;
 	case CHASE:
 		runChase();
-		cout << "CHASE" << endl;
+		//cout << "CHASE" << endl;
 		break;
 	case ATTACK:
 		runAttack();
-		cout << "ATTACK" << endl;
+		//cout << "ATTACK" << endl;
 		break;
 	default:
 		break;

@@ -37,22 +37,30 @@ void Weapon::setdmg(const int& WDamage)
 
 void Weapon::BaseWeaponATK(const int& WDamage) 
 {
+	cout << "hello" << endl;
 
+	Entity test(10,(sf::Vector2f)sf::Mouse::getPosition());
+	sf::Sprite tempSprite(TextureManager::getInstance()->getTexture("Temp"));
+	test.setModel(&tempSprite);
+	test.getModel().setScale(sf::Vector2f(0.1, 0.1)); 
 
+	/*Sprite->setPosition((sf::Vector2f)sf::Mouse::getPosition());*/
 
+	//test.setPos((sf::Vector2f)sf::Mouse::getPosition()); 
+	//test.getModel().setPosition((sf::Vector2f)sf::Mouse::getPosition()); 
 
+	cout << "hi" << endl;
 	for (auto* enemy : gm->getEnemies()) 
 	{
-		
 
-		if (enemy->getModel().getGlobalBounds().findIntersection(enemy->getModel().getGlobalBounds()))//placeholder, but overall intersection  
+		if (test.getModel().getGlobalBounds().findIntersection(enemy->getModel().getGlobalBounds()))//placeholder, but overall intersection
 		{
 			setdmg(WDamage); 
 			cout << "hit! for: " << getdmg() << endl;
 		}
 		else
 		{
-			//setdmg(0);
+			setdmg(0);
 		}
 	}
 }
