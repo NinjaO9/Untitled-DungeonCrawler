@@ -10,7 +10,8 @@ public:
 		: GameObject(pos, tag)
 	{
 		this->maxHp = maxHp;
-		this->speed = 0.9;
+		this->speed = 0.09;
+		this->model = nullptr; // get rid of warnings
 	}
 
 	sf::Sprite& getModel() { return *this->model; } 
@@ -25,7 +26,7 @@ private:
 
 	int maxHp;
 	float speed;
-	sf::Sprite* model; // temp; likely will change to sf::Sprite later on
+	sf::Sprite* model;
 
 };
 

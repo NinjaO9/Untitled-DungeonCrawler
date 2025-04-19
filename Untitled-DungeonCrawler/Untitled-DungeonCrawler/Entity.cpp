@@ -7,4 +7,5 @@ float Entity::getSpeed() const
 
 Entity::~Entity()
 {
+    delete model;
 }
