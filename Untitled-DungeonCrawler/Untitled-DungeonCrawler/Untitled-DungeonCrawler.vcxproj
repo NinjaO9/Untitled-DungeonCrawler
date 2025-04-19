@@ -152,6 +152,26 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Empty.png" />
+    <Image Include="Sprites\protagonist-sprites\BackStill.png" />
+    <Image Include="Sprites\protagonist-sprites\BackSword1l.png" />
+    <Image Include="Sprites\protagonist-sprites\BackSword2.png" />
+    <Image Include="Sprites\protagonist-sprites\BackWalking1.png" />
+    <Image Include="Sprites\protagonist-sprites\BackWalking2.png" />
+    <Image Include="Sprites\protagonist-sprites\FrontSword1.png" />
+    <Image Include="Sprites\protagonist-sprites\FrontSword2.png" />
+    <Image Include="Sprites\protagonist-sprites\LeftStill.png" />
+    <Image Include="Sprites\protagonist-sprites\LeftSword1.png" />
+    <Image Include="Sprites\protagonist-sprites\LeftSword2.png" />
+    <Image Include="Sprites\protagonist-sprites\LeftWalking1.png" />
+    <Image Include="Sprites\protagonist-sprites\LeftWalking2.png" />
+    <Image Include="Sprites\protagonist-sprites\RightStill.png" />
+    <Image Include="Sprites\protagonist-sprites\RightSword1.png" />
+    <Image Include="Sprites\protagonist-sprites\RightSword2.png" />
+    <Image Include="Sprites\protagonist-sprites\RightWalking1.png" />
+    <Image Include="Sprites\protagonist-sprites\RightWalking2.png" />
+    <Image Include="Sprites\protagonist-sprites\StillFront.png" />
+    <Image Include="Sprites\protagonist-sprites\WalknglFront1.png" />
+    <Image Include="Sprites\protagonist-sprites\WalknglFront2.png" />
     <Image Include="Wall.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
