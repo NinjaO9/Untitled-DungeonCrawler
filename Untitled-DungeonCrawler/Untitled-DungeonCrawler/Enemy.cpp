@@ -6,6 +6,7 @@
 void Enemy::update()
 {
 	setPos(this->getModel().getPosition());
+	handleCollision();
 	PlayerRay[0].position = getPos();
 	PatrolRay[0].position = getPos();
 	prevState = state;
@@ -191,21 +192,26 @@ bool Enemy::isTargetPosValid(sf::Vector2f target)
 {
 	float distance = checkDistance(target);
 	bool isValid = true;
-	sf::Vector2f tempPos = getPos();
+	//sf::Vector2f tempPos = getPos();
 	sf::Vector2f direction(((target.x - getPos().x) / distance), ((target.y - getPos().y) / distance));
 	sf::RectangleShape testRect({ 32,32 });
 	//sf::FloatRect simulationRect(tempPos, sf::Vector2f(32, 32));
 	testRect.setOrigin({ testRect.getPosition().x / 2, testRect.getPosition().y / 2 });
-	testRect.setPosition(tempPos);
+	//testRect.setPosition(tempPos);
 	
+
+	sf::Sprite tempSprite = this->getModel();
+	sf::Vector2f tempPos = tempSprite.getPosition();
+
 	for (int i = 1; checkDistance(tempPos, target) > 1; i++) // possibly change i++ to i += 32; this is because we are doing a 32x32 sprite style, so this could be helpful to prevent a higher number of operations
 	{
-		tempPos += (direction);
-		testRect.setPosition(tempPos);
+		tempSprite.move(direction);
+		tempPos = tempSprite.getPosition();
+		//testRect.setPosition(tempPos);
 		for (Obstacle* wall : gm->getLevel()->getTiles()) // replace with a literal wall class eventually
 		{
 			//cout << "CHECK WALL" << endl;
-			if (testRect.getGlobalBounds().findIntersection(wall->getModel().getGlobalBounds()))
+			if (tempSprite.getGlobalBounds().findIntersection(wall->getModel().getGlobalBounds()))
 			{
 				isValid = false;
 				//cout << "COLLISION!" << endl;
@@ -219,4 +225,25 @@ bool Enemy::isTargetPosValid(sf::Vector2f target)
 	}
 	//std::cout << isValid << std::endl;
 	return isValid;
+}
+
+void Enemy::handleCollision()
+{
+	for (Obstacle* wall : gm->getLevel()->getTiles())
+	{
+		auto intersection = this->getModel().getGlobalBounds().findIntersection(wall->getModel().getGlobalBounds());
+		if (intersection.has_value())
+		{
+			sf::Vector2f trueIntersection(this->getModel().getPosition().x - intersection.value().position.x, this->getModel().getPosition().y - intersection.value().position.y);
+			int ySign = 0, xSign = 0;
+			if (trueIntersection.x == this->getModel().getPosition().x) { xSign = 0; }
+			else if (trueIntersection.x > 0) { xSign = 1; }
+			else { xSign = -1; }
+			if (trueIntersection.y == this->getModel().getPosition().y) { ySign = 0; }
+			else if (trueIntersection.x > 0) { ySign = -1; }
+			else { ySign = 1; }
+			this->getModel().move({intersection.value().size.x * xSign, -intersection.value().size.y * ySign});
+			break;
+		}
+	}
 }

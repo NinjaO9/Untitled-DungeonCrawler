@@ -87,4 +87,6 @@ private:
 
 	bool isTargetPosValid(sf::Vector2f target);
 
+	void handleCollision();
+
 };
