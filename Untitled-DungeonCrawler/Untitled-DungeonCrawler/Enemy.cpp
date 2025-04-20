@@ -193,22 +193,28 @@ bool Enemy::isTargetPosValid(sf::Vector2f target)
 	bool isValid = true;
 	sf::Vector2f tempPos = getPos();
 	sf::Vector2f direction(((target.x - getPos().x) / distance), ((target.y - getPos().y) / distance));
-	sf::FloatRect simulationRect(tempPos, sf::Vector2f(this->getModel().getTexture().getSize().x * this->getModel().getScale().x, this->getModel().getTexture().getSize().y * this->getModel().getScale().y));
+	sf::RectangleShape testRect({ 32,32 });
+	//sf::FloatRect simulationRect(tempPos, sf::Vector2f(32, 32));
+	testRect.setOrigin({ testRect.getPosition().x / 2, testRect.getPosition().y / 2 });
+	testRect.setPosition(tempPos);
 	
-	for (int i = 1; checkDistance(tempPos, target) > 32; i++) // possibly change i++ to i += 32; this is because we are doing a 32x32 sprite style, so this could be helpful to prevent a higher number of operations
+	for (int i = 1; checkDistance(tempPos, target) > 1; i++) // possibly change i++ to i += 32; this is because we are doing a 32x32 sprite style, so this could be helpful to prevent a higher number of operations
 	{
-		tempPos = tempPos + (direction * hypotf(i, i));
-		simulationRect.position = tempPos;
+		tempPos += (direction);
+		testRect.setPosition(tempPos);
 		for (Obstacle* wall : gm->getLevel()->getTiles()) // replace with a literal wall class eventually
 		{
-			if (wall->getModel().getGlobalBounds().findIntersection(simulationRect))
+			//cout << "CHECK WALL" << endl;
+			if (testRect.getGlobalBounds().findIntersection(wall->getModel().getGlobalBounds()))
 			{
 				isValid = false;
-				PlayerRay[1].position = tempPos;
+				//cout << "COLLISION!" << endl;
 				break;
 			}
+			PlayerRay[1].position = tempPos;
+
 		}
-		if (!isValid) { break; }
+		if (!isValid) { /*cout << "INVALID" << endl;*/ break; }
 		//std::cout << "loop" << std::endl;
 	}
 	//std::cout << isValid << std::endl;

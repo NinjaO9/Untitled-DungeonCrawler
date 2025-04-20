@@ -10,6 +10,7 @@ using std::fstream;
 
 int main()
 {
+    srand(time(NULL));
     sf::RenderWindow window(sf::VideoMode({ 1000, 1000 }), "SFML works!");
     sf::CircleShape shape(100.0f);
     shape.setFillColor(sf::Color::Green);
@@ -21,17 +22,20 @@ int main()
     LevelManager* lvl = gameManager->getLevel();
     gameManager->setWindow(window);
     texManager->loadTextures("Textures.txt");
-    for (int i = 0; i < 20; i++) // initialize given number of entities 
-    {
-        gameManager->getEnemies().push_back(new Enemy(10, 200, 5, 10, sf::Vector2f(100,100))); // create a new enemy with default values
-    }
+    //for (int i = 0; i < 20; i++) // initialize given number of entities 
+    //{
+    //    gameManager->getEnemies().push_back(new Enemy(10, 200, 5, 10, sf::Vector2f(100,100))); // create a new enemy with default values
+    //}
     fstream file;
+    sf::View zoom;
+    zoom.zoom(0.5);
     file.open("Level1.txt");
     lvl->loadFromFile(file);
     //Obstacle* testObs = new Obstacle({ 200,200 });
     //gameManager->getObstacles().push_back(testObs);
     while (window.isOpen())
     {
+        window.setView(zoom);
         window.clear();
         gameManager->updateMouse();
         //std::cout << gameManager->getMousePos().x << " , " << gameManager->getMousePos().y << std::endl;
@@ -64,6 +68,23 @@ int main()
             window.draw(obs->getModel());
         }
         window.display();
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::A))
+        {
+            zoom.move({ -1,0 });
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::D))
+        {
+            zoom.move({ 1,0 });
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::W))
+        {
+            zoom.move({ 0,-1 });
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::S))
+        {
+            zoom.move({ 0,1 });
+        }
     }
     texManager->destroyManager();
     gameManager->destroyManager();

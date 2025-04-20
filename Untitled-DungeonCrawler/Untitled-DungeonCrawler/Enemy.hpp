@@ -24,13 +24,20 @@ public:
 		this->idleTimer = idleTimer * 1000;
 		this->defaultTime = idleTimer * 1000;
 		this->atTarget = false;
-		this->targetPos = sf::Vector2f(101, 101);
-		updateDirection();
+		this->targetPos = pos;
 		this->fov = 60;
 		this->setModel(new sf::Sprite(TextureManager::getInstance()->getTexture("Temp"))); // temp image (obv)
 		sf::FloatRect temp = this->getModel().getLocalBounds();
 		this->getModel().setOrigin(sf::Vector2f(temp.size.x / 2, temp.size.y / 2));
-		this->getModel().setScale(sf::Vector2f(0.032, 0.032)); // Saul Goodman (Temp image) is too massive (like the low-taper fade meme) so I needed to scale it down
+		//getNewTargetPos();
+		updateDirection();
+
+
+
+		float scaleX = 32.0f / this->getModel().getTextureRect().size.x;
+		float scaleY = 32.0f / this->getModel().getTextureRect().size.y;
+
+		this->getModel().setScale(sf::Vector2f(scaleX, scaleY)); // Saul Goodman (Temp image) is too massive (like the low-taper fade meme) so I needed to scale it down
 		this->getModel().setPosition(pos);
 	}
 
