@@ -7,6 +7,8 @@
 #include <cmath>
 #include <string>
 
+class GameManager;
+
 class LevelManager
 {
 public:
@@ -14,6 +16,7 @@ public:
 	LevelManager()
 	{
 		placementSpot = sf::Vector2i(0, 0);
+		initGameManager();
 	}
 
 	~LevelManager()
@@ -28,8 +31,10 @@ public:
 
 	void loadFromFile(std::fstream& file);
 
-private:
+	void initGameManager();
 
+private:
+	static GameManager* gm;
 	std::vector<Obstacle*> levelTiles;
 	int const size = 32; // keep a constant 32 sprite size (this would be moved to another class)
 
@@ -45,6 +50,8 @@ private:
 	void placeEmpty();
 
 	void placeWall();
+
+	void placeEnemy();
 
 	void placeBoss();
 
