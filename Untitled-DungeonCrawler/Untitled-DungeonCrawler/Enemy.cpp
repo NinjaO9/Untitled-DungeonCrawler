@@ -57,6 +57,7 @@ State Enemy::updateState()
 		return CHASE; // If the enemy can see the player, but is too far from the player, chase the player down
 	}
 	PlayerRay[1].color = sf::Color::Red; // visually show that the player is NOT seen by the enemy
+	if (prevState == CHASE) { getNewTargetPos(); } // make the enemy get a new position if they lose sight of the player
 	if (idleTimer <= 0)
 	{
 		return PATROL; // Patrol the area where the enemy is if there is time to patrol
@@ -122,8 +123,9 @@ void Enemy::getNewTargetPos() // Super Janky code, but a proof of concept
 	// This code needs to be revised to check if the enemy can actually make it to a given location in a straight line. If not, then a new position needs to be rolled
 	// Chances are, you will have to check within the circumfrence of the enemy's view distance and find a valid position inside of there.
 	int rNum = rand() % 2, yDir = rand(), xDir = rand();
+	int attempt = 0;
 	bool isValid = false;
-	while (!isValid)
+	while (!isValid && attempt != 5) // only allow the enemy to try getting a new target 5 times before giving up
 	{
 		switch (rNum)
 		{
@@ -146,6 +148,12 @@ void Enemy::getNewTargetPos() // Super Janky code, but a proof of concept
 		sf::Vector2f direction(xDir, yDir);
 		targetPos = this->getPos() + (direction.normalized() * (float)rNum);
 		isValid = isTargetPosValid(targetPos);
+		attempt++;
+	}
+	if (attempt == 5)
+	{
+		targetPos = this->getModel().getPosition();
+		//std::cout << "I give up!" << std::endl;
 	}
 
 }

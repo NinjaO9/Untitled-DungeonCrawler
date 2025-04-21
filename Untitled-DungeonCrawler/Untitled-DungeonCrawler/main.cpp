@@ -35,7 +35,7 @@ int main()
     //gameManager->getObstacles().push_back(testObs);
     while (window.isOpen())
     {
-        window.setView(zoom);
+        //window.setView(zoom);
         window.clear();
         gameManager->updateMouse();
         //std::cout << gameManager->getMousePos().x << " , " << gameManager->getMousePos().y << std::endl;
