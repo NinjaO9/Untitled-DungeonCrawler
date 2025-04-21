@@ -15,9 +15,9 @@ public:
 
 	void update() override;
 
-	virtual sf::Vector2f& getPos() override;//well see if these need to be overridden not entirely sure
+	sf::Vector2f& getPos() override;//well see if these need to be overridden not entirely sure
 
-	virtual void setPos(sf::Vector2f const newPos) override;
+	void setPos(sf::Vector2f const newPos) override;
 
 
 	void playermovement();
@@ -42,4 +42,4 @@ private:
 	int expToNext;
 	int level;
 	Weapon* equippedWeapon;
-}
+};

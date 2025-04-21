@@ -18,12 +18,12 @@ sf::Vector2f& GameManager::getMousePos()
     return mousePos;
 }
 
-void GameManager::setWindow(sf::Window& window)
+void GameManager::setWindow(sf::RenderWindow& window)
 {
     activeWindow = &window;
 }
 
-sf::Window*& GameManager::getWindow()
+sf::RenderWindow*& GameManager::getWindow()
 {
     return activeWindow;
 }

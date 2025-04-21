@@ -26,9 +26,9 @@ public:
 
 	sf::Vector2f& getMousePos(); // temp
 
-	void setWindow(sf::Window& window);
+	void setWindow(sf::RenderWindow& window);
 
-	sf::Window*& getWindow();
+	sf::RenderWindow*& getWindow();
 
 	void updateMouse();
 
@@ -36,7 +36,7 @@ public:
 
 private:
 	static GameManager* instance;
-	sf::Window* activeWindow;
+	sf::RenderWindow* activeWindow;
 	// Player* playerInstance; // when we finally get the player class made, the game manager will hold a pointer to the player so that it can be accessed by anything
 	sf::Vector2f mousePos; // temporary variable to test enemy functionality with chasing
 	vector<Enemy*> enemyArr; // vector of enemies, can be used to iterate (specifically) through each enemy
