@@ -242,7 +242,7 @@ void Enemy::handleCollision()
 			if (trueIntersection.y == this->getModel().getPosition().y) { ySign = 0; }
 			else if (trueIntersection.x > 0) { ySign = -1; }
 			else { ySign = 1; }
-			this->getModel().move({intersection.value().size.x * xSign, -intersection.value().size.y * ySign});
+			this->getModel().move({intersection.value().size.x * xSign + (2 * xSign), -intersection.value().size.y * ySign + (2 * ySign)});
 			break;
 		}
 	}
