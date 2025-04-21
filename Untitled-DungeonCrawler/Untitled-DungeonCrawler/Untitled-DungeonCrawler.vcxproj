@@ -143,6 +143,7 @@
     <ClCompile Include="LevelManger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Obstacle.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
@@ -154,6 +155,7 @@
     <ClInclude Include="Interactable.hpp" />
     <ClInclude Include="LevelManager.hpp" />
     <ClInclude Include="Obstacle.hpp" />
+    <ClInclude Include="Player.hpp" />
     <ClInclude Include="TextureManager.hpp" />
     <ClInclude Include="Weapon.hpp" />
   </ItemGroup>
