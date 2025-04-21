@@ -4,3 +4,4 @@
 
 Temp-Temp.png
 Rock-Rock.jpg
+Wall-Wall.png
