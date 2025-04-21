@@ -13,7 +13,7 @@ class Enemy : public Entity
 {
 public:
 
-	Enemy(int hp = 0, float viewDistance /* In pixels */ = 200, float attackDistance/* In pixels */ = 5, float idleTimer/* Time in seconds*/ = 2, sf::Vector2f pos = sf::Vector2f(0, 0))
+	Enemy(int hp = 10, float viewDistance /* In pixels */ = 200, float attackDistance/* In pixels */ = 5, float idleTimer/* Time in seconds*/ = 2, sf::Vector2f pos = sf::Vector2f(0, 0))
 		: Entity(hp, pos, "Enemy")
 	{
 		this->PlayerRay = sf::VertexArray(sf::PrimitiveType::LineStrip, 2);
@@ -29,7 +29,6 @@ public:
 		this->setModel(new sf::Sprite(TextureManager::getInstance()->getTexture("Temp"))); // temp image (obv)
 		sf::FloatRect temp = this->getModel().getLocalBounds();
 		this->getModel().setOrigin(sf::Vector2f(temp.size.x / 2, temp.size.y / 2));
-		//getNewTargetPos();
 		updateDirection();
 
 

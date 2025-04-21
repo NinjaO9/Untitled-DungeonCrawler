@@ -185,7 +185,7 @@ void Enemy::updateDirection()
 	}
 	else if (distanceVector.y == 0)
 	{
-		if (distanceVector.x == 0) { directon == sf::Vector2f(0, 0); }
+		if (distanceVector.x == 0) { directon = sf::Vector2f(0, 0); }
 		else { directon = sf::Vector2f(1, 0); }
 	}
 	else
