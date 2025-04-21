@@ -6,7 +6,6 @@
 void Enemy::update()
 {
 	setPos(this->getModel().getPosition());
-	handleCollision();
 	PlayerRay[0].position = getPos();
 	PatrolRay[0].position = getPos();
 	prevState = state;
@@ -97,6 +96,7 @@ void Enemy::runPatrol()
 	if (checkDistance(this->targetPos) <= getSpeed()) // 'close enough' (speed can cause the enemy to overshoot their target, so we will give them an error margin of speed)
 	{
 		idleTimer = defaultTime;
+		handleCollision();
 		getNewTargetPos();
 	}
 	updateDirection();
