@@ -42,4 +42,4 @@ private:
 	int expToNext;
 	int level;
 	Weapon* equippedWeapon;
-}
+};
