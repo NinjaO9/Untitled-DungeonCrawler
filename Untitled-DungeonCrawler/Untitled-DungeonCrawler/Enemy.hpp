@@ -45,6 +45,12 @@ public:
 	sf::VertexArray getPlayerRay() const;
 	sf::VertexArray getPatrolRay() const;
 
+	// should only be used for test functions (manipulating where the enemy wants to go)
+	sf::Vector2f& getTargetPos() { return targetPos; }
+
+	// should also only be used for test functions (forcing the enemy to check valid positions)
+	void checkForcedPos();
+
 private:
 
 	State state, prevState;

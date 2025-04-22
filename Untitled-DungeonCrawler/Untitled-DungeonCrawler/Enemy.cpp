@@ -36,6 +36,14 @@ sf::VertexArray Enemy::getPatrolRay() const
 	return PatrolRay;
 }
 
+void Enemy::checkForcedPos()
+{
+	if (!isTargetPosValid(targetPos)) // typical routine for 
+	{
+		getNewTargetPos();
+	}
+}
+
 sf::VertexArray Enemy::getPlayerRay() const
 {
 	return PlayerRay;
@@ -169,7 +177,7 @@ void Enemy::getNewTargetPos() // Super Janky code, but a proof of concept
 	if (attempt == 5)
 	{
 		targetPos = this->getModel().getPosition();
-		//std::cout << "I give up!" << std::endl;
+		std::cout << "I give up!" << std::endl;
 	}
 
 }
