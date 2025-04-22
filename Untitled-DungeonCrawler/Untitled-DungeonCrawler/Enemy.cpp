@@ -13,19 +13,15 @@ void Enemy::update()
 	{
 	case IDLE:
 		runIdle();
-		//cout << "IDLE " << idleTimer <<endl;
 		break;
 	case PATROL:
 		runPatrol();
-		//cout << "PATROL" << endl;
 		break;
 	case CHASE:
 		runChase();
-		//cout << "CHASE" << endl;
 		break;
 	case ATTACK:
 		runAttack();
-		//Scout << "ATTACK" << endl;
 		break;
 	default:
 		break;
@@ -78,7 +74,6 @@ bool Enemy::canSeePlayer()
 		playerPosTimer.restart();
 		playerSeen = isTargetPosValid(gm->getMousePos());
 	}
-
 	return playerSeen;
 
 	//return isTargetPosValid(gm->getMousePos()); // If everything else passes, the enemy should be able to see the player in a direct line of sight (replace 'true' with playerSeen)
@@ -182,7 +177,6 @@ void Enemy::getNewTargetPos() // Super Janky code, but a proof of concept
 bool Enemy::isInFOV()
 {
 	float degree = getDegreeTo(gm->getMousePos());
-	//std::cout << degree << std::endl;
 	return degree < (float)fov/2;
 }
 
@@ -233,7 +227,6 @@ bool Enemy::isTargetPosValid(sf::Vector2f target)
 	{
 		tempSprite.move(direction);
 		tempPos = tempSprite.getPosition();
-		//testRect.setPosition(tempPos);
 		//for (Obstacle* wall : nearbyObsticles) // replace with a literal wall class eventually
 		//{
 		//	//cout << "CHECK WALL" << endl;

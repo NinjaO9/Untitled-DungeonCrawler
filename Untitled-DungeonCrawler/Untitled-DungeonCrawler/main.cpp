@@ -31,6 +31,7 @@ int main()
 
     file.open("Level1.txt");
     lvl->loadFromFile(file);
+    file.close();
     gameManager->getClock().start();
     frameClock.start();
 
@@ -52,7 +53,7 @@ int main()
                 window.close();
         }
 
-        if (frameClock.getElapsedTime().asMilliseconds() > 15) // Tested values: 15 - 60 FPS; 27 - ~33 FPS
+        if (frameClock.getElapsedTime().asMilliseconds() > 15) // Tested values: 15 - ~60 FPS; 27 - ~33 FPS
         {
             window.setView(gameManager->getView());
             window.clear();
@@ -61,6 +62,7 @@ int main()
                 float realX = window.mapCoordsToPixel(enemy->getPos(), gameManager->getView()).x;
                 float realY = window.mapCoordsToPixel(enemy->getPos(), gameManager->getView()).y;
                 if (realX < 0 || realX > window.getSize().x) { continue; } // skip updating any enemy that is out of view
+                else if (realY < 0 || realY > window.getSize().y) { continue; }
                 enemy->update();
                 window.draw(enemy->getModel());
                 window.draw(enemy->getPatrolRay()); // NOTE2: PRINTING TO THE CONSOLE CAN ALSO BE A PREFORMANCE KILLER!
@@ -70,6 +72,10 @@ int main()
             for (Obstacle* obs : lvl->getTiles())
             {
                 window.draw(obs->getModel());
+            }
+            if (lvl->getExitTile())
+            {
+                window.draw(lvl->getExitTile()->getModel());
             }
             window.display();
             frameCount++;
@@ -92,6 +98,14 @@ int main()
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::S))
         {
             gameManager->getView().move({ 0,0.001 });
+        }
+        if (gameManager->getLevel()->getExitTile() && gameManager->getLevel()->getExitTile()->getModel().getGlobalBounds().contains(gameManager->getMousePos())) // is the 'player' at the exit tile?
+        {
+            gameManager->getLevel()->unloadLevel();
+            file.open("Level2.txt");
+            window.setView(window.getDefaultView());
+            gameManager->getLevel()->loadFromFile(file);
+            file.close();
         }
 
     }

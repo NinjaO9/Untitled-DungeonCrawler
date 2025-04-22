@@ -157,7 +157,6 @@
     <ClInclude Include="Obstacle.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="TextureManager.hpp" />
-    <ClInclude Include="Utility.hpp" />
     <ClInclude Include="Weapon.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Level1.txt" />
+    <Text Include="Level2.txt" />
     <Text Include="Textures.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
