@@ -48,7 +48,10 @@
     <ClCompile Include="TextureManager.cpp">
       <Filter>Source Files\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
+        <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+       <ClCompile Include="LevelManger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,9 +80,6 @@
     <ClInclude Include="TextureManager.hpp">
       <Filter>Header Files\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="Player.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Temp.png">
@@ -88,6 +88,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Textures.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Level1.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

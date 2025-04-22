@@ -4,6 +4,10 @@
 #include "GameManager.hpp"
 #include "TextureManager.hpp"
 #include "Weapon.hpp"
+#include "LevelManager.hpp"
+#include <fstream>
+
+using std::fstream;
 
 int main()
 {
@@ -17,17 +21,23 @@ int main()
 
     TextureManager* texManager = TextureManager::getInstance();
     GameManager* gameManager = GameManager::getInstance();
+    LevelManager* lvl = gameManager->getLevel();
     gameManager->setWindow(window);
     texManager->loadTextures("Textures.txt");
-    for (int i = 0; i < 25; i++) // initialize given number of entities (100 is really laggy, 50 is kinda laggy, 25 is somewhat of a sweetspot
-    {
-        gameManager->getEnemies().push_back(new Enemy(10, 200, 5, 10, sf::Vector2f(100,100))); // create a new enemy with default values
-    }
-
-    Obstacle* testObs = new Obstacle({ 200,200 });
-    gameManager->getObstacles().push_back(testObs);
+    //for (int i = 0; i < 20; i++) // initialize given number of entities 
+    //{
+    //    gameManager->getEnemies().push_back(new Enemy(10, 200, 5, 10, sf::Vector2f(100,100))); // create a new enemy with default values
+    //}
+    fstream file;
+    sf::View zoom;
+    zoom.zoom(0.5);
+    file.open("Level1.txt");
+    lvl->loadFromFile(file);
+    //Obstacle* testObs = new Obstacle({ 200,200 });
+    //gameManager->getObstacles().push_back(testObs);
     while (window.isOpen())
     {
+        //window.setView(zoom);
         window.clear();
         gameManager->updateMouse();
         //std::cout << gameManager->getMousePos().x << " , " << gameManager->getMousePos().y << std::endl;
@@ -52,14 +62,31 @@ int main()
             enemy->update();
             window.draw(enemy->getModel());
             window.draw(enemy->getPatrolRay()); // NOTE2: PRINTING TO THE CONSOLE CAN ALSO BE A PREFORMANCE KILLER!
-            window.draw(enemy->getPlayerRay()); // NOTE: DRAWING THE RAYS IS A PREFORMANCE KILLER! COMMENT THESE OUT BEFORE JUDGING GAME PREFORMANCE
+            //window.draw(enemy->getPlayerRay()); // NOTE: DRAWING THE RAYS IS A PREFORMANCE KILLER! COMMENT THESE OUT BEFORE JUDGING GAME PREFORMANCE
         }
 
-        for (Obstacle* obs : gameManager->getObstacles())
+        for (Obstacle* obs : lvl->getTiles())
         {
             window.draw(obs->getModel());
         }
         window.display();
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::A))
+        {
+            zoom.move({ -1,0 });
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::D))
+        {
+            zoom.move({ 1,0 });
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::W))
+        {
+            zoom.move({ 0,-1 });
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::S))
+        {
+            zoom.move({ 0,1 });
+        }
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
         {

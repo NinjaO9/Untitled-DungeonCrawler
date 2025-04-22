@@ -1,7 +1,9 @@
 #include "GameManager.hpp"
+#include "LevelManager.hpp"
 
 
 GameManager* GameManager::instance = nullptr;
+LevelManager* GameManager::lvl = nullptr;
 
 vector<Enemy*>& GameManager::getEnemies()
 {
@@ -37,6 +39,16 @@ void GameManager::destroyManager()
 {
     delete instance;
     instance = nullptr;
+}
+
+void GameManager::initLevelManager()
+{
+    lvl = new LevelManager();
+}
+
+LevelManager*& GameManager::getLevel()
+{
+    return lvl;
 }
 
 /* Remove the comment blocks when player finally gets added
