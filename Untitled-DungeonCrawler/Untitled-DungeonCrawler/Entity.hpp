@@ -10,7 +10,8 @@ public:
 		: GameObject(pos, tag)
 	{
 		this->maxHp = maxHp;
-		this->speed = 0.09;
+		this->hp = maxHp;
+		this->speed = 2; //0.09;
 		this->model = nullptr; // get rid of warnings
 	}
 
@@ -20,11 +21,16 @@ public:
 
 	float getSpeed() const;
 
+	void setSpeed(float const speed);
+
+	virtual void handleDamage(int dmg);
+
 	virtual ~Entity();
 
 private:
 
 	int maxHp;
+	int hp;
 	float speed;
 	sf::Sprite* model;
 

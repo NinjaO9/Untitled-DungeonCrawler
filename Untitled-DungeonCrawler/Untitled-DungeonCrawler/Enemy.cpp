@@ -58,6 +58,7 @@ State Enemy::updateState()
 	}
 	PlayerRay[1].color = sf::Color::Red; // visually show that the player is NOT seen by the enemy
 	if (prevState == CHASE) { getNewTargetPos(); } // make the enemy get a new position if they lose sight of the player
+	if (prevState == ATTACK) { this->getModel().setColor(sf::Color::White); }
 	if (idleTimer <= 0)
 	{
 		return PATROL; // Patrol the area where the enemy is if there is time to patrol
@@ -69,9 +70,18 @@ State Enemy::updateState()
 bool Enemy::canSeePlayer()
 {
 	if (!playerInRange()) {return false; } // if the player is not in range, there is no need to check for anything else
-	if (!isInFOV()) { return false; } // if the enemy is already chasing the player, FOV doesn't matter
+	if (!isInFOV() && prevState != CHASE) { return false; } // if the enemy is already chasing the player, FOV doesn't matter
 	
-	return isTargetPosValid(gm->getMousePos()); // If everything else passes, the enemy should be able to see the player in a direct line of sight (replace 'true' with playerSeen)
+
+	if (playerPosTimer.getElapsedTime().asMilliseconds() > 30) // only check calculations every 30 milliseconds or so for the sake of not destroying game preformance
+	{
+		playerPosTimer.restart();
+		playerSeen = isTargetPosValid(gm->getMousePos());
+	}
+
+	return playerSeen;
+
+	//return isTargetPosValid(gm->getMousePos()); // If everything else passes, the enemy should be able to see the player in a direct line of sight (replace 'true' with playerSeen)
 }
 
 bool Enemy::playerInRange()
@@ -106,8 +116,6 @@ void Enemy::runPatrol()
 void Enemy::runChase()
 {
 	// chase animation
-	// chase code
-
 	targetPos = gm->getMousePos(); // change code eventually
 	runPatrol();
 }
@@ -115,7 +123,20 @@ void Enemy::runChase()
 void Enemy::runAttack()
 {
 	// attack animation
-	// attack code
+	if (attackCD.getElapsedTime().asSeconds() < 0.1) // basic layout for attacking
+	{
+		this->getModel().setColor(sf::Color::White);
+	}
+	else if (attackCD.getElapsedTime().asSeconds() < 0.5)
+	{
+		this->getModel().setColor(sf::Color::Blue);
+	}
+	else
+	{
+		this->attackCD.restart();
+	}
+
+
 }
 
 void Enemy::getNewTargetPos() // Super Janky code, but a proof of concept
@@ -185,7 +206,7 @@ void Enemy::updateDirection()
 	}
 	else if (distanceVector.y == 0)
 	{
-		if (distanceVector.x == 0) { directon == sf::Vector2f(0, 0); }
+		if (distanceVector.x == 0) { directon = sf::Vector2f(0, 0); }
 		else { directon = sf::Vector2f(1, 0); }
 	}
 	else
@@ -193,40 +214,47 @@ void Enemy::updateDirection()
 		directon = sf::Vector2f(distanceVector.normalized().x, distanceVector.normalized().y); // converting difference to the unit vector coords
 	}
 
-//	std::cout << "DIRECTION X: " << directon.x << " DIRECTION Y: " << directon.y << std::endl;
 }
 
 bool Enemy::isTargetPosValid(sf::Vector2f target)
 {
 	float distance = checkDistance(target);
 	bool isValid = true;
-	//sf::Vector2f tempPos = getPos();
 	sf::Vector2f direction(((target.x - getPos().x) / distance), ((target.y - getPos().y) / distance));
 	sf::RectangleShape testRect({ 32,32 });
-	//sf::FloatRect simulationRect(tempPos, sf::Vector2f(32, 32));
 	testRect.setOrigin({ testRect.getPosition().x / 2, testRect.getPosition().y / 2 });
-	//testRect.setPosition(tempPos);
-	
 
 	sf::Sprite tempSprite = this->getModel();
 	sf::Vector2f tempPos = tempSprite.getPosition();
+
+	//vector<Obstacle*> nearbyObsticles = gm->getNearbyObstacles(tempPos);
 
 	for (int i = 1; checkDistance(tempPos, target) > 1; i++) // possibly change i++ to i += 32; this is because we are doing a 32x32 sprite style, so this could be helpful to prevent a higher number of operations
 	{
 		tempSprite.move(direction);
 		tempPos = tempSprite.getPosition();
 		//testRect.setPosition(tempPos);
-		for (Obstacle* wall : gm->getLevel()->getTiles()) // replace with a literal wall class eventually
+		//for (Obstacle* wall : nearbyObsticles) // replace with a literal wall class eventually
+		//{
+		//	//cout << "CHECK WALL" << endl;
+		//	if (tempSprite.getGlobalBounds().findIntersection(wall->getModel().getGlobalBounds()))
+		//	{
+		//		isValid = false;
+		//		//cout << "COLLISION!" << endl;
+		//		break;
+		//	}
+		//	PlayerRay[1].position = tempPos;
+
+		//}
+
+		for (Obstacle* wall : gm->getLevel()->getTiles())
 		{
-			//cout << "CHECK WALL" << endl;
 			if (tempSprite.getGlobalBounds().findIntersection(wall->getModel().getGlobalBounds()))
 			{
 				isValid = false;
-				//cout << "COLLISION!" << endl;
 				break;
 			}
 			PlayerRay[1].position = tempPos;
-
 		}
 		if (!isValid) { /*cout << "INVALID" << endl;*/ break; }
 		//std::cout << "loop" << std::endl;
