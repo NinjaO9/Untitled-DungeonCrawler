@@ -7,7 +7,7 @@
 #include <fstream>
 
 #define RUN_DEBUG true
-#define TEST_CASE 0
+#define TEST_CASE 2
 
 using std::fstream;
 
@@ -127,19 +127,19 @@ void runDEBUG()
     gameManager->getView().zoom(0.5);
 
     frameClock.start();
-
-    Obstacle testWall({ 100,100 });
-    Enemy testEnemy(10, 200, 5, 2, { 300,100 });
-    gameManager->getLevel()->getTiles().push_back(&testWall);
-    gameManager->getEnemies().push_back(&testEnemy);
+    gameManager->getLevel()->getTiles().push_back(new Obstacle({100,100}));
+    Obstacle dummyPlayer({ 100,100 });
+    dummyPlayer.getModel().setColor(sf::Color::Red);
+    gameManager->getEnemies().push_back(new Enemy(10, 200, 32, 2, {300,100}));
 
     switch (TEST_CASE)
     {
     case 0:
         cout << "TEST_CASE description: Testing enemy target logic - the enemy is going to have a target position at a spawned wall. The enemy should check if the position is valid, (and thus determine the position is invalid) and determine a new location to go (this will be random) " << endl;
-        testEnemy.getTargetPos() = testWall.getPos(); 
-        testEnemy.checkForcedPos(); // only call the check once to prevent lag from not-needed constant checks
-        while (window.isOpen())
+        gameManager->getEnemies()[0]->getTargetPos() = lvl->getTiles()[0]->getPos();  // IMPORTANT: Setting the target position to the wall
+        gameManager->getEnemies()[0]->checkForcedPos(); // only call the check once to prevent lag from not-needed constant checks - forcing the enemy to check the target position. (The reason we must call this manually is because the enemy should normally check for a valid location before actually selecting a target position)
+        // in essence, this test case just goes through the normal process the update() function would naturally cause, assuming the enemy has a valid starting target (hardcoded as its starting point)
+        while (window.isOpen()) 
         {
             while (const std::optional event = window.pollEvent())
             {
@@ -149,21 +149,22 @@ void runDEBUG()
             if (frameClock.getElapsedTime().asMilliseconds() > 15) // frame-rate limiter
             {
                 window.clear();
-                testEnemy.update();
-                window.draw(testWall.getModel());
-                window.draw(testEnemy.getModel());
-                window.draw(testEnemy.getPatrolRay());
+                gameManager->getEnemies()[0]->update();
+                window.draw(lvl->getTiles()[0]->getModel());
+                window.draw(gameManager->getEnemies()[0]->getModel());
+                window.draw(gameManager->getEnemies()[0]->getPatrolRay());
                 window.display();
                 frameClock.restart();
 
             }
-            cout << "Working" << endl;
         }
         break;
     case 1:
         cout << "TEST_CASE description: Testing enemy attack / chase logic - the enemy will have a target position at a dummy player. Once the enemy gets close enough to the player, the enemy will start going quickly towards the dummy player, and once in a suitable range, will start flashing blue to indicate attacking." << endl;
-        testEnemy.getTargetPos(); // = dummyPlayerPos; //testWall.getPos();
-        testEnemy.checkForcedPos(); // only call the check once to prevent lag from not-needed constant checks
+        gameManager->getEnemies()[0]->getTargetPos() = dummyPlayer.getPos(); // IMPORTANT: Setting the target position to the wall
+        lvl->getTiles().clear();
+        gameManager->setMousePos({ dummyPlayer.getModel().getPosition().x + 3, dummyPlayer.getModel().getPosition().y });
+
         while (window.isOpen())
         {
             while (const std::optional event = window.pollEvent())
@@ -174,16 +175,40 @@ void runDEBUG()
             if (frameClock.getElapsedTime().asMilliseconds() > 15) // frame-rate limiter
             {
                 window.clear();
-                testEnemy.update();
-
+                gameManager->getEnemies()[0]->update();
+                window.draw(dummyPlayer.getModel());
+                window.draw(gameManager->getEnemies()[0]->getModel());
+                window.draw(gameManager->getEnemies()[0]->getPatrolRay());
                 window.display();
                 frameClock.restart();
-
             }
-            cout << "Working" << endl;
         }
         break;
     case 2:
+        
+        cout << "TEST_CASE description: The enemy will constantly move into a wall, colliding and bouncing back. In this case, ending up at the top left of the wall is a predicted behavior because of the nature of the checkCollision() function." << endl;
+        while (window.isOpen())
+        {
+            while (const std::optional event = window.pollEvent())
+            {
+                if (event->is<sf::Event::Closed>())
+                    window.close();
+            }
+            if (frameClock.getElapsedTime().asMilliseconds() > 15) // frame-rate limiter
+            {
+                window.clear();
+                gameManager->getEnemies()[0]->getModel().move({ -1,0 });
+                gameManager->getEnemies()[0]->checkCollision();
+
+                window.draw(lvl->getTiles()[0]->getModel());
+                window.draw(gameManager->getEnemies()[0]->getModel());
+                window.draw(gameManager->getEnemies()[0]->getPatrolRay());
+
+                window.display();
+
+                frameClock.restart();
+            }
+        }
         break;
     case 3:
         break;

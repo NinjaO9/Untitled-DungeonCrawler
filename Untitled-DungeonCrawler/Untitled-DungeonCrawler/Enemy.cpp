@@ -102,7 +102,7 @@ void Enemy::runPatrol()
 {
 	// patrol/walk animation
 	float distance = checkDistance(this->targetPos);
-	if (distance == 0) { getNewTargetPos(); idleTimer += defaultTime; return; } // prevent divide by 0 error; give the enemy some more time to rest before patrolling to a new spot
+	if (distance <= getSpeed()) { getNewTargetPos(); idleTimer += defaultTime; return; } // prevent divide by 0 error; give the enemy some more time to rest before patrolling to a new spot
 	sf::Vector2f direction(((targetPos.x - getPos().x)/ distance), ((targetPos.y - getPos().y)/ distance)); // Normalized(?) vector to tell the direction of where the enemy needs to go
 
 	this->getModel().move(direction * getSpeed()); // moving the enemy however much in a certain direction
@@ -277,7 +277,7 @@ void Enemy::handleCollision()
 			else if (trueIntersection.x > 0) { xSign = 1; }
 			else { xSign = -1; }
 			if (trueIntersection.y == this->getModel().getPosition().y) { ySign = 0; }
-			else if (trueIntersection.x > 0) { ySign = -1; }
+			else if (trueIntersection.y > 0) { ySign = -1; }
 			else { ySign = 1; }
 			this->getModel().move({intersection.value().size.x * xSign + (2 * xSign), -intersection.value().size.y * ySign + (2 * ySign)});
 			break;

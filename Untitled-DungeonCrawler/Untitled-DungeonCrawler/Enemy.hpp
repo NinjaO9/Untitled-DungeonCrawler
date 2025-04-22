@@ -51,6 +51,9 @@ public:
 	// should also only be used for test functions (forcing the enemy to check valid positions)
 	void checkForcedPos();
 
+	// shouldn't be needed to be called except for test-cases
+	void checkCollision() { handleCollision(); }
+
 private:
 
 	State state, prevState;

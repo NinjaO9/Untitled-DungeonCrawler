@@ -28,6 +28,8 @@ public:
 
 	sf::Vector2f& getMousePos(); // temp
 
+	void setMousePos(sf::Vector2f pos);
+
 	sf::View& getView() { return windowView; }
 
 	sf::Clock& getClock() { return gameClock; }
