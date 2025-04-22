@@ -156,10 +156,12 @@
     <ClInclude Include="LevelManager.hpp" />
     <ClInclude Include="Obstacle.hpp" />
     <ClInclude Include="Player.hpp" />
+    <ClInclude Include="Stats.hpp" />
     <ClInclude Include="TextureManager.hpp" />
     <ClInclude Include="Weapon.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="JohnImpact.jpg" />
     <Image Include="Temp.png" />
   </ItemGroup>
   <ItemGroup>

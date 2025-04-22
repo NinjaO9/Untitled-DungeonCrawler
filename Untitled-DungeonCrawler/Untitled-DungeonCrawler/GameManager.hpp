@@ -3,6 +3,7 @@
 #include <vector>
 #include "Enemy.hpp"
 #include "Obstacle.hpp"
+#include "Player.hpp"
 
 using std::vector;
 
@@ -24,7 +25,7 @@ public:
 
 	vector<Enemy*>& getEnemies();
 
-	//Player*& getPlayer();  // Get the player instance
+	Player*& getPlayer();  // Get the player instance
 
 	sf::Vector2f& getMousePos(); // temp
 
@@ -53,7 +54,7 @@ private:
 	sf::RenderWindow* activeWindow;
 	sf::View windowView;
 	sf::Clock gameClock;
-	// Player* playerInstance; // when we finally get the player class made, the game manager will hold a pointer to the player so that it can be accessed by anything
+	Player* playerInstance; // when we finally get the player class made, the game manager will hold a pointer to the player so that it can be accessed by anything
 	sf::Vector2f mousePos; // temporary variable to test enemy functionality with chasing
 	vector<Enemy*> enemyArr; // vector of enemies, can be used to iterate (specifically) through each enemy
 
