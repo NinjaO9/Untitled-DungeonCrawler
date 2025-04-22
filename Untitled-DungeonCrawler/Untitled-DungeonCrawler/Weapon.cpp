@@ -45,7 +45,7 @@ void Weapon::BaseWeaponATK(const int& WDamage)
 	sf::FloatRect temp = test.getModel().getLocalBounds();
 	test.getModel().setOrigin(sf::Vector2f(temp.size.x / 2, temp.size.y / 2));
 	test.getModel().setScale(sf::Vector2f(0.01, 0.01));
-	test.getModel().setPosition((sf::Vector2f)sf::Mouse::getPosition(*gm->getWindow()));
+	test.getModel().setPosition(gm->getMousePos());
 
 	gm->getWindow()->draw(test.getModel());  
 
@@ -57,6 +57,7 @@ void Weapon::BaseWeaponATK(const int& WDamage)
 		if (test.getModel().getGlobalBounds().findIntersection(enemy->getModel().getGlobalBounds()))//placeholder, but overall intersection
 		{
 			setdmg(WDamage); 
+			enemy->handleDamage(getdmg());
 			cout << "hit! for: " << getdmg() << endl;
 		}
 		else
