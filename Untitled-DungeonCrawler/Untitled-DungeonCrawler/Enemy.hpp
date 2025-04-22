@@ -25,7 +25,7 @@ public:
 		this->idleTimer = idleTimer * 1000;
 		this->defaultTime = idleTimer * 1000;
 		this->atTarget = false;
-		this->targetPos = sf::Vector2f(101, 101);
+		this->targetPos = sf::Vector2f(101, 101); //erm...
 		updateDirection();
 		this->fov = 60;
 		this->setModel(new sf::Sprite(TextureManager::getInstance()->getTexture("Temp"))); // temp image (obv)

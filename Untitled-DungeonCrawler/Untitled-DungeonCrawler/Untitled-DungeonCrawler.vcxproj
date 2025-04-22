@@ -154,6 +154,7 @@
     <ClInclude Include="Interactable.hpp" />
     <ClInclude Include="Obstacle.hpp" />
     <ClInclude Include="Player.hpp" />
+    <ClInclude Include="Stats.hpp" />
     <ClInclude Include="TextureManager.hpp" />
     <ClInclude Include="Weapon.hpp" />
   </ItemGroup>

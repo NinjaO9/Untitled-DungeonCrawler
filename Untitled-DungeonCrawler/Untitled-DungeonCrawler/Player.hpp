@@ -13,9 +13,8 @@ public:
 		this->setModel(new sf::Sprite(TextureManager::getInstance()->getTexture("John")));
 		this->getModel().setScale(sf::Vector2f(0.032, 0.032));
 		this->getModel().setPosition(pos);
-		this->setModel(new sf::Sprite(TextureManager::getInstance()->getTexture("John")));
-		this->getModel().setScale(sf::Vector2f(0.032, 0.032));
-		this->getModel().setPosition(pos);
+		sf::FloatRect temp = this->getModel().getLocalBounds();
+		this->getModel().setOrigin(sf::Vector2f(temp.size.x / 2, temp.size.y / 2));
 	}
 
 	void update() override;

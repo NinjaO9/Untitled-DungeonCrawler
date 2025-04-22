@@ -52,21 +52,14 @@ public:
 	}
 
 	virtual void levelUp();
+	float getSpeed() const{return speed;}
 
 	virtual ~Entity();
 
 private:
 
 	int maxHp;
-	int curHp;
-	float speed;
-	int attack;
-	int defense;
-	int level;
-	
-	//growths
-	int growths[5]; //this is an array of values between 0-100, in order of HP,SPD,ATK,and DEF
-
+	//Stats statline;
 	sf::Sprite* model;
 
 };
