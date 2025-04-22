@@ -7,18 +7,21 @@ Entity::~Entity()
 
 void Entity::levelUp() {
 	setLevel(getLevel() + 1);
-	for (int i = 0;i < 5; i++) {
-		if (rand() % 100 <= getGrowths(0)) {
-			setMaxHp(getMaxHp() + 1);
+	for (int i = 0;i < 3; i++) {
+		if (rand() % 100 <= statLine.getGrowth(0)) {
+			statLine.setMaxHp(statLine.getMaxHp() + 1);
 		}
-		if (rand() % 100 <= getGrowths(1)) {
-			setSpeed(getSpeed() + 0.1);
+		if (rand() % 100 <= statLine.getGrowth(1)) {
+			statLine.setSpeed(statLine.getSpeed() + 0.1);
 		}
-		if (rand() % 100 <= getGrowths(2)) {
-			setAttack(getAttack() + 1);
+		if (rand() % 100 <= statLine.getGrowth(2)) {
+			statLine.setAttack(statLine.getAttack() + 1);
 		}
-		if (rand() % 100 <= getGrowths(3)) {
-			setDefense(getDefense() + 1);
+		if (rand() % 100 <= statLine.getGrowth(3)) {
+			statLine.setDefense(statLine.getDefense() + 1);
+		}
+		if (rand() % 100 <= statLine.getGrowth(4)) {
+			statLine.setMaxSp(statLine.getMaxSp() + 1);
 		}
 	}
 }

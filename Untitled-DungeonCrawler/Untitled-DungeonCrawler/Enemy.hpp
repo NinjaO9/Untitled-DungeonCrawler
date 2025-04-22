@@ -13,8 +13,8 @@ class Enemy : public Entity
 {
 public:
 
-	Enemy(int hp = 10, float spd = 0.7, int atk = 1, int def = 0, int grow[5] = nullptr, int lvl=1, sf::Vector2f pos = sf::Vector2f(0, 0), float viewDistance /* In pixels */ = 200, float attackDistance/* In pixels */ = 5, float idleTimer/* Time in seconds*/ = 2)
-		: Entity(hp,spd,atk,def,grow,lvl,pos,"Enemy")
+	Enemy(Stats statline=defaultStatLine, Growths grow=defaultGrowths, int lvl = 1, float viewDistance /* In pixels */ = 200, float attackDistance/* In pixels */ = 5, float idleTimer/* Time in seconds*/ = 2, sf::Vector2f pos = sf::Vector2f(0, 0))
+		: Entity(statline,grow,lvl,pos,"Enemy")
 	{
 		
 		this->PlayerRay = sf::VertexArray(sf::PrimitiveType::LineStrip, 2);
