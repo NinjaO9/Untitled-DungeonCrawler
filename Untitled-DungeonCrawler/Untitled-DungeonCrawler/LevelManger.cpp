@@ -16,6 +16,21 @@ void LevelManager::loadFromFile(std::fstream& file)
 		generateLayer(line);
 		placementSpot += sf::Vector2i(-length * size, 32); // go back to the left, and one row down
 	}
+	placementSpot = sf::Vector2i(0, 0);
+}
+
+void LevelManager::unloadLevel()
+{
+	for (Obstacle* wall : getTiles())
+	{
+		delete wall;
+	}
+	levelTiles.clear();
+	for (Enemy* enemy : gm->getEnemies())
+	{
+		delete enemy;
+	}
+	gm->getEnemies().clear();
 }
 
 void LevelManager::initGameManager()

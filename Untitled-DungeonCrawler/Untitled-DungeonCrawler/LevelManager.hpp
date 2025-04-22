@@ -31,6 +31,8 @@ public:
 
 	void loadFromFile(std::fstream& file);
 
+	void unloadLevel();
+
 	void initGameManager();
 
 private:

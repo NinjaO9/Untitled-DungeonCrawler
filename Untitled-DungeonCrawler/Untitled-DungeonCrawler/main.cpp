@@ -31,6 +31,7 @@ int main()
 
     file.open("Level1.txt");
     lvl->loadFromFile(file);
+    file.close();
     gameManager->getClock().start();
     frameClock.start();
 
@@ -92,6 +93,14 @@ int main()
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::S))
         {
             gameManager->getView().move({ 0,0.001 });
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::B))
+        {
+            gameManager->getLevel()->unloadLevel();
+            file.open("Level2.txt");
+            window.setView(window.getDefaultView());
+            gameManager->getLevel()->loadFromFile(file);
+            file.close();
         }
 
     }
