@@ -34,6 +34,11 @@ void Enemy::update()
 	state = updateState();
 }
 
+void Enemy::levelUp()
+{
+	
+}
+
 sf::VertexArray Enemy::getPatrolRay() const
 {
 	return PatrolRay;

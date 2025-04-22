@@ -5,41 +5,43 @@
 class Player : public Entity
 {
 public:
-	Player(int maxHp = 100, int curHp = 100, int maxSP = 50, sf::Vector2f pos = sf::Vector2f(0, 0))
-		: Entity(curHp, pos, "Player")
+	Player(int hp = 25, float spd = 0.8, int atk = 1, int def = 0, int grow[5] = nullptr, int lvl=1, sf::Vector2f pos = sf::Vector2f(0, 0), int sp = 50)
+		: Entity(hp, spd, atk, def, grow, lvl, pos, "Player")
 	{
-		this->setModel(new sf::Sprite(TextureManager::getInstance()->getTexture("Temp")));//copied these over from enemy cause they're still relevant
+		this->setMaxSp(sp);
+		setExpToNext(5 + (getLevel() * 5) * (1 + (getLevel() - 1) / 10));
+		this->setModel(new sf::Sprite(TextureManager::getInstance()->getTexture("John")));
+		this->getModel().setScale(sf::Vector2f(0.032, 0.032));
+		this->getModel().setPosition(pos);
+		this->setModel(new sf::Sprite(TextureManager::getInstance()->getTexture("John")));
 		this->getModel().setScale(sf::Vector2f(0.032, 0.032));
 		this->getModel().setPosition(pos);
 	}
 
 	void update() override;
 
-	virtual sf::Vector2f& getPos() override;//well see if these need to be overridden not entirely sure
+	sf::Vector2f& getPos() override;
 
-	virtual void setPos(sf::Vector2f const newPos) override;
+	void setPos(sf::Vector2f const newPos) override;
 
-
-	void playermovement();
+	void levelUp()override;
 	void attack(); //should call weapon's attack, this should mostly just be taking in player input
+	void checklvlup();
 
-	int getMaxSP() const { return this->maxSP; } //get max stamina for player
-	int getCurSP() const { return this->curSP; } //get current stamina for player
+	int getMaxSp() const { return this->maxSp; } 
+	int getCurSp() const { return this->curSp; } 
 	int getExp() const { return this->exp; }
 	int getExpToLvl() const { return this->expToNext; }
-	int getLvl() const { return this->level; }
 
-	int setMaxSP(int newmaxsp) { this->maxSP = newmaxsp; } //get max stamina for player
-	int setCurSP(int newcursp) { this->curSP = newcursp; } //get current stamina for player
+	int setMaxSp(int newmaxsp) { curSp += newmaxsp - maxSp; this->maxSp = newmaxsp; } //set max stamina for player, modifies current by the change
+	int setCurSp(int newcursp) { this->curSp = newcursp; }
 	int setExp(int newexp) { this->exp = newexp; }
 	int setExpToNext(int newexptolvl) { this->expToNext = newexptolvl; }
-	int setLvl(int newlvl) { this->level = newlvl; }
 
 private:
-	int maxSP;
-	int curSP;
+	int maxSp;
+	int curSp;
 	int exp;
 	int expToNext;
-	int level;
 	Weapon* equippedWeapon;
-}
+};

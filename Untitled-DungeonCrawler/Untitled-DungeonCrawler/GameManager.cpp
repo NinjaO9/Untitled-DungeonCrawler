@@ -39,11 +39,8 @@ void GameManager::destroyManager()
     instance = nullptr;
 }
 
-/* Remove the comment blocks when player finally gets added
 
-Player*& GameManger::getPlayer()
+Player*& GameManager::getPlayer()
 {
     return playerInstance;
 }
-
-*/

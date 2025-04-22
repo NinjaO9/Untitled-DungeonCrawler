@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cmath>
 #include <random>
+#include <algorithm>
 #include <SFML/Graphics.hpp>
 using std::string;
 using std::cout;

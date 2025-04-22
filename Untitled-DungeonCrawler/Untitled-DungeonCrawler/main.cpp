@@ -3,9 +3,10 @@
 #include <SFML/Graphics.hpp>
 #include "GameManager.hpp"
 #include "TextureManager.hpp"
-
+#define ENTITY_COUNT 20
 int main()
 {
+    srand(time(0));
     sf::RenderWindow window(sf::VideoMode({ 1000, 1000 }), "SFML works!");
     sf::CircleShape shape(100.0f);
     shape.setFillColor(sf::Color::Green);
@@ -16,9 +17,11 @@ int main()
     GameManager* gameManager = GameManager::getInstance();
     gameManager->setWindow(window);
     texManager->loadTextures("Textures.txt");
-    for (int i = 0; i < 20; i++) // initialize given number of entities 
+    int growthtable[ENTITY_COUNT][5] = { {0} }; //growth table initialized, we'd need to set specific growths per entity initialized, so this table will depend on our final level genration
+    //gameManager->getPlayer()...       
+    for (int i = 0; i < ENTITY_COUNT-1; i++) // initialize given number of entities 
     {
-        gameManager->getEnemies().push_back(new Enemy(10, 200, 5, 10, sf::Vector2f(100,100))); // create a new enemy with default values
+        gameManager->getEnemies().push_back(new Enemy(10/*hp*/,0.7/*spd*/,1/*atk*/,0/*def*/,growthtable[i]/*growths*/,1/*lvl*/, sf::Vector2f(100, 100)/*position*/, 200/*viewdistance*/, 5/*attackrange*/, 2/*idletime*/)); // create a new enemy with default values
     }
 
     Obstacle* testObs = new Obstacle({ 200,200 });

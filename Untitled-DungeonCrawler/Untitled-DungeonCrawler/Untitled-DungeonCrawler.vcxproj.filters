@@ -85,6 +85,9 @@
     <Image Include="Temp.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="JohnImpact.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Textures.txt">

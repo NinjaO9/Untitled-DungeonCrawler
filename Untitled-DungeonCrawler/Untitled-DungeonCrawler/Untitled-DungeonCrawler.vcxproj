@@ -158,6 +158,7 @@
     <ClInclude Include="Weapon.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="JohnImpact.jpg" />
     <Image Include="Temp.png" />
   </ItemGroup>
   <ItemGroup>
