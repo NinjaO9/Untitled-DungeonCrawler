@@ -25,7 +25,7 @@ void Enemy::update()
 		break;
 	case ATTACK:
 		runAttack();
-		//Scout << "ATTACK" << endl;
+		//cout << "ATTACK" << endl;
 		break;
 	default:
 		break;
