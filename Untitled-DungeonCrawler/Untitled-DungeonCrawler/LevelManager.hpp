@@ -26,18 +26,23 @@ public:
 
 	std::vector<Obstacle*>& getTiles()
 	{
-		return levelTiles;
+		return wallTiles;
 	}
 
 	void loadFromFile(std::fstream& file);
+
+	Obstacle*& getExitTile();
 
 	void unloadLevel();
 
 	void initGameManager();
 
+	void setPlayerPosition();
+
 private:
 	static GameManager* gm;
-	std::vector<Obstacle*> levelTiles;
+	std::vector<Obstacle*> wallTiles;
+	Obstacle* exitTile;
 	int const size = 32; // keep a constant 32 sprite size (this would be moved to another class)
 
 	/* These should have their own class or struct (or be defined in a higher class */
@@ -54,6 +59,8 @@ private:
 	void placeWall();
 
 	void placeEnemy();
+
+	void placeExit();
 
 	void placeBoss();
 

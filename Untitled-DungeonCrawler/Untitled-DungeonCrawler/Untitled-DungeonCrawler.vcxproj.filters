@@ -86,9 +86,6 @@
     <ClInclude Include="LevelManager.hpp">
       <Filter>Header Files\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="Utility.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Temp.png">
@@ -100,6 +97,9 @@
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="Level1.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Level2.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
