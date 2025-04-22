@@ -16,11 +16,41 @@ void LevelManager::loadFromFile(std::fstream& file)
 		generateLayer(line);
 		placementSpot += sf::Vector2i(-length * size, 32); // go back to the left, and one row down
 	}
+	placementSpot = sf::Vector2i(0, 0);
+	if (exitTile != nullptr) { wallTiles.push_back(exitTile); } // forcing the exitTile to be at the end of the vector for easy calling (we should just use the pointer reference though)
+	else { cout << "WARNING: This level has no exit tile! (*)" << endl; }
+	// if we dont have an exit tile, then.... idk
+}
+
+Obstacle*& LevelManager::getExitTile()
+{
+	return exitTile;
+}
+
+void LevelManager::unloadLevel()
+{
+	for (Obstacle* wall : getTiles())
+	{
+		delete wall;
+	}
+	wallTiles.clear();
+	exitTile = nullptr; // no need to delete exitTile because it was already deleted within the for range loop
+	for (Enemy* enemy : gm->getEnemies())
+	{
+		delete enemy;
+	}
+	gm->getEnemies().clear();
 }
 
 void LevelManager::initGameManager()
 {
 	gm = GameManager::getInstance();
+}
+
+void LevelManager::setPlayerPosition()
+{
+	gm->getView().setCenter((sf::Vector2f)placementSpot);
+	// idea is to just move the player and place it at the indicated spot
 }
 
 void LevelManager::generateLayer(std::string line)
@@ -47,7 +77,10 @@ void LevelManager::generateLayer(std::string line)
 			break;
 		case 83: // player spawn | denoted by: S
 			//std::cout << "|SPAWN|";
-			//placeEmpty();
+			setPlayerPosition();
+			break;
+		case 42: // Exit level / enter next level | denoted by: *
+			placeExit();
 			break;
 		default:
 			break;
@@ -60,17 +93,23 @@ void LevelManager::generateLayer(std::string line)
 
 void LevelManager::placeEmpty()
 {
-	levelTiles.push_back(new Obstacle((sf::Vector2f)placementSpot));
+	//wallTiles.push_back(new Obstacle((sf::Vector2f)placementSpot));
 
 }
 
 void LevelManager::placeWall()
 {
-	levelTiles.push_back(new Obstacle((sf::Vector2f)placementSpot));
+	wallTiles.push_back(new Obstacle((sf::Vector2f)placementSpot));
 
 }
 
 void LevelManager::placeEnemy()
 {
 	gm->getEnemies().push_back(new Enemy(10, 200.0f, 5.0f, 2.0f, (sf::Vector2f)placementSpot));
+}
+
+void LevelManager::placeExit()
+{
+	exitTile = new Obstacle((sf::Vector2f)placementSpot);
+	exitTile->getModel().setColor(sf::Color::Red); // temp color to help differentiate an exit tile from other tiles
 }

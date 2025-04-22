@@ -1,6 +1,9 @@
 #pragma once
+#include <algorithm>
 #include "GameObject.hpp"
 #include "TextureManager.hpp"
+
+class GameManager;
 
 class Entity : public GameObject
 {
