@@ -41,6 +41,7 @@ void GameManager::initLevelManager()
     lvl = new LevelManager();
 }
 
+// testing for possible optimization
 vector<Obstacle*> GameManager::getNearbyObstacles(sf::Vector2f pos)
 {
     vector<Obstacle*> nearby;
@@ -49,14 +50,16 @@ vector<Obstacle*> GameManager::getNearbyObstacles(sf::Vector2f pos)
     for (Obstacle* wall : lvl->getTiles())
     {
         //cout << "Pre-conversion " << wall->getPos().x << " , " << wall->getPos().y;
-        sf::Vector2f realVector = (sf::Vector2f)activeWindow->mapCoordsToPixel(wall->getPos() , activeWindow->getView());
+        //sf::Vector2f realVector = (sf::Vector2f)activeWindow->mapCoordsToPixel(wall->getPos() , activeWindow->getView());
         //cout << "Mid-conversion " << realVector.x << " , " << realVector.y << endl;
         //realVector = activeWindow->mapPixelToCoords((sf::Vector2i)realVector, activeWindow->getView());
         //cout << "Post-conversion " << realVector.x << " , " << realVector.y << endl;
-        if (abs(realVector.length() - pos.length()) > 100) { continue; } // skip if not on screen
+        if (abs(abs(wall->getPos().length()) - abs(pos.length())) > 200) { continue; } // skip if not on screen
+        else { wall->getModel().setColor(sf::Color::Red); }
+        //else { cout << "{ " << realVector.x << "," << realVector.y << " } Diff: " << realVector.length() - pos.length() << " funcDiff: " << sqrt((realVector.x - pos.x) * (realVector.x - pos.x) + (realVector.y - pos.y) * (realVector.y - pos.y)) << endl; wall->getModel().setColor(sf::Color::Red); }
         nearby.push_back(wall);
     }
-
+    cout << nearby.size() << endl;
     return nearby;
 }
 
