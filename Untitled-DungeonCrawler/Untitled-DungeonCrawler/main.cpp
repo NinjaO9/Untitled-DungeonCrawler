@@ -12,36 +12,32 @@ int main()
 {
     srand(time(NULL));
     sf::RenderWindow window(sf::VideoMode({ 1000, 1000 }), "SFML works!");
-    sf::CircleShape shape(100.0f);
-    shape.setFillColor(sf::Color::Green);
 
     bool isPaused = false;
+    int frameCount = 0, frameRate = 0;
 
     TextureManager* texManager = TextureManager::getInstance();
     GameManager* gameManager = GameManager::getInstance();
     LevelManager* lvl = gameManager->getLevel();
     sf::Clock frameClock;
+    fstream file;
 
     gameManager->setWindow(window);
     texManager->loadTextures("Textures.txt");
 
-    fstream file;
 
-    int frameCount = 0, frameRate = 0;
 
     gameManager->getView().zoom(0.5);
 
     file.open("Level1.txt");
     lvl->loadFromFile(file);
-    //Obstacle* testObs = new Obstacle({ 200,200 });
-    //gameManager->getObstacles().push_back(testObs);
     gameManager->getClock().start();
     frameClock.start();
+
     while (window.isOpen())
     {
         if (gameManager->getClock().getElapsedTime().asSeconds() > 1)
         {
-            //cout << "frame" << endl;
             frameRate = frameCount;
             cout << frameRate << endl;
             gameManager->getClock().reset();
@@ -50,7 +46,6 @@ int main()
         }
 
         gameManager->updateMouse();
-        //std::cout << gameManager->getMousePos().x << " , " << gameManager->getMousePos().y << std::endl;
         while (const std::optional event = window.pollEvent())
         {
             if (event->is<sf::Event::Closed>())
@@ -59,7 +54,6 @@ int main()
 
         if (frameClock.getElapsedTime().asMilliseconds() > 15) // Tested values: 15 - 60 FPS; 27 - ~33 FPS
         {
-            //cout << "frame" << endl;
             window.setView(gameManager->getView());
             window.clear();
             for (Enemy* enemy : gameManager->getEnemies()) // feel free to delete if you need to do something else with drawing and the enemies get annoying

@@ -58,6 +58,7 @@ State Enemy::updateState()
 	}
 	PlayerRay[1].color = sf::Color::Red; // visually show that the player is NOT seen by the enemy
 	if (prevState == CHASE) { getNewTargetPos(); } // make the enemy get a new position if they lose sight of the player
+	if (prevState == ATTACK) { this->getModel().setColor(sf::Color::White); }
 	if (idleTimer <= 0)
 	{
 		return PATROL; // Patrol the area where the enemy is if there is time to patrol
@@ -115,8 +116,6 @@ void Enemy::runPatrol()
 void Enemy::runChase()
 {
 	// chase animation
-	// chase code
-
 	targetPos = gm->getMousePos(); // change code eventually
 	runPatrol();
 }
@@ -124,7 +123,20 @@ void Enemy::runChase()
 void Enemy::runAttack()
 {
 	// attack animation
-	// attack code
+	if (attackCD.getElapsedTime().asSeconds() < 0.1) // basic layout for attacking
+	{
+		this->getModel().setColor(sf::Color::White);
+	}
+	else if (attackCD.getElapsedTime().asSeconds() < 0.5)
+	{
+		this->getModel().setColor(sf::Color::Blue);
+	}
+	else
+	{
+		this->attackCD.restart();
+	}
+
+
 }
 
 void Enemy::getNewTargetPos() // Super Janky code, but a proof of concept
@@ -202,7 +214,6 @@ void Enemy::updateDirection()
 		directon = sf::Vector2f(distanceVector.normalized().x, distanceVector.normalized().y); // converting difference to the unit vector coords
 	}
 
-//	std::cout << "DIRECTION X: " << directon.x << " DIRECTION Y: " << directon.y << std::endl;
 }
 
 bool Enemy::isTargetPosValid(sf::Vector2f target)

@@ -55,6 +55,7 @@ private:
 	sf::VertexArray PatrolRay; // ray to point from this enemy to the target position
 
 	sf::Clock playerPosTimer; // reduce the amount of times the enemy is tracing the player's movement for optimization purposes
+	sf::Clock attackCD; // enemy no spam attack, thats bad >:(
 
 	int defaultTime; // default time for the idleTimer to be at
 	int fov;
