@@ -21,8 +21,8 @@ public:
 		this->state = IDLE;
 		this->viewDistance = viewDistance;
 		this->attackDistance = attackDistance;
-		this->idleTimer = idleTimer * 1000;
-		this->defaultTime = idleTimer * 1000;
+		this->idleTimer = idleTimer * 10;
+		this->defaultTime = idleTimer * 10;
 		this->atTarget = false;
 		this->targetPos = pos;
 		this->fov = 60;
@@ -38,6 +38,7 @@ public:
 
 		this->getModel().setScale(sf::Vector2f(scaleX, scaleY)); // Saul Goodman (Temp image) is too massive (like the low-taper fade meme) so I needed to scale it down
 		this->getModel().setPosition(pos);
+		playerPosTimer.start();
 	}
 
 	void update() override;
@@ -53,6 +54,8 @@ private:
 	sf::VertexArray PlayerRay; // ray to point from this enemy to the player, used for collision detection
 	sf::VertexArray PatrolRay; // ray to point from this enemy to the target position
 
+	sf::Clock playerPosTimer; // reduce the amount of times the enemy is tracing the player's movement for optimization purposes
+
 	int defaultTime; // default time for the idleTimer to be at
 	int fov;
 
@@ -61,6 +64,7 @@ private:
 	float idleTimer; // possible value to use when allowing the enemy in a idle state
 
 	bool atTarget;
+	bool playerSeen;
 
 	State updateState();
 

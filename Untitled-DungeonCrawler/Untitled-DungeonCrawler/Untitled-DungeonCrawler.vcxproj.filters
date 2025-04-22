@@ -48,11 +48,11 @@
     <ClCompile Include="TextureManager.cpp">
       <Filter>Source Files\Managers</Filter>
     </ClCompile>
-        <ClCompile Include="Player.cpp">
+    <ClCompile Include="Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-       <ClCompile Include="LevelManger.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="LevelManger.cpp">
+      <Filter>Source Files\Managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +79,15 @@
     </ClInclude>
     <ClInclude Include="TextureManager.hpp">
       <Filter>Header Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelManager.hpp">
+      <Filter>Header Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -11,7 +11,7 @@ public:
 	{
 		this->maxHp = maxHp;
 		this->hp = maxHp;
-		this->speed = 0.09;
+		this->speed = 2; //0.09;
 		this->model = nullptr; // get rid of warnings
 	}
 
