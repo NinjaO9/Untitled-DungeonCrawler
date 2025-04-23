@@ -8,7 +8,7 @@
 #include <fstream>
 
 #define RUN_DEBUG false // Replace 'false' with 'true' to run debug mode, running the test case below:
-#define TEST_CASE 4 // from a range of (0-4) it will run a specific test case. Keep in mind that the test case will do what it is meant to do, but it won't end the program. The user must close the window to end the test
+#define TEST_CASE 0 // from a range of (0-4) it will run a specific test case. Keep in mind that the test case will do what it is meant to do, but it won't end the program. The user must close the window to end the test
 #define ENTITY_COUNT 20 // Note from David -> Level gen takes care of enemy spawning, so we may or may not be able to use anything that rewuires an 'entity coutn' variable. let me know what youre trying to do and we can try to figure it out with the current level gen program
 
 using std::fstream;
@@ -124,7 +124,7 @@ void runGame()
                 else if (realY < 0 || realY > window.getSize().y) { continue; }
                 enemy->update();
                 window.draw(enemy->getModel());
-                //window.draw(enemy->getPatrolRay()); // NOTE2: PRINTING TO THE CONSOLE CAN ALSO BE A PREFORMANCE KILLER!
+                window.draw(enemy->getPatrolRay()); // Keeping patrol ray because we do not have directional sprites, and we need some way to indicate the enemy's directional view
                 //window.draw(enemy->getPlayerRay()); // NOTE: DRAWING THE RAYS IS A PREFORMANCE KILLER! COMMENT THESE OUT BEFORE JUDGING GAME PREFORMANCE
 
             }
