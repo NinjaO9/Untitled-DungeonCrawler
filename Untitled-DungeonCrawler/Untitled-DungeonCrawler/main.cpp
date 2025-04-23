@@ -7,7 +7,7 @@
 #include <fstream>
 
 #define RUN_DEBUG true
-#define TEST_CASE 3
+#define TEST_CASE 4
 
 using std::fstream;
 
@@ -20,7 +20,7 @@ int main()
 
     if (RUN_DEBUG)
     {
-        cout << "NOTICE: You are running DEBUG/TEST_CASE mode! - Test case being played: " << TEST_CASE << endl;
+        cout << "NOTICE: You are running DEBUG/TEST_CASE mode! - Test cases do not end on their own, however they are meant to behave in an expected way for the duration of the test as it is described in the text that follows -  Test case being played: " << TEST_CASE << endl;
         runDEBUG();
     }
     else
@@ -132,7 +132,7 @@ void runDEBUG()
     Obstacle dummyPlayer({ 50,100 });
     sf::VertexArray PlayerRay = sf::VertexArray(sf::PrimitiveType::LineStrip, 2);
     dummyPlayer.getModel().setColor(sf::Color::Red);
-    gameManager->getEnemies().push_back(new Enemy(10, 200, 32, 2, {300,100}));
+    gameManager->getEnemies().push_back(new Enemy(10, 200, 32, 0, {300,100}));
 
     switch (TEST_CASE)
     {
@@ -214,16 +214,8 @@ void runDEBUG()
         break;
     case 3:
         cout << "TEST_CASE description: Testing enemy LOS logic (line of sight) - The enemy will display a ray that connects to the player, however it is blocked by a wall. Thus, it will display red at the player to signify that the player cannot be seen. The wall will be removed and then the ray will turn green to simulate the enemy seeing the player " << endl;
-        //gameManager->getEnemies()[0]->getModel().move({ -150,10 });
-        //gameManager->getEnemies()[0]->setPos(gameManager->getEnemies()[0]->getModel().getPosition());
         gameManager->getEnemies()[0]->getTargetPos() = dummyPlayer.getModel().getPosition();
         gameManager->setMousePos({ dummyPlayer.getModel().getPosition().x + 3, dummyPlayer.getModel().getPosition().y });
-
-        /*PlayerRay[0].position = gameManager->getEnemies()[0]->getModel().getPosition();
-        PlayerRay[1].position = dummyPlayer.getModel().getPosition();
-        PlayerRay[0].color = sf::Color::White;*/
-
-
         while (window.isOpen())
         {
             while (const std::optional event = window.pollEvent())
@@ -235,16 +227,8 @@ void runDEBUG()
             {
                 frameCount++;
                 window.clear();
+                gameManager->getEnemies()[0]->getModel().setPosition({ 150,110 }); // for the sake of this test, the enemy is staying in the same place
                 gameManager->getEnemies()[0]->update();
-                gameManager->getEnemies()[0]->getModel().setPosition({ 150,110 });
-                if (gameManager->getEnemies()[0]->debugSeesPlayer())
-                {
-                    PlayerRay[1].color = sf::Color::Green;
-                }
-                else
-                {
-                    PlayerRay[1].color = sf::Color::Red;
-                }
                 if (frameCount == 60)
                 {
                     lvl->getTiles().clear();
@@ -265,7 +249,38 @@ void runDEBUG()
         }
         break;
     case 4:
+        cout << "TEST_CASE description: Testing enemy stopping-chase handling - The enemy will be chasing a dummy player, however the player will outspeed the enemy, which should cause the enemy to lose interest in the player, and inturn find a new place to go. NOTE: Red indicates the enemy doesnt 'see' the player, Green indicates that the enemy can and is pursuing the player" << endl;
+        gameManager->getEnemies()[0]->getModel().setPosition({ 150,110 });
+        gameManager->getEnemies()[0]->setPos(gameManager->getEnemies()[0]->getModel().getPosition());
+        gameManager->getEnemies()[0]->getTargetPos() = dummyPlayer.getModel().getPosition();
+        gameManager->setMousePos({ dummyPlayer.getModel().getPosition().x + 3, dummyPlayer.getModel().getPosition().y });
+        lvl->getTiles().clear(); // no wall to prevent enemy from seeing dummy player
 
+        while (window.isOpen())
+        {
+            while (const std::optional event = window.pollEvent())
+            {
+                if (event->is<sf::Event::Closed>())
+                    window.close();
+            }
+            if (frameClock.getElapsedTime().asMilliseconds() > 15) // frame-rate limiter
+            {
+                frameCount++;
+                window.clear();
+                gameManager->getEnemies()[0]->update();
+                dummyPlayer.getModel().move({ 0,4 }); // go down, the enemy should follow
+                gameManager->setMousePos({ dummyPlayer.getModel().getPosition().x + 3, dummyPlayer.getModel().getPosition().y });
+ 
+                window.draw(dummyPlayer.getModel());
+                window.draw(gameManager->getEnemies()[0]->getModel());
+                window.draw(gameManager->getEnemies()[0]->getPatrolRay());
+                window.draw(gameManager->getEnemies()[0]->getPlayerRay());
+
+                window.display();
+
+                frameClock.restart();
+            }
+        }
         break;
     default:
         cout << "Invalid TEST_CASE number!: " << TEST_CASE << " > max(4) - Edit line 10 within main.cpp and re-run to try again." << endl;

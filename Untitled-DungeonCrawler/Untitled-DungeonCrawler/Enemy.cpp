@@ -61,7 +61,9 @@ State Enemy::updateState()
 		return CHASE; // If the enemy can see the player, but is too far from the player, chase the player down
 	}
 	PlayerRay[1].color = sf::Color::Red; // visually show that the player is NOT seen by the enemy
-	if (prevState == CHASE) { getNewTargetPos(); } // make the enemy get a new position if they lose sight of the player
+	if (prevState == CHASE) { 
+		getNewTargetPos(); 
+	} // make the enemy get a new position if they lose sight of the player
 	if (prevState == ATTACK) { this->getModel().setColor(sf::Color::White); }
 	if (idleTimer <= 0)
 	{
@@ -231,7 +233,7 @@ bool Enemy::isTargetPosValid(sf::Vector2f target)
 
 	//vector<Obstacle*> nearbyObsticles = gm->getNearbyObstacles(tempPos);
 
-	for (int i = 1; checkDistance(tempPos, target) > 1; i++) // possibly change i++ to i += 32; this is because we are doing a 32x32 sprite style, so this could be helpful to prevent a higher number of operations
+	for (int i = 1; distance > getSpeed(); i++) // possibly change i++ to i += 32; this is because we are doing a 32x32 sprite style, so this could be helpful to prevent a higher number of operations
 	{
 		tempSprite.move(direction);
 		tempPos = tempSprite.getPosition();
@@ -259,6 +261,7 @@ bool Enemy::isTargetPosValid(sf::Vector2f target)
 		}
 		if (!isValid) { /*cout << "INVALID" << endl;*/ break; }
 		//std::cout << "loop" << std::endl;
+		distance = checkDistance(tempPos, target);
 	}
 	//std::cout << isValid << std::endl;
 	return isValid;
