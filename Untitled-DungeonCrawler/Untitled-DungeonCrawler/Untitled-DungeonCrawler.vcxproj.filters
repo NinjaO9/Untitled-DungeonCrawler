@@ -97,6 +97,18 @@
     <Image Include="JohnImpact.jpg">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="slash-up.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="slash-left.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="slash-right.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="slash-down.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Textures.txt">
@@ -106,6 +118,9 @@
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="Level2.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Level3.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

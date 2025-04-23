@@ -7,6 +7,14 @@ void LevelManager::loadFromFile(std::fstream& file)
 	char cStr[101]; // 100 * 32 = 3200 pixels length (+1 for null char)
 	std::string line;
 	int length = 0;
+	file.getline(cStr, 101);
+	line = cStr;
+	nextLevel = "Empty";
+	if (line.substr(0, line.find('-')) == "goto")
+	{
+		nextLevel = line.substr(line.find('-') +1);
+	}
+	cout << nextLevel;
 	while (!file.eof())
 	{
 		file.getline(cStr, 101);
@@ -19,6 +27,19 @@ void LevelManager::loadFromFile(std::fstream& file)
 	if (exitTile != nullptr) { wallTiles.push_back(exitTile); } // forcing the exitTile to be at the end of the vector for easy calling (we should just use the pointer reference though)
 	else { cout << "WARNING: This level has no exit tile! (*)" << endl; }
 	// if we dont have an exit tile, then.... idk
+}
+
+void LevelManager::loadSavedNext()
+{
+	if (nextLevel == "Empty") { return; }
+
+	std::fstream file(nextLevel);
+	if (file.is_open())
+	{
+		loadFromFile(file);
+		file.close();
+	}
+	cout << "No saved level found!" << endl;
 }
 
 Obstacle*& LevelManager::getExitTile()
@@ -49,7 +70,20 @@ void LevelManager::initGameManager()
 void LevelManager::setPlayerPosition()
 {
 	gm->getView().setCenter((sf::Vector2f)placementSpot);
-	// idea is to just move the player and place it at the indicated spot
+	gm->getPlayer()->setPos((sf::Vector2f)placementSpot);
+}
+
+void LevelManager::handlePlayerSpawn()
+{
+	if (gm->getPlayer())
+	{
+		setPlayerPosition();
+	}
+	else
+	{
+		gm->getPlayer() = new Player(Stats(20, 2.3f, 4, 3, 15)/*stats*/, Growths(90, 30, 40, 20, 10)/*growths*/, 1/*lvl*/, (sf::Vector2f)placementSpot);
+		// stats and growths were copied from main.cpp
+	}
 }
 
 void LevelManager::generateLayer(std::string line)
@@ -76,7 +110,7 @@ void LevelManager::generateLayer(std::string line)
 			break;
 		case 83: // player spawn | denoted by: S
 			//std::cout << "|SPAWN|";
-			setPlayerPosition();
+			handlePlayerSpawn();
 			break;
 		case 42: // Exit level / enter next level | denoted by: *
 			placeExit();
@@ -104,11 +138,11 @@ void LevelManager::placeWall()
 
 void LevelManager::placeEnemy()
 {
-	gm->getEnemies().push_back(new Enemy(defaultStatLine, defaultGrowths,1, 200.0f, 5.0f, 2.0f, (sf::Vector2f)placementSpot));
+	gm->getEnemies().push_back(new Enemy(defaultStatLine, defaultGrowths,1, 200.0f, 32.0f, 2.0f, (sf::Vector2f)placementSpot));
 }
 
 void LevelManager::placeExit()
 {
-	exitTile = new Obstacle((sf::Vector2f)placementSpot);
+	exitTile = new Obstacle((sf::Vector2f)(placementSpot + sf::Vector2i(0,5)));
 	exitTile->getModel().setColor(sf::Color::Red); // temp color to help differentiate an exit tile from other tiles
 }

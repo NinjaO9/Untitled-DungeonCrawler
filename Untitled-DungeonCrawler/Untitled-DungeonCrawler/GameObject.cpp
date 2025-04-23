@@ -5,6 +5,28 @@ GameObject::~GameObject(){} // Nothing happens, each game object should have its
 
 void GameObject::update(){} // Nothing happens, each game object should have its own way of updating
 
+sf::Vector2f& GameObject::getPos()
+{
+    auto ptr = dynamic_cast<Entity*>(this); // is the gameobject an entity?
+    if (ptr != nullptr)
+    {
+        sf::Vector2f mPos = ptr->getModel().getPosition();
+        return mPos; // mPos = model position
+    }
+    return pos;
+}
+
+void GameObject::setPos(sf::Vector2f const newPos)
+{
+    auto ptr = dynamic_cast<Entity*>(this); // is the gameobject an entity?
+    if (ptr != nullptr)
+    {
+    
+        ptr->getModel().setPosition(newPos);
+    }
+    pos = newPos;
+}
+
 void GameObject::initializeGameManager()
 {
     gm = GameManager::getInstance();

@@ -162,11 +162,16 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="JohnImpact.jpg" />
+    <Image Include="slash-down.png" />
+    <Image Include="slash-left.png" />
+    <Image Include="slash-right.png" />
+    <Image Include="slash-up.png" />
     <Image Include="Temp.png" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Level1.txt" />
     <Text Include="Level2.txt" />
+    <Text Include="Level3.txt" />
     <Text Include="Textures.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

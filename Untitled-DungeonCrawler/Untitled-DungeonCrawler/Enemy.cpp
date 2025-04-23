@@ -26,7 +26,7 @@ void Enemy::update()
 	default:
 		break;
 	}
-	PlayerRay[1].position = gm->getMousePos();
+	PlayerRay[1].position = gm->getPlayerPos();
 	PatrolRay[1].position = targetPos;
 	state = updateState();
 }
@@ -55,10 +55,11 @@ State Enemy::updateState()
 	if (canSeePlayer())
 	{
 		PlayerRay[1].color = sf::Color::Green; // visually show that the player is seen by the enemy
-		if (checkDistance(gm->getMousePos() /* THIS IS A TEMPORARY VARIABLE. THIS SHOULD BE REPLACED WITH PLAYER POSITION */) < attackDistance)
+		if (checkDistance(gm->getPlayerPos() /* THIS IS A TEMPORARY VARIABLE. THIS SHOULD BE REPLACED WITH PLAYER POSITION */) < attackDistance)
 		{
 			return ATTACK; // If the enemy can see the player and is close enough to land an attack, try to attack
 		}
+		if (prevState == ATTACK) { this->getModel().setColor(sf::Color::White); }
 		return CHASE; // If the enemy can see the player, but is too far from the player, chase the player down
 	}
 	PlayerRay[1].color = sf::Color::Red; // visually show that the player is NOT seen by the enemy
@@ -83,7 +84,7 @@ bool Enemy::canSeePlayer()
 	if (playerPosTimer.getElapsedTime().asMilliseconds() > 30) // only check calculations every 30 milliseconds or so for the sake of not destroying game preformance
 	{
 		playerPosTimer.restart();
-		playerSeen = isTargetPosValid(gm->getMousePos());
+		playerSeen = isTargetPosValid(gm->getPlayerPos());
 	}
 	return playerSeen;
 
@@ -92,7 +93,7 @@ bool Enemy::canSeePlayer()
 
 bool Enemy::playerInRange()
 {
-	return checkDistance(gm->getMousePos()) < viewDistance; 
+	return checkDistance(gm->getPlayerPos()) < viewDistance; 
 }
 
 void Enemy::runIdle()
@@ -122,7 +123,7 @@ void Enemy::runPatrol()
 void Enemy::runChase()
 {
 	// chase animation
-	targetPos = gm->getMousePos(); // change code eventually
+	targetPos = gm->getPlayerPos(); // change code eventually
 	runPatrol();
 }
 
@@ -180,14 +181,14 @@ void Enemy::getNewTargetPos() // Super Janky code, but a proof of concept
 	if (attempt == 5)
 	{
 		targetPos = this->getModel().getPosition();
-		std::cout << "I give up!" << std::endl;
+		//std::cout << "I give up!" << std::endl;
 	}
 
 }
 
 bool Enemy::isInFOV()
 {
-	float degree = getDegreeTo(gm->getMousePos());
+	float degree = getDegreeTo(gm->getPlayerPos());
 	return degree < (float)fov/2;
 }
 
@@ -251,8 +252,14 @@ bool Enemy::isTargetPosValid(sf::Vector2f target)
 
 		//}
 
+
+
 		for (Obstacle* wall : gm->getLevel()->getTiles())
 		{
+			//sf::Vector2f realVector(gm->getWindow()->mapCoordsToPixel(wall->getPos(), gm->getView()));
+			//realVector = gm->getWindow()->mapPixelToCoords((sf::Vector2i)wall->getPos(), gm->getView());
+			//if (checkDistance(realVector) > viewDistance) { continue; } // skip checking any wall that is out of view
+
 			if (tempSprite.getGlobalBounds().findIntersection(wall->getModel().getGlobalBounds()))
 			{
 				isValid = false;
