@@ -32,7 +32,6 @@ public:
 		updateDirection();
 
 
-
 		float scaleX = 32.0f / this->getModel().getTextureRect().size.x;
 		float scaleY = 32.0f / this->getModel().getTextureRect().size.y;
 

@@ -16,7 +16,9 @@ public:
 		statLine = stats;
 		statLine.setGrowths(grows);
 		level = lvl;
-
+		for (int i = 0; i < level;i++) {
+			levelUp();
+		}
 		this->model = nullptr; // get rid of warnings
 	}
 

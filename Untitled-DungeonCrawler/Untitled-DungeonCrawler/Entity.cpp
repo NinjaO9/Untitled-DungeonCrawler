@@ -8,7 +8,7 @@ Entity::~Entity()
 
 void Entity::levelUp() {
 	setLevel(getLevel() + 1);
-	for (int i = 0;i < 3; i++) {
+	for (int i = 0;i < 5; i++) {
 		if (rand() % 100 <= statLine.getGrowth(0)) {
 			statLine.setMaxHp(statLine.getMaxHp() + 1);
 		}
@@ -26,16 +26,11 @@ void Entity::levelUp() {
 		}
 	}
 }
-void Entity::setSpeed(float const speed)
+void Entity::handleDamage(int dmg)
 {
-    this->getStats().setSpeed(speed);
-}
-
-bool Entity::handleDamage(int dmg)
-{
-    this->getStats().setCurHp(this->getStats().getCurHp() - dmg);
-    cout << "Enemy has: " << this->getStats().getCurHp() << " health remaining!" << endl;
-    if (this->getStats().getCurHp() <= 0)
+    getStats().setCurHp(getStats().getCurHp()-dmg);
+    cout << "Enemy has: " << getStats().getCurHp() << " health remaining!" << endl;
+    if (getStats().getCurHp() == 0)
     {
 		return true;
     }
@@ -44,6 +39,3 @@ bool Entity::handleDamage(int dmg)
 	gm->getEnemies().erase(index);
 	cout << "ENEMY COUNT ON LEVEL: " << gm->getEnemies().size() << endl;*/
 }
-
-//	new Enemy()
-
