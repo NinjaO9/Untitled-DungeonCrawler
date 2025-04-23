@@ -102,7 +102,14 @@ void runGame()
         {
             if (event->is<sf::Event::Closed>())
                 window.close();
+            else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
+            {
+                if (keyPressed->scancode == sf::Keyboard::Scancode::Space)
+                    testW.BaseWeaponATK(sword.getBaseDMG());
+            }
+
         }
+
 
         if (frameClock.getElapsedTime().asMilliseconds() > 15) // Tested values: 15 - ~60 FPS; 27 - ~33 FPS
         {
@@ -161,10 +168,6 @@ void runGame()
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Down))
         {
             gameManager->getView().move({ 0,0.001 });
-        }
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
-        {
-            testW.BaseWeaponATK(sword.getBaseDMG());
         }
 
     }
