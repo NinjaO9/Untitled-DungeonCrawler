@@ -31,6 +31,7 @@ void Enemy::update()
 	state = updateState();
 }
 
+
 sf::VertexArray Enemy::getPatrolRay() const
 {
 	return PatrolRay;
@@ -97,9 +98,9 @@ void Enemy::runPatrol()
 	if (distance == 0) { getNewTargetPos(); idleTimer += defaultTime; return; } // prevent divide by 0 error; give the enemy some more time to rest before patrolling to a new spot
 	sf::Vector2f direction(((targetPos.x - getPos().x)/ distance), ((targetPos.y - getPos().y)/ distance)); // Normalized(?) vector to tell the direction of where the enemy needs to go
 
-	this->getModel().move(direction * getSpeed()); // moving the enemy however much in a certain direction
+	this->getModel().move(direction * getStats().getSpeed()); // moving the enemy however much in a certain direction
 
-	if (checkDistance(this->targetPos) <= getSpeed()) // 'close enough' (speed can cause the enemy to overshoot their target, so we will give them an error margin of speed)
+	if (checkDistance(this->targetPos) <= getStats().getSpeed()) // 'close enough' (speed can cause the enemy to overshoot their target, so we will give them an error margin of speed)
 	{
 		idleTimer = defaultTime;
 		handleCollision();
