@@ -7,9 +7,9 @@
 #include "LevelManager.hpp"
 #include <fstream>
 
-#define RUN_DEBUG false
-#define TEST_CASE 4
-#define ENTITY_COUNT 20
+#define RUN_DEBUG false // Replace 'false' with 'true' to run debug mode, running the test case below:
+#define TEST_CASE 4 // from a range of (0-4) it will run a specific test case. Keep in mind that the test case will do what it is meant to do, but it won't end the program. The user must close the window to end the test
+#define ENTITY_COUNT 20 // Note from David -> Level gen takes care of enemy spawning, so we may or may not be able to use anything that rewuires an 'entity coutn' variable. let me know what youre trying to do and we can try to figure it out with the current level gen program
 
 using std::fstream;
 
@@ -45,6 +45,7 @@ void runGame()
     fstream file;
     gameManager->setWindow(window);
     texManager->loadTextures("Textures.txt");  
+
     Growths inputGrowths[] = {
     Growths(90, 30, 40, 20, 10),
     Growths(60, 15, 25, 12, 5),
@@ -71,7 +72,6 @@ void runGame()
         }
         statTable[i].setGrowths(growthTable[i]);
     }
-    gameManager->getPlayer() = new Player(statTable[1]/*stats*/, growthTable[1]/*growths*/, 1/*lvl*/, sf::Vector2f(100, 100));
     //for (int i = 0; i < ENTITY_COUNT-1; i++) // initialize given number of entities 
     //{
     //    gameManager->getEnemies().push_back(new Enemy(statTable[1]/*stats*/, growthTable[1]/*growths*/, 1/*lvl*/, 200/*viewdistance*/, 5/*attackrange*/, 2/*idletime*/, sf::Vector2f(100, 100)/*position*/)); // create a new enemy with default values
@@ -98,7 +98,6 @@ void runGame()
             gameManager->getClock().start();
         }
 
-        gameManager->updateMouse();
         while (const std::optional event = window.pollEvent())
         {
             if (event->is<sf::Event::Closed>())
@@ -110,6 +109,7 @@ void runGame()
             window.setView(gameManager->getView());
             window.clear();
             gameManager->getPlayer()->update();
+            gameManager->getView().setCenter(gameManager->getPlayerPos());
             for (Enemy* enemy : gameManager->getEnemies()) // feel free to delete if you need to do something else with drawing and the enemies get annoying
             {
                 float realX = window.mapCoordsToPixel(enemy->getPos(), gameManager->getView()).x;
@@ -132,7 +132,8 @@ void runGame()
                 window.draw(lvl->getExitTile()->getModel());
 
             }
-            if (gameManager->getLevel()->getExitTile() && gameManager->getLevel()->getExitTile()->getModel().getGlobalBounds().contains(gameManager->getMousePos())) // is the 'player' at the exit tile?
+            window.draw(gameManager->getPlayer()->getModel());
+            if (gameManager->getLevel()->getExitTile() && gameManager->getLevel()->getExitTile()->getModel().getGlobalBounds().contains(gameManager->getPlayerPos())) // is the 'player' at the exit tile?
             {
                 gameManager->getLevel()->unloadLevel();
                 file.open("Level2.txt");
@@ -146,19 +147,19 @@ void runGame()
         }
 
         // temp stuff until we get player done; camera will likely follow player
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::A))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Left))
         {
             gameManager->getView().move({ -0.001,0 });
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::D))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Right))
         {
             gameManager->getView().move({ 0.001,0 });
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::W))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Up))
         {
             gameManager->getView().move({ 0,-0.001 });
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::S))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Down))
         {
             gameManager->getView().move({ 0,0.001 });
         }
@@ -343,7 +344,7 @@ void runDEBUG()
     default:
         cout << "Invalid TEST_CASE number!: " << TEST_CASE << " > max(4) - Edit line 10 within main.cpp and re-run to try again." << endl;
         break;
-    }
+    } // Switch case which contains all the debug test cases
 
     texManager->destroyManager();
     gameManager->destroyManager();

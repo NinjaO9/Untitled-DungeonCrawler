@@ -1,17 +1,15 @@
 #include "Player.hpp"
+using sf::Keyboard::Scancode;
 
 void Player::update() {
-	sf::Vector2f pos = GameObject::getPos();
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::D)) {
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::W)) { pos.y -= getStats().getSpeed(); }
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::A)) { pos.x -= getStats().getSpeed(); }
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::S)) { pos.y += getStats().getSpeed(); }
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::D)) { pos.x += getStats().getSpeed(); }
-		GameObject::setPos(pos);
+		handleMovement();
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::J)) {
 		attack();
 	}
+
+	
 }
 
 void Player::levelUp()
@@ -33,4 +31,36 @@ void Player::checklvlup()
 	if (getExp() >= getExpToLvl()) {
 		Player::levelUp();
 	}
+}
+
+void Player::handleMovement()
+{
+	sf::Vector2i movement;
+	if (sf::Keyboard::isKeyPressed(Scancode::W))
+	{
+		movement += {0, -1};
+		this->direction = { 0,-1 };
+	}
+	if (sf::Keyboard::isKeyPressed(Scancode::S))
+	{
+		movement += {0, 1};
+		this->direction = { 0,1 };
+	}
+	if (sf::Keyboard::isKeyPressed(Scancode::D))
+	{
+		movement += {1, 0};
+		this->direction = { 1,0 };
+	}
+	if (sf::Keyboard::isKeyPressed(Scancode::A))
+	{
+		movement += {-1, 0};
+		this->direction = { -1,0 };
+	}
+
+	this->getModel().move((sf::Vector2f)movement * this->getStats().getSpeed());
+}
+
+sf::Vector2i Player::getDirection()
+{
+	return direction;
 }

@@ -35,9 +35,9 @@ public:
 
 	virtual void update(); // every derived class should contain this
 
-	virtual sf::Vector2f& getPos() { return this->pos; } // Some classes may handle pos differently
+	virtual sf::Vector2f& getPos(); // Some classes may handle pos differently
 
-	virtual void setPos(sf::Vector2f const newPos) { this->pos = newPos; }
+	virtual void setPos(sf::Vector2f const newPos);
 
 
 private:
