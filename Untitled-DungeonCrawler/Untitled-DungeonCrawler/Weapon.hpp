@@ -40,3 +40,24 @@ private:
 
 };
 
+class Sword : public Weapon
+{
+public:
+
+	Sword(int BaseDMG = 8, int LVLMult = 0.25)
+	{
+
+	}
+	~Sword()
+	{
+
+	}
+
+	int getBaseDMG();
+
+	double getLVLMult();
+
+private:
+	int BaseDMG = 8;
+	double LVLMult = 0.25;
+};

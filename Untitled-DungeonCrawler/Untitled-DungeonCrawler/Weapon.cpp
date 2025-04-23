@@ -71,3 +71,15 @@ void Weapon::initGameManager()
 {
 	gm = GameManager::getInstance();
 }
+
+//weapon specific functions below (Sword)
+
+int Sword::getBaseDMG()
+{
+	return BaseDMG;
+}
+
+double Sword::getLVLMult()
+{
+	return LVLMult;
+}
