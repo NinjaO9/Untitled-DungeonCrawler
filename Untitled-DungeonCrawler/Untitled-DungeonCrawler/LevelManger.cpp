@@ -1,6 +1,5 @@
 #include "LevelManager.hpp"
 #include "GameManager.hpp"
-
 GameManager* LevelManager::gm = nullptr;
 
 void LevelManager::loadFromFile(std::fstream& file)
@@ -105,7 +104,7 @@ void LevelManager::placeWall()
 
 void LevelManager::placeEnemy()
 {
-	gm->getEnemies().push_back(new Enemy(10, 200.0f, 5.0f, 2.0f, (sf::Vector2f)placementSpot));
+	gm->getEnemies().push_back(new Enemy(defaultStatLine, defaultGrowths, 1, 200.0f, 5.0f, 2.0f, (sf::Vector2f)placementSpot));
 }
 
 void LevelManager::placeExit()

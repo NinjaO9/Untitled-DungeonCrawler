@@ -26,16 +26,11 @@ void Entity::levelUp() {
 		}
 	}
 }
-void Entity::setSpeed(float const speed)
-{
-    this->speed = speed;
-}
-
 void Entity::handleDamage(int dmg)
 {
-    this->hp -= dmg;
-    cout << "Enemy has: " << this->hp << " health remaining!" << endl;
-    if (this->hp == 0)
+    getStats().setCurHp(getStats().getCurHp()-dmg);
+    cout << "Enemy has: " << getStats().getCurHp() << " health remaining!" << endl;
+    if (getStats().getCurHp() == 0)
     {
         if (this->getTag() == "Enemy")
         {
@@ -49,9 +44,4 @@ void Entity::handleDamage(int dmg)
         }
         delete this;
     }
-}
-
-Entity::~Entity()
-{
-    delete model;
 }

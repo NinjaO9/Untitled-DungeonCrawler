@@ -5,7 +5,7 @@
 class Player : public Entity
 {
 public:
-	Player(Stats statline = defaultStatLine, Growths grow = defaultGrowths, int lvl = 1, int sp = 50, sf::Vector2f pos = sf::Vector2f(0, 0))
+	Player(Stats statline = defaultStatLine, Growths grow = defaultGrowths, int lvl = 1, sf::Vector2f pos = sf::Vector2f(0, 0))
 		: Entity(statline, grow, lvl, pos, "Player")
 	{
 		setExpToNext(5 + (getLevel() * 5) * (1 + (getLevel() - 1) / 10));
@@ -28,8 +28,8 @@ public:
 
 	int getExp() const { return this->exp; }
 	int getExpToLvl() const { return this->expToNext; }
-	int setExp(int newexp) { this->exp = newexp; }
-	int setExpToNext(int newexptolvl) { this->expToNext = newexptolvl; }
+	void setExp(int newexp) { this->exp = newexp; }
+	void setExpToNext(int newexptolvl) { this->expToNext = newexptolvl; }
 
 private:
 	int exp;
