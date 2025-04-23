@@ -31,6 +31,8 @@ public:
 
 	sf::Vector2i getDirection();
 
+	void handleCollision();
+
 private:
 	int exp;
 	int expToNext;

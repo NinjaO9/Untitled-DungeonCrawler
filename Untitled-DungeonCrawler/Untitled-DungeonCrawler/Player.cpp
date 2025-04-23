@@ -61,9 +61,23 @@ void Player::handleMovement()
 	}
 
 	this->getModel().move((sf::Vector2f)movement * this->getStats().getSpeed());
+	handleCollision();
 }
 
 sf::Vector2i Player::getDirection()
 {
 	return direction;
+}
+
+void Player::handleCollision()
+{
+	for (Obstacle* wall : gm->getLevel()->getTiles())
+	{
+		//if (checkDistance(wall->getPos()) < 10) { continue; }
+		//if (wall. == gm->getLevel()->getTiles().end()) { break; }
+		if (this->getModel().getGlobalBounds().findIntersection(wall->getModel().getGlobalBounds()))
+		{
+			this->getModel().move((sf::Vector2f)( -1.0f * ((sf::Vector2f)direction * getStats().getSpeed())));
+		}
+	}
 }
