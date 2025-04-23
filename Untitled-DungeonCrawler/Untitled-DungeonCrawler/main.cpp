@@ -20,8 +20,6 @@ int main()
     srand(time(NULL));
     initstats();
 
-    //moved statline and growth tables here so they can be accessed by the create enemy function
-
     if (RUN_DEBUG)
     {
         cout << "NOTICE: You are running DEBUG/TEST_CASE mode! - Test cases do not end on their own, however they are meant to behave in an expected way for the duration of the test as it is described in the text that follows -  Test case being played: " << TEST_CASE << endl;
