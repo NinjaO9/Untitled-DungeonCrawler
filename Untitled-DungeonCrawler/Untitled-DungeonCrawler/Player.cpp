@@ -23,9 +23,9 @@ void Player::levelUp()
 
 void Player::attack()
 {
-	if (getStats().getCurSp() > this->equippedWeapon->getSpCost()) { //weapon SP costs will be needed here and then we can check if player's SP is equal to SPcost of weapon
-		this->equippedWeapon->weaponAttack(); //function for weaponattack needed and will be excecuted here
-	}
+	//if (getStats().getCurSp() > this->equippedWeapon->getSpCost()) { //weapon SP costs will be needed here and then we can check if player's SP is equal to SPcost of weapon
+	//	this->equippedWeapon->weaponAttack(); //function for weaponattack needed and will be excecuted here
+	//}
 }
 
 void Player::checklvlup()

@@ -18,10 +18,6 @@ public:
 
 	void update() override;
 
-	sf::Vector2f& getPos() override;
-
-	void setPos(sf::Vector2f const newPos) override;
-
 	void levelUp()override;
 	void attack(); //should call weapon's attack, this should mostly just be taking in player input
 	void checklvlup();
