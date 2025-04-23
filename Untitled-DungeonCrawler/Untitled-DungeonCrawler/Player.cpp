@@ -3,7 +3,7 @@
 void Player::update() {
 	sf::Vector2f pos = GameObject::getPos();
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::D)) {
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::W)) { pos.y -= getStats().getSpeed(); }
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::W)) { pos.y -= getStats().getSpeed(); direction= }
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::A)) { pos.x -= getStats().getSpeed(); }
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::S)) { pos.y += getStats().getSpeed(); }
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::D)) { pos.x += getStats().getSpeed(); }

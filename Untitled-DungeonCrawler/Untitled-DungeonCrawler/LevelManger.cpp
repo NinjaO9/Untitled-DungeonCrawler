@@ -72,7 +72,7 @@ void LevelManager::generateLayer(std::string line)
 			//placeEmpty();
 			break;
 		case 69:
-			placeEnemy();
+			placeEnemy(rand()%3+1);
 			break;
 		case 83: // player spawn | denoted by: S
 			//std::cout << "|SPAWN|";
@@ -102,9 +102,9 @@ void LevelManager::placeWall()
 
 }
 
-void LevelManager::placeEnemy()
+void LevelManager::placeEnemy(int n)
 {
-	gm->getEnemies().push_back(new Enemy(defaultStatLine, defaultGrowths,1, 200.0f, 5.0f, 2.0f, (sf::Vector2f)placementSpot));
+	gm->getEnemies().push_back(new Enemy(statTable[n], growthTable[n], 1, 200.0f, 5.0f, 2.0f, (sf::Vector2f)placementSpot));
 }
 
 void LevelManager::placeExit()

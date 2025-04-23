@@ -31,4 +31,5 @@ private:
 	int exp;
 	int expToNext;
 	Weapon* equippedWeapon;
+	sf::Vector2f direction;
 };
