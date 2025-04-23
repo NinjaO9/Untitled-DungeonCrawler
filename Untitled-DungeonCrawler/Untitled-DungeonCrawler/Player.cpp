@@ -1,17 +1,19 @@
 #include "Player.hpp"
+#include "GameManager.hpp"
+#include "LevelManager.hpp"
+
+using sf::Keyboard::Scancode;
 
 void Player::update() {
 	sf::Vector2f pos = GameObject::getPos();
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::D)) {
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::W)) { pos.y -= getStats().getSpeed(); direction= }
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::A)) { pos.x -= getStats().getSpeed(); }
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::S)) { pos.y += getStats().getSpeed(); }
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::D)) { pos.x += getStats().getSpeed(); }
-		GameObject::setPos(pos);
+		handleMovement();
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::J)) {
 		attack();
 	}
+
+	
 }
 
 void Player::levelUp()
@@ -32,5 +34,55 @@ void Player::checklvlup()
 {
 	if (getExp() >= getExpToLvl()) {
 		Player::levelUp();
+	}
+}
+
+void Player::handleMovement()
+{
+	sf::Vector2i movement;
+	if (sf::Keyboard::isKeyPressed(Scancode::W))
+	{
+		movement += {0, -1};
+		this->direction = { 0,-1 };
+	}
+	if (sf::Keyboard::isKeyPressed(Scancode::S))
+	{
+		movement += {0, 1};
+		this->direction = { 0,1 };
+	}
+	if (sf::Keyboard::isKeyPressed(Scancode::D))
+	{
+		movement += {1, 0};
+		this->direction = { 1,0 };
+	}
+	if (sf::Keyboard::isKeyPressed(Scancode::A))
+	{
+		movement += {-1, 0};
+		this->direction = { -1,0 };
+	}
+
+	this->getModel().move((sf::Vector2f)movement * this->getStats().getSpeed());
+	handleCollision();
+}
+
+sf::Vector2i Player::getDirection()
+{
+	return direction;
+}
+
+void Player::handleCollision()
+{
+	for (Obstacle* wall : gm->getLevel()->getTiles())
+	{
+		if (wall == gm->getLevel()->getExitTile()) { 
+			break; 
+		}
+
+		//if (checkDistance(wall->getPos()) < 10) { continue; }
+		//if (wall. == gm->getLevel()->getTiles().end()) { break; }
+		if (this->getModel().getGlobalBounds().findIntersection(wall->getModel().getGlobalBounds()))
+		{
+			this->getModel().move((sf::Vector2f)( -1.0f * ((sf::Vector2f)direction * getStats().getSpeed())));
+		}
 	}
 }

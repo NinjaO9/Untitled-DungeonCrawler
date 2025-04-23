@@ -31,6 +31,8 @@ public:
 
 	void loadFromFile(std::fstream& file);
 
+	void loadSavedNext();
+
 	Obstacle*& getExitTile();
 
 	void unloadLevel();
@@ -39,9 +41,12 @@ public:
 
 	void setPlayerPosition();
 
+	void handlePlayerSpawn();
+
 private:
 	static GameManager* gm;
 	std::vector<Obstacle*> wallTiles;
+	string nextLevel;
 	Obstacle* exitTile;
 	int const size = 32; // keep a constant 32 sprite size (this would be moved to another class)
 

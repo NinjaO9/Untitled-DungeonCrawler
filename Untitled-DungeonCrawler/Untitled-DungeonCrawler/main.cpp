@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "GameManager.hpp"
 #include "TextureManager.hpp"
+#include "Weapon.hpp"
 #include "LevelManager.hpp"
 #include <fstream>
 
@@ -46,6 +47,7 @@ void runGame()
     sf::RenderWindow window(sf::VideoMode({ 1000, 1000 }), "GAME RUNNING");
     bool isPaused = false;
     int frameCount = 0, frameRate = 0;
+    Weapon testW; Sword sword;
     TextureManager* texManager = TextureManager::getInstance();
     GameManager* gameManager = GameManager::getInstance();
     LevelManager* lvl = gameManager->getLevel();
@@ -54,6 +56,33 @@ void runGame()
     gameManager->setWindow(window);
     texManager->loadTextures("Textures.txt");  
     gameManager->getPlayer() = new Player(statTable[0]/*stats*/, growthTable[0]/*growths*/, 1/*lvl*/, sf::Vector2f(100, 100));
+
+    Growths inputGrowths[] = {
+    Growths(90, 30, 40, 20, 10),
+    Growths(60, 15, 25, 12, 5),
+    Growths(50, 20, 15, 10, 0),
+    Growths(70, 10, 30, 15, 3) //random filler values for now
+    };
+    Stats inputStats[] = {
+     Stats(20, 1.2f, 4, 3, 15),
+    Stats(12, 0.8f, 2, 1, 10),
+    Stats(15, 0.6f, 1, 2, 8),
+    Stats(10, 1.0f, 3, 0, 12) //same for stats; random filler, change to more appropriate values
+    };
+    Growths growthTable[ENTITY_COUNT];
+    Stats statTable[ENTITY_COUNT];
+    int inputCount = std::min((int)(sizeof(inputStats) / sizeof(Stats)), ENTITY_COUNT);
+    for (int i = 0; i < ENTITY_COUNT; ++i) {
+        if (i < inputCount) {
+            statTable[i] = inputStats[i];
+            growthTable[i] = inputGrowths[i];
+        }
+        else {
+            statTable[i] = defaultStatLine;
+            growthTable[i] = defaultGrowths;
+        }
+        statTable[i].setGrowths(growthTable[i]);
+    }
     //for (int i = 0; i < ENTITY_COUNT-1; i++) // initialize given number of entities 
     //{
     //    gameManager->getEnemies().push_back(new Enemy(statTable[1]/*stats*/, growthTable[1]/*growths*/, 1/*lvl*/, 200/*viewdistance*/, 5/*attackrange*/, 2/*idletime*/, sf::Vector2f(100, 100)/*position*/)); // create a new enemy with default values
@@ -80,11 +109,16 @@ void runGame()
             gameManager->getClock().start();
         }
 
-        gameManager->updateMouse();
         while (const std::optional event = window.pollEvent())
         {
             if (event->is<sf::Event::Closed>())
                 window.close();
+            else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
+            {
+                if (keyPressed->scancode == sf::Keyboard::Scancode::Space)
+                    testW.BaseWeaponATK(sword.getBaseDMG());
+            }
+
         }
 
         if (frameClock.getElapsedTime().asMilliseconds() > 15) // Tested values: 15 - ~60 FPS; 27 - ~33 FPS
@@ -92,6 +126,7 @@ void runGame()
             window.setView(gameManager->getView());
             window.clear();
             gameManager->getPlayer()->update();
+            gameManager->getView().setCenter(gameManager->getPlayerPos());
             for (Enemy* enemy : gameManager->getEnemies()) // feel free to delete if you need to do something else with drawing and the enemies get annoying
             {
                 float realX = window.mapCoordsToPixel(enemy->getPos(), gameManager->getView()).x;
@@ -100,8 +135,8 @@ void runGame()
                 else if (realY < 0 || realY > window.getSize().y) { continue; }
                 enemy->update();
                 window.draw(enemy->getModel());
-                window.draw(enemy->getPatrolRay()); // NOTE2: PRINTING TO THE CONSOLE CAN ALSO BE A PREFORMANCE KILLER!
-                window.draw(enemy->getPlayerRay()); // NOTE: DRAWING THE RAYS IS A PREFORMANCE KILLER! COMMENT THESE OUT BEFORE JUDGING GAME PREFORMANCE
+                window.draw(enemy->getPatrolRay()); // Keeping patrol ray because we do not have directional sprites, and we need some way to indicate the enemy's directional view
+                //window.draw(enemy->getPlayerRay()); // NOTE: DRAWING THE RAYS IS A PREFORMANCE KILLER! COMMENT THESE OUT BEFORE JUDGING GAME PREFORMANCE
 
             }
             window.draw(gameManager->getPlayer()->getModel());
@@ -114,35 +149,17 @@ void runGame()
                 window.draw(lvl->getExitTile()->getModel());
 
             }
-            if (gameManager->getLevel()->getExitTile() && gameManager->getLevel()->getExitTile()->getModel().getGlobalBounds().contains(gameManager->getMousePos())) // is the 'player' at the exit tile?
+            window.draw(gameManager->getPlayer()->getModel());
+            if (gameManager->getLevel()->getExitTile() && gameManager->getLevel()->getExitTile()->getModel().getGlobalBounds().contains(gameManager->getPlayerPos())) // is the 'player' at the exit tile?
             {
                 gameManager->getLevel()->unloadLevel();
-                file.open("Level2.txt");
                 window.setView(window.getDefaultView());
-                gameManager->getLevel()->loadFromFile(file);
+                gameManager->getLevel()->loadSavedNext();
                 file.close();
             }
             window.display();
             frameCount++;
             frameClock.restart();
-        }
-
-        // temp stuff until we get player done; camera will likely follow player
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::A))
-        {
-            gameManager->getView().move({ -0.001,0 });
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::D))
-        {
-            gameManager->getView().move({ 0.001,0 });
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::W))
-        {
-            gameManager->getView().move({ 0,-0.001 });
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::S))
-        {
-            gameManager->getView().move({ 0,0.001 });
         }
 
     }
@@ -321,7 +338,7 @@ void runDEBUG()
     default:
         cout << "Invalid TEST_CASE number!: " << TEST_CASE << " > max(4) - Edit line 10 within main.cpp and re-run to try again." << endl;
         break;
-    }
+    } // Switch case which contains all the debug test cases
 
     texManager->destroyManager();
     gameManager->destroyManager();
