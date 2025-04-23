@@ -110,7 +110,6 @@ void runGame()
 
         }
 
-
         if (frameClock.getElapsedTime().asMilliseconds() > 15) // Tested values: 15 - ~60 FPS; 27 - ~33 FPS
         {
             window.setView(gameManager->getView());
@@ -150,24 +149,6 @@ void runGame()
             window.display();
             frameCount++;
             frameClock.restart();
-        }
-
-        // temp stuff until we get player done; camera will likely follow player
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Left))
-        {
-            gameManager->getView().move({ -0.001,0 });
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Right))
-        {
-            gameManager->getView().move({ 0.001,0 });
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Up))
-        {
-            gameManager->getView().move({ 0,-0.001 });
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Down))
-        {
-            gameManager->getView().move({ 0,0.001 });
         }
 
     }
