@@ -2,7 +2,6 @@
 #include <algorithm>
 #include "GameObject.hpp"
 #include "TextureManager.hpp"
-#include "Stats.hpp"
 
 class GameManager;
 
@@ -32,7 +31,6 @@ public:
 
 	virtual void levelUp();
 
-	void setSpeed(float const speed);
 
 	bool handleDamage(int dmg);
 

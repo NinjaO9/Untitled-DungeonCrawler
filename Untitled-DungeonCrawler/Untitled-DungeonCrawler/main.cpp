@@ -18,17 +18,9 @@ void runDEBUG();
 int main()
 {
     srand(time(NULL));
-    for (int i = 0; i < ENTITY_COUNT; ++i) {//entity count can be found in Stats.hpp, this is just running loop that fills the tables.
-        if (i < inputCount) {
-            statTable[i] = inputStats[i];
-            growthTable[i] = inputGrowths[i];
-        }
-        else {
-            statTable[i] = defaultStatLine;
-            growthTable[i] = defaultGrowths;
-        }
-        statTable[i].setGrowths(growthTable[i]);
-    }
+    initstats();
+
+    //moved statline and growth tables here so they can be accessed by the create enemy function
 
     if (RUN_DEBUG)
     {
@@ -57,17 +49,6 @@ void runGame()
     texManager->loadTextures("Textures.txt");  
     gameManager->getPlayer() = new Player(statTable[0]/*stats*/, growthTable[0]/*growths*/, 1/*lvl*/, sf::Vector2f(100, 100));
 
-    for (int i = 0; i < ENTITY_COUNT; ++i) {
-        if (i < inputCount) {
-            statTable[i] = inputStats[i];
-            growthTable[i] = inputGrowths[i];
-        }
-        else {
-            statTable[i] = defaultStatLine;
-            growthTable[i] = defaultGrowths;
-        }
-        statTable[i].setGrowths(growthTable[i]);
-    }
     //for (int i = 0; i < ENTITY_COUNT-1; i++) // initialize given number of entities 
     //{
     //    gameManager->getEnemies().push_back(new Enemy(statTable[1]/*stats*/, growthTable[1]/*growths*/, 1/*lvl*/, 200/*viewdistance*/, 5/*attackrange*/, 2/*idletime*/, sf::Vector2f(100, 100)/*position*/)); // create a new enemy with default values

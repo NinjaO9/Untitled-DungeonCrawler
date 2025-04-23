@@ -57,7 +57,7 @@ private:
 
 class Stats {
 public:
-	Stats(int hp = 10, float spd = 0.7, int atk = 1, int def = 0,int sp = 10) {
+	Stats(int hp = 10, float spd = 2, int atk = 2, int def = 1,int sp = 0) {
 		this->maxHp = hp;
 		this->curHp = maxHp;
 		this->speed = spd;
@@ -117,26 +117,13 @@ private:
 	int curSp;
 };
 
-static Stats defaultStatLine(10 /* hp */, 2 /* spd */, 1 /* atk */, 0 /* def */, 0 /* sp */);
-static Growths defaultGrowths(50 /* hpg */, 10 /* spdg */, 20 /* atkg */, 10 /* defg */, 0 /* spg */);
-
-//moved statline and growth tables here so they can be accessed by the create enemy function
 #define ENTITY_COUNT 20
+extern Stats defaultStatLine;
+extern Growths defaultGrowths;
+extern Growths inputGrowths[];
+extern Stats inputStats[];
+extern int inputCount;
+extern Growths growthTable[ENTITY_COUNT];
+extern Stats statTable[ENTITY_COUNT];
 
-Growths inputGrowths[] = { //first value is player, rest are enemies
-   Growths(65, 25, 30, 20, 40), //player
-   Growths(50, 15, 25, 20, 0),//e1
-   Growths(20, 20, 15, 10, 0),//e2...etc
-   Growths(35, 10, 30, 15, 0) 
-   //goes hp speed attack defense SP
-};
-Stats inputStats[] = {//first value is player, rest are enemies
-Stats(20, 2.0, 1, 1, 30),
-Stats(10, 2.0, 2, 2, 0),
-Stats(8, 2.3, 3, 0, 0),
-Stats(12, 1.7, 1, 1, 0)
-//same for stats; random filler, change to more appropriate values
-};
-Growths growthTable[ENTITY_COUNT];
-Stats statTable[ENTITY_COUNT];
-int inputCount = std::min((int)(sizeof(inputStats) / sizeof(Stats)), ENTITY_COUNT);
+void initstats();

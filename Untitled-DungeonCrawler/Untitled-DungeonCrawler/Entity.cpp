@@ -1,6 +1,5 @@
 #include "Entity.hpp"
 #include "GameManager.hpp"
-
 Entity::~Entity()
 {
     delete model;
@@ -26,7 +25,7 @@ void Entity::levelUp() {
 		}
 	}
 }
-void Entity::handleDamage(int dmg)
+bool Entity::handleDamage(int dmg)
 {
     getStats().setCurHp(getStats().getCurHp()-dmg);
     cout << "Enemy has: " << getStats().getCurHp() << " health remaining!" << endl;

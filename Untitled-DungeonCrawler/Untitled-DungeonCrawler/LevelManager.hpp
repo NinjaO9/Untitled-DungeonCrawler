@@ -43,6 +43,8 @@ public:
 
 	void handlePlayerSpawn();
 
+	void initStats();	
+
 private:
 	static GameManager* gm;
 	std::vector<Obstacle*> wallTiles;
