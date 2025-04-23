@@ -15,6 +15,11 @@ sf::Vector2f& GameManager::getMousePos()
     return mousePos;
 }
 
+void GameManager::setMousePos(sf::Vector2f pos)
+{
+    mousePos = pos;
+}
+
 void GameManager::setWindow(sf::RenderWindow& window)
 {
     activeWindow = &window;
@@ -68,11 +73,7 @@ LevelManager*& GameManager::getLevel()
     return lvl;
 }
 
-/* Remove the comment blocks when player finally gets added
-
-Player*& GameManger::getPlayer()
+Player*& GameManager::getPlayer()
 {
     return playerInstance;
 }
-
-*/

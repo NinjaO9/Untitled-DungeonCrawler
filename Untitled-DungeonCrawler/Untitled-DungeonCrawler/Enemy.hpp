@@ -12,9 +12,10 @@ class Enemy : public Entity
 {
 public:
 
-	Enemy(int hp = 10, float viewDistance /* In pixels */ = 200, float attackDistance/* In pixels */ = 5, float idleTimer/* Time in seconds*/ = 2, sf::Vector2f pos = sf::Vector2f(0, 0))
-		: Entity(hp, pos, "Enemy")
+	Enemy(Stats statline=defaultStatLine, Growths grow=defaultGrowths, int lvl = 1, float viewDistance /* In pixels */ = 200, float attackDistance/* In pixels */ = 5, float idleTimer/* Time in seconds*/ = 2, sf::Vector2f pos = sf::Vector2f(0, 0))
+		: Entity(statline,grow,lvl,pos,"Enemy")
 	{
+		
 		this->PlayerRay = sf::VertexArray(sf::PrimitiveType::LineStrip, 2);
 		this->PatrolRay = sf::VertexArray(sf::PrimitiveType::LineStrip, 2);
 		this->state = IDLE;
@@ -40,10 +41,24 @@ public:
 		playerPosTimer.start();
 	}
 
+	int getExpReward(){ return this->expReward; }
+
 	void update() override;
+	
 
 	sf::VertexArray getPlayerRay() const;
 	sf::VertexArray getPatrolRay() const;
+
+	// should only be used for test functions (manipulating where the enemy wants to go)
+	sf::Vector2f& getTargetPos() { return targetPos; }
+
+	// should also only be used for test functions (forcing the enemy to check valid positions)
+	void checkForcedPos();
+
+	// shouldn't be needed to be called except for test-cases
+	void checkCollision() { handleCollision(); }
+
+	bool debugSeesPlayer() { updateDirection(); return canSeePlayer(); }
 
 private:
 
@@ -65,6 +80,8 @@ private:
 
 	bool atTarget;
 	bool playerSeen;
+
+	int expReward;
 
 	State updateState();
 

@@ -1,21 +1,41 @@
 #include "Entity.hpp"
 #include "GameManager.hpp"
 
-float Entity::getSpeed() const
+Entity::~Entity()
 {
-    return speed;
+    delete model;
 }
 
+void Entity::levelUp() {
+	setLevel(getLevel() + 1);
+	for (int i = 0;i < 3; i++) {
+		if (rand() % 100 <= statLine.getGrowth(0)) {
+			statLine.setMaxHp(statLine.getMaxHp() + 1);
+		}
+		if (rand() % 100 <= statLine.getGrowth(1)) {
+			statLine.setSpeed(statLine.getSpeed() + 0.1);
+		}
+		if (rand() % 100 <= statLine.getGrowth(2)) {
+			statLine.setAttack(statLine.getAttack() + 1);
+		}
+		if (rand() % 100 <= statLine.getGrowth(3)) {
+			statLine.setDefense(statLine.getDefense() + 1);
+		}
+		if (rand() % 100 <= statLine.getGrowth(4)) {
+			statLine.setMaxSp(statLine.getMaxSp() + 1);
+		}
+	}
+}
 void Entity::setSpeed(float const speed)
 {
-    this->speed = speed;
+    this->getStats().setSpeed(speed);
 }
 
 void Entity::handleDamage(int dmg)
 {
-    this->hp -= dmg;
-    cout << "Enemy has: " << this->hp << " health remaining!" << endl;
-    if (this->hp == 0)
+    this->getStats().setCurHp(this->getStats().getCurHp() - dmg);
+    cout << "Enemy has: " << this->getStats().getCurHp() << " health remaining!" << endl;
+    if (this->getStats().getCurHp() <= 0)
     {
         if (this->getTag() == "Enemy")
         {
@@ -31,7 +51,5 @@ void Entity::handleDamage(int dmg)
     }
 }
 
-Entity::~Entity()
-{
-    delete model;
-}
+//	new Enemy()
+

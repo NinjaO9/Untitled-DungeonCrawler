@@ -2,6 +2,7 @@
 #include <algorithm>
 #include "GameObject.hpp"
 #include "TextureManager.hpp"
+#include "Stats.hpp"
 
 class GameManager;
 
@@ -9,20 +10,25 @@ class Entity : public GameObject
 {
 public:
 
-	Entity(int maxHp=0, sf::Vector2f pos = sf::Vector2f(0,0), string tag = "Missing-Tag")
+	Entity(Stats stats=defaultStatLine, Growths grows=defaultGrowths, int lvl = 1, sf::Vector2f pos = sf::Vector2f(0, 0), string tag = "Missing-Tag")
 		: GameObject(pos, tag)
 	{
-		this->maxHp = maxHp;
-		this->hp = maxHp;
-		this->speed = 2; //0.09;
+		statLine = stats;
+		statLine.setGrowths(grows);
+		level = lvl;
+
 		this->model = nullptr; // get rid of warnings
 	}
 
 	sf::Sprite& getModel() { return *this->model; } 
-
 	void setModel(sf::Sprite* const newSprite) { this->model = newSprite; }
+	void setLevel(int newlevel) { this->level = newlevel; }
+	int getLevel() { return level; }
+	Stats& getStats() { return statLine; }
 
-	float getSpeed() const;
+	
+
+	virtual void levelUp();
 
 	void setSpeed(float const speed);
 
@@ -31,10 +37,8 @@ public:
 	virtual ~Entity();
 
 private:
-
-	int maxHp;
-	int hp;
-	float speed;
+	int level;
+	Stats statLine;
 	sf::Sprite* model;
 
 };
