@@ -51,7 +51,7 @@ int main()
         }
         statTable[i].setGrowths(growthTable[i]);
     }
-    gameManager->getPlayer().push_back(new Player(statTable[1]/*stats*/, growthTable[1]/*growths*/, 1/*lvl*/, sf::Vector2f(100, 100)));
+    gameManager->getPlayer() = new Player(statTable[1]/*stats*/, growthTable[1]/*growths*/, 1/*lvl*/, 50, sf::Vector2f(100, 100));
     for (int i = 0; i < ENTITY_COUNT-1; i++) // initialize given number of entities 
     {
         gameManager->getEnemies().push_back(new Enemy(statTable[1]/*stats*/, growthTable[1]/*growths*/, 1/*lvl*/, 200/*viewdistance*/, 5/*attackrange*/, 2/*idletime*/, sf::Vector2f(100, 100)/*position*/)); // create a new enemy with default values

@@ -68,8 +68,6 @@ LevelManager*& GameManager::getLevel()
     return lvl;
 }
 
-/* Remove the comment blocks when player finally gets added
-
 Player*& GameManager::getPlayer()
 {
     return playerInstance;
