@@ -57,21 +57,6 @@ void runGame()
     texManager->loadTextures("Textures.txt");  
     gameManager->getPlayer() = new Player(statTable[0]/*stats*/, growthTable[0]/*growths*/, 1/*lvl*/, sf::Vector2f(100, 100));
 
-    Growths inputGrowths[] = {
-    Growths(90, 30, 40, 20, 10),
-    Growths(60, 15, 25, 12, 5),
-    Growths(50, 20, 15, 10, 0),
-    Growths(70, 10, 30, 15, 3) //random filler values for now
-    };
-    Stats inputStats[] = {
-     Stats(20, 1.2f, 4, 3, 15),
-    Stats(12, 0.8f, 2, 1, 10),
-    Stats(15, 0.6f, 1, 2, 8),
-    Stats(10, 1.0f, 3, 0, 12) //same for stats; random filler, change to more appropriate values
-    };
-    Growths growthTable[ENTITY_COUNT];
-    Stats statTable[ENTITY_COUNT];
-    int inputCount = std::min((int)(sizeof(inputStats) / sizeof(Stats)), ENTITY_COUNT);
     for (int i = 0; i < ENTITY_COUNT; ++i) {
         if (i < inputCount) {
             statTable[i] = inputStats[i];
