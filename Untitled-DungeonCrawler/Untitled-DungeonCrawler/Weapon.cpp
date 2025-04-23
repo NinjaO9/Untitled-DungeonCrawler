@@ -21,7 +21,7 @@ int Weapon::calcdmg(const int& WDamage)
 	Sword sword;
 	int TotalDMG = 0;
 
-	TotalDMG = WDamage + (sword.getLVLMult() * 2);// 2 is a placeholder for level
+	TotalDMG = WDamage + (sword.getLVLMult() * gm->getPlayer()->getLevel());// 2 is a placeholder for level
 
 	return TotalDMG;
 }
@@ -46,7 +46,7 @@ void Weapon::BaseWeaponATK(const int& WDamage)
 	sf::FloatRect temp = test.getModel().getLocalBounds();
 	test.getModel().setOrigin(sf::Vector2f(temp.size.x / 2, temp.size.y / 2));
 	test.getModel().setScale(sf::Vector2f(0.01, 0.01));
-	test.getModel().setPosition(gm->getPlayerPos());
+	test.getModel().setPosition(gm->getPlayerPos() + sf::Vector2f(gm->getPlayer()->getDirection() * 32));//multiply direction (player position) by offset
 
 	gm->getWindow()->draw(test.getModel());  
 
