@@ -51,7 +51,5 @@ void Entity::handleDamage(int dmg)
     }
 }
 
-Entity::~Entity()
-{
-    delete model;
-}
+//	new Enemy()
+

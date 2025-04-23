@@ -5,7 +5,7 @@
 class Player : public Entity
 {
 public:
-	Player(Stats statline = defaultStatLine, Growths grow = defaultGrowths, int lvl = 1, int sp = 50, sf::Vector2f pos = sf::Vector2f(0, 0))
+	Player(Stats statline = defaultStatLine, Growths grow = defaultGrowths, int lvl = 1, sf::Vector2f pos = sf::Vector2f(0, 0))
 		: Entity(statline, grow, lvl, pos, "Player")
 	{
 		setExpToNext(5 + (getLevel() * 5) * (1 + (getLevel() - 1) / 10));
@@ -17,10 +17,6 @@ public:
 	}
 
 	void update() override;
-
-	sf::Vector2f& getPos() override;
-
-	void setPos(sf::Vector2f const newPos) override;
 
 	void levelUp()override;
 	void attack(); //should call weapon's attack, this should mostly just be taking in player input

@@ -117,5 +117,5 @@ private:
 	int curSp;
 };
 
-Stats defaultStatLine(10, 0.7, 1, 0, 0);
-Growths defaultGrowths(50, 10, 20, 10, 0);
+static Stats defaultStatLine(10, 0.7, 1, 0, 0);
+static Growths defaultGrowths(50, 10, 20, 10, 0);
