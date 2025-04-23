@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "GameManager.hpp"
 #include "TextureManager.hpp"
+#include "UserInterface.hpp"
 
 int main()
 {
