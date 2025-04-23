@@ -118,8 +118,8 @@ void runGame()
                 else if (realY < 0 || realY > window.getSize().y) { continue; }
                 enemy->update();
                 window.draw(enemy->getModel());
-                window.draw(enemy->getPatrolRay()); // NOTE2: PRINTING TO THE CONSOLE CAN ALSO BE A PREFORMANCE KILLER!
-                window.draw(enemy->getPlayerRay()); // NOTE: DRAWING THE RAYS IS A PREFORMANCE KILLER! COMMENT THESE OUT BEFORE JUDGING GAME PREFORMANCE
+                //window.draw(enemy->getPatrolRay()); // NOTE2: PRINTING TO THE CONSOLE CAN ALSO BE A PREFORMANCE KILLER!
+                //window.draw(enemy->getPlayerRay()); // NOTE: DRAWING THE RAYS IS A PREFORMANCE KILLER! COMMENT THESE OUT BEFORE JUDGING GAME PREFORMANCE
 
             }
             window.draw(gameManager->getPlayer()->getModel());
@@ -136,9 +136,8 @@ void runGame()
             if (gameManager->getLevel()->getExitTile() && gameManager->getLevel()->getExitTile()->getModel().getGlobalBounds().contains(gameManager->getPlayerPos())) // is the 'player' at the exit tile?
             {
                 gameManager->getLevel()->unloadLevel();
-                file.open("Level2.txt");
                 window.setView(window.getDefaultView());
-                gameManager->getLevel()->loadFromFile(file);
+                gameManager->getLevel()->loadSavedNext();
                 file.close();
             }
             window.display();

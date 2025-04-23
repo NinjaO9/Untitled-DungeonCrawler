@@ -73,6 +73,10 @@ void Player::handleCollision()
 {
 	for (Obstacle* wall : gm->getLevel()->getTiles())
 	{
+		if (wall == gm->getLevel()->getExitTile()) { 
+			break; 
+		}
+
 		//if (checkDistance(wall->getPos()) < 10) { continue; }
 		//if (wall. == gm->getLevel()->getTiles().end()) { break; }
 		if (this->getModel().getGlobalBounds().findIntersection(wall->getModel().getGlobalBounds()))

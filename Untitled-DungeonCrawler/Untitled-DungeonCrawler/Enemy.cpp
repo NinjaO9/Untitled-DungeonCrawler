@@ -252,8 +252,14 @@ bool Enemy::isTargetPosValid(sf::Vector2f target)
 
 		//}
 
+
+
 		for (Obstacle* wall : gm->getLevel()->getTiles())
 		{
+			//sf::Vector2f realVector(gm->getWindow()->mapCoordsToPixel(wall->getPos(), gm->getView()));
+			//realVector = gm->getWindow()->mapPixelToCoords((sf::Vector2i)wall->getPos(), gm->getView());
+			//if (checkDistance(realVector) > viewDistance) { continue; } // skip checking any wall that is out of view
+
 			if (tempSprite.getGlobalBounds().findIntersection(wall->getModel().getGlobalBounds()))
 			{
 				isValid = false;

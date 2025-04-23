@@ -8,6 +8,14 @@ void LevelManager::loadFromFile(std::fstream& file)
 	char cStr[101]; // 100 * 32 = 3200 pixels length (+1 for null char)
 	std::string line;
 	int length = 0;
+	file.getline(cStr, 101);
+	line = cStr;
+	nextLevel = "Empty";
+	if (line.substr(0, line.find('-')) == "goto")
+	{
+		nextLevel = line.substr(line.find('-') +1);
+	}
+	cout << nextLevel;
 	while (!file.eof())
 	{
 		file.getline(cStr, 101);
@@ -20,6 +28,19 @@ void LevelManager::loadFromFile(std::fstream& file)
 	if (exitTile != nullptr) { wallTiles.push_back(exitTile); } // forcing the exitTile to be at the end of the vector for easy calling (we should just use the pointer reference though)
 	else { cout << "WARNING: This level has no exit tile! (*)" << endl; }
 	// if we dont have an exit tile, then.... idk
+}
+
+void LevelManager::loadSavedNext()
+{
+	if (nextLevel == "Empty") { return; }
+
+	std::fstream file(nextLevel);
+	if (file.is_open())
+	{
+		loadFromFile(file);
+		file.close();
+	}
+	cout << "No saved level found!" << endl;
 }
 
 Obstacle*& LevelManager::getExitTile()
@@ -123,6 +144,6 @@ void LevelManager::placeEnemy()
 
 void LevelManager::placeExit()
 {
-	exitTile = new Obstacle((sf::Vector2f)placementSpot);
+	exitTile = new Obstacle((sf::Vector2f)(placementSpot + sf::Vector2i(0,5)));
 	exitTile->getModel().setColor(sf::Color::Red); // temp color to help differentiate an exit tile from other tiles
 }
