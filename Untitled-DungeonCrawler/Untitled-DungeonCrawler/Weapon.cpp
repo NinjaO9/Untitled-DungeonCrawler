@@ -18,9 +18,10 @@
 
 int Weapon::calcdmg(const int& WDamage)
 {
+	Sword sword;
 	int TotalDMG = 0;
 
-	TotalDMG = WDamage;// *(0.25 * 1);// .25 is a placeholder value for scaling, 1 is a placeholder for level
+	TotalDMG = WDamage + (sword.getLVLMult() * 2);// 2 is a placeholder for level
 
 	return TotalDMG;
 }
