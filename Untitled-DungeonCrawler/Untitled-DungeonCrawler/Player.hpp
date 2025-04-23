@@ -28,8 +28,8 @@ public:
 
 	int getExp() const { return this->exp; }
 	int getExpToLvl() const { return this->expToNext; }
-	int setExp(int newexp) { this->exp = newexp; }
-	int setExpToNext(int newexptolvl) { this->expToNext = newexptolvl; }
+	void setExp(int newexp) { this->exp = newexp; }
+	void setExpToNext(int newexptolvl) { this->expToNext = newexptolvl; }
 
 private:
 	int exp;
