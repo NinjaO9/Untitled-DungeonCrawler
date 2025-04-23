@@ -9,7 +9,6 @@
 
 #define RUN_DEBUG false // Replace 'false' with 'true' to run debug mode, running the test case below:
 #define TEST_CASE 0 // from a range of (0-4) it will run a specific test case. Keep in mind that the test case will do what it is meant to do, but it won't end the program. The user must close the window to end the test
-#define ENTITY_COUNT 20 // Note from David -> Level gen takes care of enemy spawning, so we may or may not be able to use anything that rewuires an 'entity coutn' variable. let me know what youre trying to do and we can try to figure it out with the current level gen program
 
 using std::fstream;
 
@@ -19,6 +18,17 @@ void runDEBUG();
 int main()
 {
     srand(time(NULL));
+    for (int i = 0; i < ENTITY_COUNT; ++i) {//entity count can be found in Stats.hpp, this is just running loop that fills the tables.
+        if (i < inputCount) {
+            statTable[i] = inputStats[i];
+            growthTable[i] = inputGrowths[i];
+        }
+        else {
+            statTable[i] = defaultStatLine;
+            growthTable[i] = defaultGrowths;
+        }
+        statTable[i].setGrowths(growthTable[i]);
+    }
 
     if (RUN_DEBUG)
     {
@@ -45,33 +55,7 @@ void runGame()
     fstream file;
     gameManager->setWindow(window);
     texManager->loadTextures("Textures.txt");  
-
-    Growths inputGrowths[] = {
-    Growths(90, 30, 40, 20, 10),
-    Growths(60, 15, 25, 12, 5),
-    Growths(50, 20, 15, 10, 0),
-    Growths(70, 10, 30, 15, 3) //random filler values for now
-    };
-    Stats inputStats[] = {
-     Stats(20, 1.2f, 4, 3, 15),
-    Stats(12, 0.8f, 2, 1, 10),
-    Stats(15, 0.6f, 1, 2, 8),
-    Stats(10, 1.0f, 3, 0, 12) //same for stats; random filler, change to more appropriate values
-    };
-    Growths growthTable[ENTITY_COUNT];
-    Stats statTable[ENTITY_COUNT];
-    int inputCount = std::min((int)(sizeof(inputStats) / sizeof(Stats)), ENTITY_COUNT);
-    for (int i = 0; i < ENTITY_COUNT; ++i) {
-        if (i < inputCount) {
-            statTable[i] = inputStats[i];
-            growthTable[i] = inputGrowths[i];
-        }
-        else {
-            statTable[i] = defaultStatLine;
-            growthTable[i] = defaultGrowths;
-        }
-        statTable[i].setGrowths(growthTable[i]);
-    }
+    gameManager->getPlayer() = new Player(statTable[0]/*stats*/, growthTable[0]/*growths*/, 1/*lvl*/, sf::Vector2f(100, 100));
     //for (int i = 0; i < ENTITY_COUNT-1; i++) // initialize given number of entities 
     //{
     //    gameManager->getEnemies().push_back(new Enemy(statTable[1]/*stats*/, growthTable[1]/*growths*/, 1/*lvl*/, 200/*viewdistance*/, 5/*attackrange*/, 2/*idletime*/, sf::Vector2f(100, 100)/*position*/)); // create a new enemy with default values

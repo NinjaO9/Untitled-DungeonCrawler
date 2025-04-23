@@ -8,7 +8,7 @@ Entity::~Entity()
 
 void Entity::levelUp() {
 	setLevel(getLevel() + 1);
-	for (int i = 0;i < 3; i++) {
+	for (int i = 0;i < 5; i++) {
 		if (rand() % 100 <= statLine.getGrowth(0)) {
 			statLine.setMaxHp(statLine.getMaxHp() + 1);
 		}
