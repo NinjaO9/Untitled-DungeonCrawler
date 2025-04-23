@@ -162,6 +162,10 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="JohnImpact.jpg" />
+    <Image Include="slash-down.png" />
+    <Image Include="slash-left.png" />
+    <Image Include="slash-right.png" />
+    <Image Include="slash-up.png" />
     <Image Include="Temp.png" />
   </ItemGroup>
   <ItemGroup>
