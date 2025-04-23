@@ -52,10 +52,10 @@ int main()
         statTable[i].setGrowths(growthTable[i]);
     }
     gameManager->getPlayer() = new Player(statTable[1]/*stats*/, growthTable[1]/*growths*/, 1/*lvl*/, sf::Vector2f(100, 100));
-    for (int i = 0; i < ENTITY_COUNT-1; i++) // initialize given number of entities 
-    {
-        gameManager->getEnemies().push_back(new Enemy(statTable[1]/*stats*/, growthTable[1]/*growths*/, 1/*lvl*/, 200/*viewdistance*/, 5/*attackrange*/, 2/*idletime*/, sf::Vector2f(100, 100)/*position*/)); // create a new enemy with default values
-    }
+    //for (int i = 0; i < ENTITY_COUNT-1; i++) // initialize given number of entities 
+    //{
+    //    gameManager->getEnemies().push_back(new Enemy(statTable[1]/*stats*/, growthTable[1]/*growths*/, 1/*lvl*/, 200/*viewdistance*/, 5/*attackrange*/, 2/*idletime*/, sf::Vector2f(100, 100)/*position*/)); // create a new enemy with default values
+    //}
 
 
 
@@ -89,6 +89,7 @@ int main()
         {
             window.setView(gameManager->getView());
             window.clear();
+            gameManager->getPlayer()->update();
             for (Enemy* enemy : gameManager->getEnemies()) // feel free to delete if you need to do something else with drawing and the enemies get annoying
             {
                 float realX = window.mapCoordsToPixel(enemy->getPos(), gameManager->getView()).x;
@@ -101,6 +102,7 @@ int main()
                 window.draw(enemy->getPlayerRay()); // NOTE: DRAWING THE RAYS IS A PREFORMANCE KILLER! COMMENT THESE OUT BEFORE JUDGING GAME PREFORMANCE
 
             }
+            window.draw(gameManager->getPlayer()->getModel());
             for (Obstacle* obs : lvl->getTiles())
             {
                 window.draw(obs->getModel());
