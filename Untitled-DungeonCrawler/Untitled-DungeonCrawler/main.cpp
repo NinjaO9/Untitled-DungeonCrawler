@@ -6,8 +6,9 @@
 #include "LevelManager.hpp"
 #include <fstream>
 
-#define RUN_DEBUG true
+#define RUN_DEBUG false
 #define TEST_CASE 4
+#define ENTITY_COUNT 20
 
 using std::fstream;
 
@@ -183,7 +184,7 @@ void runDEBUG()
     Obstacle dummyPlayer({ 50,100 });
     sf::VertexArray PlayerRay = sf::VertexArray(sf::PrimitiveType::LineStrip, 2);
     dummyPlayer.getModel().setColor(sf::Color::Red);
-    gameManager->getEnemies().push_back(new Enemy(10, 200, 32, 0, {300,100}));
+    gameManager->getEnemies().push_back(new Enemy(defaultStatLine,defaultGrowths, 1, 200, 32, 0, {300,100}));
 
     switch (TEST_CASE)
     {

@@ -105,7 +105,7 @@ void Enemy::runPatrol()
 {
 	// patrol/walk animation
 	float distance = checkDistance(this->targetPos);
-	if (distance <= getSpeed()) { getNewTargetPos(); idleTimer += defaultTime; return; } // prevent divide by 0 error; give the enemy some more time to rest before patrolling to a new spot
+	if (distance <= getStats().getSpeed()) { getNewTargetPos(); idleTimer += defaultTime; return; } // prevent divide by 0 error; give the enemy some more time to rest before patrolling to a new spot
 	sf::Vector2f direction(((targetPos.x - getPos().x)/ distance), ((targetPos.y - getPos().y)/ distance)); // Normalized(?) vector to tell the direction of where the enemy needs to go
 
 	this->getModel().move(direction * getStats().getSpeed()); // moving the enemy however much in a certain direction
@@ -234,7 +234,7 @@ bool Enemy::isTargetPosValid(sf::Vector2f target)
 
 	//vector<Obstacle*> nearbyObsticles = gm->getNearbyObstacles(tempPos);
 
-	for (int i = 1; distance > getSpeed(); i++) // possibly change i++ to i += 32; this is because we are doing a 32x32 sprite style, so this could be helpful to prevent a higher number of operations
+	for (int i = 1; distance > getStats().getSpeed(); i++) // possibly change i++ to i += 32; this is because we are doing a 32x32 sprite style, so this could be helpful to prevent a higher number of operations
 	{
 		tempSprite.move(direction);
 		tempPos = tempSprite.getPosition();
