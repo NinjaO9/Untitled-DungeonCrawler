@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "GameManager.hpp"
 #include "TextureManager.hpp"
+#include "Weapon.hpp"
 #include "LevelManager.hpp"
 #include <fstream>
 
@@ -36,6 +37,7 @@ void runGame()
     sf::RenderWindow window(sf::VideoMode({ 1000, 1000 }), "GAME RUNNING");
     bool isPaused = false;
     int frameCount = 0, frameRate = 0;
+    Weapon testW; Sword sword;
     TextureManager* texManager = TextureManager::getInstance();
     GameManager* gameManager = GameManager::getInstance();
     LevelManager* lvl = gameManager->getLevel();
@@ -160,6 +162,10 @@ void runGame()
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Down))
         {
             gameManager->getView().move({ 0,0.001 });
+        }
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+        {
+            testW.BaseWeaponATK(sword.getBaseDMG());
         }
 
     }
