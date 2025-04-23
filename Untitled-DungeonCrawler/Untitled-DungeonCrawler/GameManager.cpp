@@ -10,14 +10,18 @@ vector<Enemy*>& GameManager::getEnemies()
     return enemyArr;
 }
 
-sf::Vector2f& GameManager::getMousePos()
+sf::Vector2f& GameManager::getPlayerPos()
 {
-    return mousePos;
+    if (playerInstance)
+    {
+        return playerInstance->getPos();
+    }
+    return playerPos;
 }
 
 void GameManager::setMousePos(sf::Vector2f pos)
 {
-    mousePos = pos;
+    playerPos = pos;
 }
 
 void GameManager::setWindow(sf::RenderWindow& window)
@@ -32,7 +36,7 @@ sf::RenderWindow*& GameManager::getWindow()
 
 void GameManager::updateMouse()
 {
-    mousePos = activeWindow->mapPixelToCoords(sf::Mouse::getPosition(*activeWindow), windowView);
+    playerPos = activeWindow->mapPixelToCoords(sf::Mouse::getPosition(*activeWindow), windowView);
 }
 
 void GameManager::destroyManager()

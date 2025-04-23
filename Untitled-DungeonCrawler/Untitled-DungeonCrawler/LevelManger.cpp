@@ -50,7 +50,20 @@ void LevelManager::initGameManager()
 void LevelManager::setPlayerPosition()
 {
 	gm->getView().setCenter((sf::Vector2f)placementSpot);
-	// idea is to just move the player and place it at the indicated spot
+	gm->getPlayer()->setPos((sf::Vector2f)placementSpot);
+}
+
+void LevelManager::handlePlayerSpawn()
+{
+	if (gm->getPlayer())
+	{
+		setPlayerPosition();
+	}
+	else
+	{
+		gm->getPlayer() = new Player(Stats(20, 1.2f, 4, 3, 15)/*stats*/, Growths(90, 30, 40, 20, 10)/*growths*/, 1/*lvl*/, (sf::Vector2f)placementSpot);
+		// stats and growths were copied from main.cpp
+	}
 }
 
 void LevelManager::generateLayer(std::string line)
@@ -77,7 +90,7 @@ void LevelManager::generateLayer(std::string line)
 			break;
 		case 83: // player spawn | denoted by: S
 			//std::cout << "|SPAWN|";
-			setPlayerPosition();
+			handlePlayerSpawn();
 			break;
 		case 42: // Exit level / enter next level | denoted by: *
 			placeExit();

@@ -10,7 +10,6 @@ public:
 	{
 		setExpToNext(5 + (getLevel() * 5) * (1 + (getLevel() - 1) / 10));
 		this->setModel(new sf::Sprite(TextureManager::getInstance()->getTexture("John")));
-		this->getModel().setScale(sf::Vector2f(0.032, 0.032));
 		this->getModel().setPosition(pos);
 		sf::FloatRect temp = this->getModel().getLocalBounds();
 		this->getModel().setOrigin(sf::Vector2f(temp.size.x / 2, temp.size.y / 2));
@@ -26,6 +25,8 @@ public:
 	int getExpToLvl() const { return this->expToNext; }
 	void setExp(int newexp) { this->exp = newexp; }
 	void setExpToNext(int newexptolvl) { this->expToNext = newexptolvl; }
+
+	void handleMovement(); // although player is your job; I am adding a handleMovement() function to help clarify some things and have cleaner code
 
 private:
 	int exp;

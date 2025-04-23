@@ -39,6 +39,8 @@ public:
 
 	void setPlayerPosition();
 
+	void handlePlayerSpawn();
+
 private:
 	static GameManager* gm;
 	std::vector<Obstacle*> wallTiles;
