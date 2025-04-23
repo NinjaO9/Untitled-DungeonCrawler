@@ -46,7 +46,7 @@ void Weapon::BaseWeaponATK(const int& WDamage)
 	sf::FloatRect temp = test.getModel().getLocalBounds();
 	test.getModel().setOrigin(sf::Vector2f(temp.size.x / 2, temp.size.y / 2));
 	test.getModel().setScale(sf::Vector2f(0.01, 0.01));
-	test.getModel().setPosition(gm->getPlayerPos() + sf::Vector2f(gm->getPlayer()->getDirection() * 32));//multiply direction (player position) by offset
+	test.getModel().setPosition(gm->getPlayerPos() + sf::Vector2f(gm->getPlayer()->getDirection() * 25));//multiply direction (player position) by offset
 
 	gm->getWindow()->draw(test.getModel());  
 
@@ -80,7 +80,7 @@ void Weapon::BaseWeaponATK(const int& WDamage)
 		delete dead;
 	}
 	cout << "ENEMY COUNT ON LEVEL: " << gm->getEnemies().size() << endl;
-	cout << "Killed: " << killedEntities.size() << " in one swing!" << endl;
+	//cout << "Killed: " << killedEntities.size() << " in one swing!" << endl;
 }
 
 void Weapon::initGameManager()
