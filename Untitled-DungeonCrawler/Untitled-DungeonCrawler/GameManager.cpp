@@ -15,6 +15,11 @@ sf::Vector2f& GameManager::getMousePos()
     return mousePos;
 }
 
+void GameManager::setMousePos(sf::Vector2f pos)
+{
+    mousePos = pos;
+}
+
 void GameManager::setWindow(sf::RenderWindow& window)
 {
     activeWindow = &window;

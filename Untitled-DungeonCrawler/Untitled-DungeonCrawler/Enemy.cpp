@@ -37,6 +37,14 @@ sf::VertexArray Enemy::getPatrolRay() const
 	return PatrolRay;
 }
 
+void Enemy::checkForcedPos()
+{
+	if (!isTargetPosValid(targetPos)) // typical routine for 
+	{
+		getNewTargetPos();
+	}
+}
+
 sf::VertexArray Enemy::getPlayerRay() const
 {
 	return PlayerRay;
@@ -54,7 +62,9 @@ State Enemy::updateState()
 		return CHASE; // If the enemy can see the player, but is too far from the player, chase the player down
 	}
 	PlayerRay[1].color = sf::Color::Red; // visually show that the player is NOT seen by the enemy
-	if (prevState == CHASE) { getNewTargetPos(); } // make the enemy get a new position if they lose sight of the player
+	if (prevState == CHASE) { 
+		getNewTargetPos(); 
+	} // make the enemy get a new position if they lose sight of the player
 	if (prevState == ATTACK) { this->getModel().setColor(sf::Color::White); }
 	if (idleTimer <= 0)
 	{
@@ -95,7 +105,7 @@ void Enemy::runPatrol()
 {
 	// patrol/walk animation
 	float distance = checkDistance(this->targetPos);
-	if (distance == 0) { getNewTargetPos(); idleTimer += defaultTime; return; } // prevent divide by 0 error; give the enemy some more time to rest before patrolling to a new spot
+	if (distance <= getStats().getSpeed()) { getNewTargetPos(); idleTimer += defaultTime; return; } // prevent divide by 0 error; give the enemy some more time to rest before patrolling to a new spot
 	sf::Vector2f direction(((targetPos.x - getPos().x)/ distance), ((targetPos.y - getPos().y)/ distance)); // Normalized(?) vector to tell the direction of where the enemy needs to go
 
 	this->getModel().move(direction * getStats().getSpeed()); // moving the enemy however much in a certain direction
@@ -170,7 +180,7 @@ void Enemy::getNewTargetPos() // Super Janky code, but a proof of concept
 	if (attempt == 5)
 	{
 		targetPos = this->getModel().getPosition();
-		//std::cout << "I give up!" << std::endl;
+		std::cout << "I give up!" << std::endl;
 	}
 
 }
@@ -224,7 +234,7 @@ bool Enemy::isTargetPosValid(sf::Vector2f target)
 
 	//vector<Obstacle*> nearbyObsticles = gm->getNearbyObstacles(tempPos);
 
-	for (int i = 1; checkDistance(tempPos, target) > 1; i++) // possibly change i++ to i += 32; this is because we are doing a 32x32 sprite style, so this could be helpful to prevent a higher number of operations
+	for (int i = 1; distance > getStats().getSpeed(); i++) // possibly change i++ to i += 32; this is because we are doing a 32x32 sprite style, so this could be helpful to prevent a higher number of operations
 	{
 		tempSprite.move(direction);
 		tempPos = tempSprite.getPosition();
@@ -252,6 +262,7 @@ bool Enemy::isTargetPosValid(sf::Vector2f target)
 		}
 		if (!isValid) { /*cout << "INVALID" << endl;*/ break; }
 		//std::cout << "loop" << std::endl;
+		distance = checkDistance(tempPos, target);
 	}
 	//std::cout << isValid << std::endl;
 	return isValid;
@@ -270,7 +281,7 @@ void Enemy::handleCollision()
 			else if (trueIntersection.x > 0) { xSign = 1; }
 			else { xSign = -1; }
 			if (trueIntersection.y == this->getModel().getPosition().y) { ySign = 0; }
-			else if (trueIntersection.x > 0) { ySign = -1; }
+			else if (trueIntersection.y > 0) { ySign = -1; }
 			else { ySign = 1; }
 			this->getModel().move({intersection.value().size.x * xSign + (2 * xSign), -intersection.value().size.y * ySign + (2 * ySign)});
 			break;
