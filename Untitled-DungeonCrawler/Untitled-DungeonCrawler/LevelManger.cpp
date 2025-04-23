@@ -24,8 +24,8 @@ void LevelManager::loadFromFile(std::fstream& file)
 		placementSpot += sf::Vector2i(-length * size, 32); // go back to the left, and one row down
 	}
 	placementSpot = sf::Vector2i(0, 0);
-	if (exitTile != nullptr) { wallTiles.push_back(exitTile); } // forcing the exitTile to be at the end of the vector for easy calling (we should just use the pointer reference though)
-	else { cout << "WARNING: This level has no exit tile! (*)" << endl; }
+	//if (exitTile != nullptr) { wallTiles.push_back(exitTile); } // forcing the exitTile to be at the end of the vector for easy calling (we should just use the pointer reference though)
+	//else { cout << "WARNING: This level has no exit tile! (*)" << endl; }
 	// if we dont have an exit tile, then.... idk
 }
 
@@ -143,6 +143,6 @@ void LevelManager::placeEnemy(int n)
 
 void LevelManager::placeExit()
 {
-	exitTile = new Obstacle((sf::Vector2f)(placementSpot + sf::Vector2i(0,5)));
+	exitTile = new Obstacle((sf::Vector2f)placementSpot);
 	exitTile->getModel().setColor(sf::Color::Red); // temp color to help differentiate an exit tile from other tiles
 }
