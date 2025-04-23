@@ -83,15 +83,18 @@
     <ClInclude Include="Player.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Stats.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="LevelManager.hpp">
       <Filter>Header Files\Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility.hpp">
-      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Temp.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="JohnImpact.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
@@ -100,6 +103,9 @@
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="Level1.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Level2.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

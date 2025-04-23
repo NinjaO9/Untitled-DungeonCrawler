@@ -41,11 +41,46 @@ void runGame()
     sf::Clock frameClock;
     fstream file;
     gameManager->setWindow(window);
-    texManager->loadTextures("Textures.txt");
+    texManager->loadTextures("Textures.txt");  
+    Growths inputGrowths[] = {
+    Growths(90, 30, 40, 20, 10),
+    Growths(60, 15, 25, 12, 5),
+    Growths(50, 20, 15, 10, 0),
+    Growths(70, 10, 30, 15, 3) //random filler values for now
+    };
+    Stats inputStats[] = {
+     Stats(20, 1.2f, 4, 3, 15),
+    Stats(12, 0.8f, 2, 1, 10),
+    Stats(15, 0.6f, 1, 2, 8),
+    Stats(10, 1.0f, 3, 0, 12) //same for stats; random filler, change to more appropriate values
+    };
+    Growths growthTable[ENTITY_COUNT];
+    Stats statTable[ENTITY_COUNT];
+    int inputCount = std::min((int)(sizeof(inputStats) / sizeof(Stats)), ENTITY_COUNT);
+    for (int i = 0; i < ENTITY_COUNT; ++i) {
+        if (i < inputCount) {
+            statTable[i] = inputStats[i];
+            growthTable[i] = inputGrowths[i];
+        }
+        else {
+            statTable[i] = defaultStatLine;
+            growthTable[i] = defaultGrowths;
+        }
+        statTable[i].setGrowths(growthTable[i]);
+    }
+    gameManager->getPlayer() = new Player(statTable[1]/*stats*/, growthTable[1]/*growths*/, 1/*lvl*/, sf::Vector2f(100, 100));
+    //for (int i = 0; i < ENTITY_COUNT-1; i++) // initialize given number of entities 
+    //{
+    //    gameManager->getEnemies().push_back(new Enemy(statTable[1]/*stats*/, growthTable[1]/*growths*/, 1/*lvl*/, 200/*viewdistance*/, 5/*attackrange*/, 2/*idletime*/, sf::Vector2f(100, 100)/*position*/)); // create a new enemy with default values
+    //}
+
+
+
     gameManager->getView().zoom(0.5);
 
     file.open("Level1.txt");
     lvl->loadFromFile(file);
+    file.close();
     gameManager->getClock().start();
     frameClock.start();
 
@@ -67,24 +102,40 @@ void runGame()
                 window.close();
         }
 
-        if (frameClock.getElapsedTime().asMilliseconds() > 15) // Tested values: 15 - 60 FPS; 27 - ~33 FPS
+        if (frameClock.getElapsedTime().asMilliseconds() > 15) // Tested values: 15 - ~60 FPS; 27 - ~33 FPS
         {
             window.setView(gameManager->getView());
             window.clear();
+            gameManager->getPlayer()->update();
             for (Enemy* enemy : gameManager->getEnemies()) // feel free to delete if you need to do something else with drawing and the enemies get annoying
             {
                 float realX = window.mapCoordsToPixel(enemy->getPos(), gameManager->getView()).x;
                 float realY = window.mapCoordsToPixel(enemy->getPos(), gameManager->getView()).y;
                 if (realX < 0 || realX > window.getSize().x) { continue; } // skip updating any enemy that is out of view
+                else if (realY < 0 || realY > window.getSize().y) { continue; }
                 enemy->update();
                 window.draw(enemy->getModel());
                 window.draw(enemy->getPatrolRay()); // NOTE2: PRINTING TO THE CONSOLE CAN ALSO BE A PREFORMANCE KILLER!
                 window.draw(enemy->getPlayerRay()); // NOTE: DRAWING THE RAYS IS A PREFORMANCE KILLER! COMMENT THESE OUT BEFORE JUDGING GAME PREFORMANCE
 
             }
+            window.draw(gameManager->getPlayer()->getModel());
             for (Obstacle* obs : lvl->getTiles())
             {
                 window.draw(obs->getModel());
+            }
+            if (lvl->getExitTile())
+            {
+                window.draw(lvl->getExitTile()->getModel());
+
+            }
+            if (gameManager->getLevel()->getExitTile() && gameManager->getLevel()->getExitTile()->getModel().getGlobalBounds().contains(gameManager->getMousePos())) // is the 'player' at the exit tile?
+            {
+                gameManager->getLevel()->unloadLevel();
+                file.open("Level2.txt");
+                window.setView(window.getDefaultView());
+                gameManager->getLevel()->loadFromFile(file);
+                file.close();
             }
             window.display();
             frameCount++;

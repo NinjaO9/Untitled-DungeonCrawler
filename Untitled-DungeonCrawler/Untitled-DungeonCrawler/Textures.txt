@@ -4,4 +4,5 @@
 
 Temp-Temp.png
 Rock-Rock.jpg
+John-JohnImpact.jpg
 Wall-Wall.png
