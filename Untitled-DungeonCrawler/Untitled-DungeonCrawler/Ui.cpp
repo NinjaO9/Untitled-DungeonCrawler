@@ -24,14 +24,26 @@ void Ui::update() {
 };
 
 void display() {
-	int scale = 100;
+	int xscale = 100;
+  int yscale = 100;
 	update();
+  int healthBar = health / 10;
+  int staminaBar = stamina / 10;
 	sf::Font font("comicsans.ttf");
-	sf::Text displayHealth(font, "Hp: " + health);
-	sf::Text displayStamina(font, "St: " + stamina);
-	sf::Text displayLevel(font, "Lv: " + level);
+  string screenHealth = "Hp: [";
+  string screenStamina = "St: [";
+  string screenLevel = "Lv: " + level;
+  for (int i = 0; i < healthBar; i++) {
+    screenHealth += "#";
+  }
+  for (int i = 0; i < staminaBar; i++) {
+    screenStamina += "#";
+  }
+	sf Text::displayHealth(font, screenHealth);
+	sf::Text displayStamina(font, screenStamina);
+	sf::Text displayLevel(font, screenLevel);
 
-	displayHealth.setposition(scale, scale);
-	displayStamina.setposition(-scale, scale);
-	displayLevel.setposition(-scale, -scale);
+	displayHealth.setposition(xscale, yscale);
+	displayStamina.setposition(-xscale, yscale);
+	displayLevel.setposition(-xscale, -yscale);
 };
