@@ -1,4 +1,7 @@
 #include "Player.hpp"
+#include "GameManager.hpp"
+#include "LevelManager.hpp"
+
 using sf::Keyboard::Scancode;
 
 void Player::update() {

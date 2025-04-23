@@ -61,7 +61,7 @@ void LevelManager::handlePlayerSpawn()
 	}
 	else
 	{
-		gm->getPlayer() = new Player(Stats(20, 1.2f, 4, 3, 15)/*stats*/, Growths(90, 30, 40, 20, 10)/*growths*/, 1/*lvl*/, (sf::Vector2f)placementSpot);
+		gm->getPlayer() = new Player(Stats(20, 2.3f, 4, 3, 15)/*stats*/, Growths(90, 30, 40, 20, 10)/*growths*/, 1/*lvl*/, (sf::Vector2f)placementSpot);
 		// stats and growths were copied from main.cpp
 	}
 }
