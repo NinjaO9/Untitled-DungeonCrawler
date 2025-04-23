@@ -35,23 +35,32 @@ void Player::checklvlup()
 
 void Player::handleMovement()
 {
-	sf::Vector2i direction;
+	sf::Vector2i movement;
 	if (sf::Keyboard::isKeyPressed(Scancode::W))
 	{
-		direction += {0, -1};
+		movement += {0, -1};
+		this->direction = { 0,-1 };
 	}
 	if (sf::Keyboard::isKeyPressed(Scancode::S))
 	{
-		direction += {0, 1};
+		movement += {0, 1};
+		this->direction = { 0,1 };
 	}
 	if (sf::Keyboard::isKeyPressed(Scancode::D))
 	{
-		direction += {1, 0};
+		movement += {1, 0};
+		this->direction = { 1,0 };
 	}
 	if (sf::Keyboard::isKeyPressed(Scancode::A))
 	{
-		direction += {-1, 0};
+		movement += {-1, 0};
+		this->direction = { -1,0 };
 	}
 
-	this->getModel().move((sf::Vector2f)direction * this->getStats().getSpeed());
+	this->getModel().move((sf::Vector2f)movement * this->getStats().getSpeed());
+}
+
+sf::Vector2i Player::getDirection()
+{
+	return direction;
 }

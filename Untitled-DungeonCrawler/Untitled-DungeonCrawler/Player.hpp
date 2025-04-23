@@ -13,6 +13,7 @@ public:
 		this->getModel().setPosition(pos);
 		sf::FloatRect temp = this->getModel().getLocalBounds();
 		this->getModel().setOrigin(sf::Vector2f(temp.size.x / 2, temp.size.y / 2));
+		direction = { 0,0 };
 	}
 
 	void update() override;
@@ -26,10 +27,14 @@ public:
 	void setExp(int newexp) { this->exp = newexp; }
 	void setExpToNext(int newexptolvl) { this->expToNext = newexptolvl; }
 
-	void handleMovement(); // although player is your job; I am adding a handleMovement() function to help clarify some things and have cleaner code
+	void handleMovement(); // although player is not my job; I am adding a handleMovement() function to help clarify some things and have cleaner code
+
+	sf::Vector2i getDirection();
 
 private:
 	int exp;
 	int expToNext;
+	sf::Vector2i direction;
 	Weapon* equippedWeapon;
+
 };
