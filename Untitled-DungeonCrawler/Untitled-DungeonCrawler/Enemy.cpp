@@ -59,6 +59,7 @@ State Enemy::updateState()
 		{
 			return ATTACK; // If the enemy can see the player and is close enough to land an attack, try to attack
 		}
+		if (prevState == ATTACK) { this->getModel().setColor(sf::Color::White); }
 		return CHASE; // If the enemy can see the player, but is too far from the player, chase the player down
 	}
 	PlayerRay[1].color = sf::Color::Red; // visually show that the player is NOT seen by the enemy
@@ -180,7 +181,7 @@ void Enemy::getNewTargetPos() // Super Janky code, but a proof of concept
 	if (attempt == 5)
 	{
 		targetPos = this->getModel().getPosition();
-		std::cout << "I give up!" << std::endl;
+		//std::cout << "I give up!" << std::endl;
 	}
 
 }
