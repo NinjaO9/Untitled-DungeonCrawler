@@ -140,6 +140,7 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Interactable.cpp" />
+    <ClCompile Include="LevelManger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -152,8 +153,10 @@
     <ClInclude Include="GameManager.hpp" />
     <ClInclude Include="GameObject.hpp" />
     <ClInclude Include="Interactable.hpp" />
+    <ClInclude Include="LevelManager.hpp" />
     <ClInclude Include="Obstacle.hpp" />
     <ClInclude Include="Player.hpp" />
+    <ClInclude Include="Stats.hpp" />
     <ClInclude Include="TextureManager.hpp" />
     <ClInclude Include="Weapon.hpp" />
   </ItemGroup>
@@ -162,6 +165,8 @@
     <Image Include="Temp.png" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Level1.txt" />
+    <Text Include="Level2.txt" />
     <Text Include="Textures.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
