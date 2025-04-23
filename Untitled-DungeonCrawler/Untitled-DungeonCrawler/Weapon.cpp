@@ -46,11 +46,12 @@ void Weapon::BaseWeaponATK(const int& WDamage)
 	sf::FloatRect temp = test.getModel().getLocalBounds();
 	test.getModel().setOrigin(sf::Vector2f(temp.size.x / 2, temp.size.y / 2));
 	test.getModel().setScale(sf::Vector2f(0.01, 0.01));
-	test.getModel().setPosition(gm->getMousePos());
+	test.getModel().setPosition(gm->getPlayerPos());
 
 	gm->getWindow()->draw(test.getModel());  
 
 	gm->getWindow()->display();  
+	vector<Entity*> killedEntities;
 
 	for (auto* enemy : gm->getEnemies()) 
 	{
@@ -58,7 +59,11 @@ void Weapon::BaseWeaponATK(const int& WDamage)
 		if (test.getModel().getGlobalBounds().findIntersection(enemy->getModel().getGlobalBounds()))//placeholder, but overall intersection
 		{
 			setdmg(WDamage); 
-			enemy->handleDamage(getdmg());
+			bool killed = enemy->handleDamage(getdmg());
+			if (killed)
+			{
+				killedEntities.push_back(enemy);
+			}
 			cout << "hit! for: " << getdmg() << endl;
 		}
 		else
@@ -66,6 +71,16 @@ void Weapon::BaseWeaponATK(const int& WDamage)
 			setdmg(0);
 		}
 	}
+	for (auto* dead : killedEntities)
+	{
+		auto index = std::find(gm->getEnemies().begin(), gm->getEnemies().end(), dead);
+		gm->getEnemies().erase(index);
+
+
+		delete dead;
+	}
+	cout << "ENEMY COUNT ON LEVEL: " << gm->getEnemies().size() << endl;
+	cout << "Killed: " << killedEntities.size() << " in one swing!" << endl;
 }
 
 void Weapon::initGameManager()

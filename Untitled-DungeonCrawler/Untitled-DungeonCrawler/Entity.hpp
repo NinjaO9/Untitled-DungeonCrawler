@@ -32,7 +32,7 @@ public:
 
 	void setSpeed(float const speed);
 
-	virtual void handleDamage(int dmg);
+	bool handleDamage(int dmg);
 
 	virtual ~Entity();
 
