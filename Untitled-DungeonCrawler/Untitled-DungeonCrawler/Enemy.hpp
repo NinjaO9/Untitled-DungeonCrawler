@@ -54,6 +54,8 @@ public:
 	// shouldn't be needed to be called except for test-cases
 	void checkCollision() { handleCollision(); }
 
+	bool debugSeesPlayer() { updateDirection(); return canSeePlayer(); }
+
 private:
 
 	State state, prevState;

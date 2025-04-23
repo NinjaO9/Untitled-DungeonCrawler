@@ -7,7 +7,7 @@
 #include <fstream>
 
 #define RUN_DEBUG true
-#define TEST_CASE 2
+#define TEST_CASE 3
 
 using std::fstream;
 
@@ -117,6 +117,7 @@ void runDEBUG()
     sf::RenderWindow window(sf::VideoMode({ 1000, 1000 }), "DEBUG MODE - TEST CASES");
     bool isPaused = false;
     int frameCount = 0, frameRate = 0;
+
     TextureManager* texManager = TextureManager::getInstance();
     GameManager* gameManager = GameManager::getInstance();
     LevelManager* lvl = gameManager->getLevel();
@@ -128,7 +129,8 @@ void runDEBUG()
 
     frameClock.start();
     gameManager->getLevel()->getTiles().push_back(new Obstacle({100,100}));
-    Obstacle dummyPlayer({ 100,100 });
+    Obstacle dummyPlayer({ 50,100 });
+    sf::VertexArray PlayerRay = sf::VertexArray(sf::PrimitiveType::LineStrip, 2);
     dummyPlayer.getModel().setColor(sf::Color::Red);
     gameManager->getEnemies().push_back(new Enemy(10, 200, 32, 2, {300,100}));
 
@@ -186,7 +188,7 @@ void runDEBUG()
         break;
     case 2:
         
-        cout << "TEST_CASE description: The enemy will constantly move into a wall, colliding and bouncing back. In this case, ending up at the top left of the wall is a predicted behavior because of the nature of the checkCollision() function." << endl;
+        cout << "TEST_CASE description: Testing enemy collision logic - The enemy will constantly move into a wall, colliding and bouncing back. In this case, ending up at the top left of the wall is a predicted behavior because of the nature of the checkCollision() function." << endl;
         while (window.isOpen())
         {
             while (const std::optional event = window.pollEvent())
@@ -211,8 +213,59 @@ void runDEBUG()
         }
         break;
     case 3:
+        cout << "TEST_CASE description: Testing enemy LOS logic (line of sight) - The enemy will display a ray that connects to the player, however it is blocked by a wall. Thus, it will display red at the player to signify that the player cannot be seen. The wall will be removed and then the ray will turn green to simulate the enemy seeing the player " << endl;
+        //gameManager->getEnemies()[0]->getModel().move({ -150,10 });
+        //gameManager->getEnemies()[0]->setPos(gameManager->getEnemies()[0]->getModel().getPosition());
+        gameManager->getEnemies()[0]->getTargetPos() = dummyPlayer.getModel().getPosition();
+        gameManager->setMousePos({ dummyPlayer.getModel().getPosition().x + 3, dummyPlayer.getModel().getPosition().y });
+
+        /*PlayerRay[0].position = gameManager->getEnemies()[0]->getModel().getPosition();
+        PlayerRay[1].position = dummyPlayer.getModel().getPosition();
+        PlayerRay[0].color = sf::Color::White;*/
+
+
+        while (window.isOpen())
+        {
+            while (const std::optional event = window.pollEvent())
+            {
+                if (event->is<sf::Event::Closed>())
+                    window.close();
+            }
+            if (frameClock.getElapsedTime().asMilliseconds() > 15) // frame-rate limiter
+            {
+                frameCount++;
+                window.clear();
+                gameManager->getEnemies()[0]->update();
+                gameManager->getEnemies()[0]->getModel().setPosition({ 150,110 });
+                if (gameManager->getEnemies()[0]->debugSeesPlayer())
+                {
+                    PlayerRay[1].color = sf::Color::Green;
+                }
+                else
+                {
+                    PlayerRay[1].color = sf::Color::Red;
+                }
+                if (frameCount == 60)
+                {
+                    lvl->getTiles().clear();
+                }
+
+                if (frameCount < 60)
+                {
+                    window.draw(lvl->getTiles()[0]->getModel());
+                }
+                window.draw(dummyPlayer.getModel());
+                window.draw(gameManager->getEnemies()[0]->getModel());
+                window.draw(gameManager->getEnemies()[0]->getPlayerRay());
+
+                window.display();
+
+                frameClock.restart();
+            }
+        }
         break;
     case 4:
+
         break;
     default:
         cout << "Invalid TEST_CASE number!: " << TEST_CASE << " > max(4) - Edit line 10 within main.cpp and re-run to try again." << endl;
