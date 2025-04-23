@@ -7,8 +7,8 @@
 #include "LevelManager.hpp"
 #include <fstream>
 
-#define RUN_DEBUG false
-#define TEST_CASE 4
+#define RUN_DEBUG false // Replace 'false' with 'true' to run debug mode, running the test case below:
+#define TEST_CASE 0 // from a range of (0-4) it will run a specific test case. Keep in mind that the test case will do what it is meant to do, but it won't end the program. The user must close the window to end the test
 
 using std::fstream;
 
