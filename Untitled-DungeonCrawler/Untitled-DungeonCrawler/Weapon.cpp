@@ -39,7 +39,7 @@ void Weapon::BaseWeaponATK(const int& WDamage)
 {
 	
 
-	Entity test(10,(sf::Vector2f)sf::Mouse::getPosition(*(gm->getWindow())));
+	Entity test(defaultStatLine, defaultGrowths, 1, (sf::Vector2f)sf::Mouse::getPosition(*(gm->getWindow())));
 	sf::Sprite* tempSprite = new sf::Sprite(TextureManager::getInstance()->getTexture("Temp"));
 	test.setModel(tempSprite);
 	sf::FloatRect temp = test.getModel().getLocalBounds();
