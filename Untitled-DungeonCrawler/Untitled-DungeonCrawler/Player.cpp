@@ -42,22 +42,42 @@ void Player::checklvlup()
 void Player::handleMovement()
 {
 	sf::Vector2i movement;
-	if (sf::Keyboard::isKeyPressed(Scancode::W))
+	if (sf::Keyboard::isKeyPressed(Scancode::W) && sf::Keyboard::isKeyPressed(Scancode::D)&&!sf::Keyboard::isKeyPressed(Scancode::S) &&! sf::Keyboard::isKeyPressed(Scancode::A))
+	{
+		movement = { 1, -1 };
+		this->direction = { 1,-1 };
+	}
+	else if(sf::Keyboard::isKeyPressed(Scancode::D) && sf::Keyboard::isKeyPressed(Scancode::S)&&!sf::Keyboard::isKeyPressed(Scancode::A) &&! sf::Keyboard::isKeyPressed(Scancode::W))
+	{
+		movement = { 1, 1 };
+		this->direction = { 1,1 };
+	}
+	else if (sf::Keyboard::isKeyPressed(Scancode::S) && sf::Keyboard::isKeyPressed(Scancode::A)&&!sf::Keyboard::isKeyPressed(Scancode::W) &&! sf::Keyboard::isKeyPressed(Scancode::D))
+	{
+		movement = { -1, 1 };
+		this->direction = { -1,1 };
+	}
+	else if (sf::Keyboard::isKeyPressed(Scancode::W) && sf::Keyboard::isKeyPressed(Scancode::A)&&! sf::Keyboard::isKeyPressed(Scancode::S) &&! sf::Keyboard::isKeyPressed(Scancode::D))
+	{
+		movement = { -1, -1 };
+		this->direction = { -1,-1 };
+	}
+	else if (sf::Keyboard::isKeyPressed(Scancode::W)&&!sf::Keyboard::isKeyPressed(Scancode::S))
 	{
 		movement = {0, -1};
 		this->direction = { 0,-1 };
 	}
-	if (sf::Keyboard::isKeyPressed(Scancode::S))
+	else if (sf::Keyboard::isKeyPressed(Scancode::S)&&!sf::Keyboard::isKeyPressed(Scancode::W))
 	{
 		movement = {0, 1};
 		this->direction = { 0,1 };
 	}
-	if (sf::Keyboard::isKeyPressed(Scancode::D))
+	else if (sf::Keyboard::isKeyPressed(Scancode::D)&&!sf::Keyboard::isKeyPressed(Scancode::A))
 	{
 		movement = {1, 0};
 		this->direction = { 1,0 };
 	}
-	if (sf::Keyboard::isKeyPressed(Scancode::A))
+	else if (sf::Keyboard::isKeyPressed(Scancode::A)&&!sf::Keyboard::isKeyPressed(Scancode::D))
 	{
 		movement = {-1, 0};
 		this->direction = { -1,0 };
