@@ -16,7 +16,7 @@ public:
 		statLine.setGrowths(grows);
 		level = lvl;
 		for (int i = 0; i < level;i++) {
-			levelUp();
+			boostStats();
 		}
 		this->model = nullptr; // get rid of warnings
 	}
@@ -30,6 +30,7 @@ public:
 	
 
 	virtual void levelUp();
+	void boostStats();
 
 
 	bool handleDamage(int dmg);
