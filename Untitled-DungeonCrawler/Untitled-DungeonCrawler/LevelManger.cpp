@@ -14,7 +14,7 @@ void LevelManager::loadFromFile(std::fstream& file)
 	{
 		nextLevel = line.substr(line.find('-') +1);
 	}
-	cout << nextLevel;
+	cout << "Next Level: " << nextLevel << endl;
 	while (!file.eof())
 	{
 		file.getline(cStr, 101);
@@ -31,7 +31,7 @@ void LevelManager::loadFromFile(std::fstream& file)
 
 void LevelManager::loadSavedNext()
 {
-	if (nextLevel == "Empty") { return; }
+	if (nextLevel == "Empty") { cout << "NO MORE LEVELS!" << endl; return; }
 
 	std::fstream file(nextLevel);
 	if (file.is_open())

@@ -31,7 +31,7 @@ void Entity::boostStats() {
 bool Entity::handleDamage(int dmg)
 {
     getStats().setCurHp(getStats().getCurHp()-dmg);
-    cout << "Enemy has: " << getStats().getCurHp() << " health remaining!" << endl;
+    //cout << "Enemy has: " << getStats().getCurHp() << " health remaining!" << endl;
     if (getStats().getCurHp() == 0)
     {
 		return true;

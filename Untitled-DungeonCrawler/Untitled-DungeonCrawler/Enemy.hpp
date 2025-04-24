@@ -47,8 +47,9 @@ public:
 
 	sf::VertexArray getPlayerRay() const;
 	sf::VertexArray getPatrolRay() const;
-
-	sf::Vector2f getDirection() const { return directon; };
+	
+	void setDirection(sf::Vector2f newDir) { direction = newDir; }
+	sf::Vector2f getDirection() const { return direction; };
 
 	// should only be used for test functions (manipulating where the enemy wants to go)
 	sf::Vector2f& getTargetPos() { return targetPos; }
@@ -65,7 +66,7 @@ private:
 
 	State state, prevState;
 	sf::Vector2f targetPos; // used to determine where the enemy wants to walk to
-	sf::Vector2f directon;
+	sf::Vector2f direction;
 	sf::VertexArray PlayerRay; // ray to point from this enemy to the player, used for collision detection
 	sf::VertexArray PatrolRay; // ray to point from this enemy to the target position
 

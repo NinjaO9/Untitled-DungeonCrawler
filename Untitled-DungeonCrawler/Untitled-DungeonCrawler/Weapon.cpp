@@ -127,7 +127,7 @@ void Weapon::BaseWeaponATK(const int& WDamage)
 			{
 				killedEntities.push_back(enemy);
 			}
-			cout << "hit! for: " << getdmg() << endl;
+			//cout << "hit! for: " << getdmg() << endl;
 		}
 		else // if nothing is hit, no damage is delt
 		{
