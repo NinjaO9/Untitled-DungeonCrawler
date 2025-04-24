@@ -5,7 +5,7 @@
 Temp-Temp.png
 Rock-Rock.jpg
 John-JohnImpact.jpg
-Wall-Wall.png
+Wall-Wall_D.png
 up-slash-up.png
 down-slash-down.png
 left-slash-left.png

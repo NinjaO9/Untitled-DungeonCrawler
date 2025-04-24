@@ -37,7 +37,6 @@ void runGame()
     sf::RenderWindow window(sf::VideoMode({ 1000, 1000 }), "GAME RUNNING");
     bool isPaused = false;
     int frameCount = 0, frameRate = 0;
-    Weapon testW; Sword sword;
     TextureManager* texManager = TextureManager::getInstance();
     GameManager* gameManager = GameManager::getInstance();
     LevelManager* lvl = gameManager->getLevel();
@@ -45,7 +44,8 @@ void runGame()
     fstream file;
     gameManager->setWindow(window);
     texManager->loadTextures("Textures.txt");  
-    gameManager->getPlayer() = new Player(statTable[0]/*stats*/, growthTable[0]/*growths*/, 1/*lvl*/, sf::Vector2f(100, 100));
+    Weapon testW; Sword sword;
+
 
     //for (int i = 0; i < ENTITY_COUNT-1; i++) // initialize given number of entities 
     //{

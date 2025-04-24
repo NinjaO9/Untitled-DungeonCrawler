@@ -144,5 +144,5 @@ void LevelManager::placeEnemy(int n)
 void LevelManager::placeExit()
 {
 	exitTile = new Obstacle((sf::Vector2f)placementSpot);
-	exitTile->getModel().setColor(sf::Color::Red); // temp color to help differentiate an exit tile from other tiles
+	exitTile->getModel().setColor(sf::Color::Green); // temp color to help differentiate an exit tile from other tiles
 }
