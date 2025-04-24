@@ -52,55 +52,62 @@ void Weapon::BaseWeaponATK(const int& WDamage)
 	Entity test(defaultStatLine, defaultGrowths, 1, (sf::Vector2f)sf::Mouse::getPosition(*(gm->getWindow())));
 
 	//attacking upward
-	if (gm->getPlayer()->getDirection() == sf::Vector2i{0,-1}) 
-	{
-		//sets sprite to upward slash
-		sf::Sprite* upSprite = new sf::Sprite(TextureManager::getInstance()->getTexture("up"));
-		test.setModel(upSprite); 
-		sf::FloatRect up = test.getModel().getLocalBounds();
-		test.getModel().setOrigin(sf::Vector2f(up.size.x / 2, up.size.y / 2));
-		test.getModel().setScale(sf::Vector2f(1, 1));
-		test.getModel().setPosition(gm->getPlayerPos() + sf::Vector2f(gm->getPlayer()->getDirection() * 30));
-	}
-	//attacking downward
-	if (gm->getPlayer()->getDirection() == sf::Vector2i{ 0,1 })
-	{
-		//sets sprite to downward slash
-		sf::Sprite* downSprite = new sf::Sprite(TextureManager::getInstance()->getTexture("down")); 
-		test.setModel(downSprite);
-		sf::FloatRect down = test.getModel().getLocalBounds();
-		test.getModel().setOrigin(sf::Vector2f(down.size.x / 2, down.size.y / 2));
-		test.getModel().setScale(sf::Vector2f(1, 1));
-		test.getModel().setPosition(gm->getPlayerPos() + sf::Vector2f(gm->getPlayer()->getDirection() * 30));
-	}
-	//attacking left
-	if (gm->getPlayer()->getDirection() == sf::Vector2i{ -1,0 })
-	{
-		//sets sprite to left slash
-		sf::Sprite* leftSprite = new sf::Sprite(TextureManager::getInstance()->getTexture("left"));
-		test.setModel(leftSprite);
-		sf::FloatRect left = test.getModel().getLocalBounds();
-		test.getModel().setOrigin(sf::Vector2f(left.size.x / 2, left.size.y / 2));
-		test.getModel().setScale(sf::Vector2f(1, 1));
-		test.getModel().setPosition(gm->getPlayerPos() + sf::Vector2f(gm->getPlayer()->getDirection() * 30));
-	}
-	//attacking right
-	if (gm->getPlayer()->getDirection() == sf::Vector2i{ 1,0 })
-	{
-		//sets sprite to right slash
-		sf::Sprite* rightSprite = new sf::Sprite(TextureManager::getInstance()->getTexture("right"));
-		test.setModel(rightSprite);
-		sf::FloatRect right = test.getModel().getLocalBounds();
-		test.getModel().setOrigin(sf::Vector2f(right.size.x / 2, right.size.y / 2));
-		test.getModel().setScale(sf::Vector2f(1, 1));
-		test.getModel().setPosition(gm->getPlayerPos() + sf::Vector2f(gm->getPlayer()->getDirection() * 30));
-	}
-	//attacks using last used attack direction
-	else
-	{
-		test.getModel().setScale(sf::Vector2f(1, 1));
-		test.getModel().setPosition(gm->getPlayerPos() + sf::Vector2f(gm->getPlayer()->getDirection() * 30));
-	}
+	//if (gm->getPlayer()->getDirection() == sf::Vector2i{0,-1}) 
+	//{
+	//	//sets sprite to upward slash
+	//	sf::Sprite* upSprite = new sf::Sprite(TextureManager::getInstance()->getTexture("up"));
+	//	test.setModel(upSprite); 
+	//	sf::FloatRect up = test.getModel().getLocalBounds();
+	//	test.getModel().setOrigin(sf::Vector2f(up.size.x / 2, up.size.y / 2));
+	//	test.getModel().setScale(sf::Vector2f(1, 1));
+	//	test.getModel().setPosition(gm->getPlayerPos() + sf::Vector2f(gm->getPlayer()->getDirection() * 30));
+	//}
+	////attacking downward
+	//if (gm->getPlayer()->getDirection() == sf::Vector2i{ 0,1 })
+	//{
+	//	//sets sprite to downward slash
+	//	sf::Sprite* downSprite = new sf::Sprite(TextureManager::getInstance()->getTexture("down")); 
+	//	test.setModel(downSprite);
+	//	sf::FloatRect down = test.getModel().getLocalBounds();
+	//	test.getModel().setOrigin(sf::Vector2f(down.size.x / 2, down.size.y / 2));
+	//	test.getModel().setScale(sf::Vector2f(1, 1));
+	//	test.getModel().setPosition(gm->getPlayerPos() + sf::Vector2f(gm->getPlayer()->getDirection() * 30));
+	//}
+	////attacking left
+	//if (gm->getPlayer()->getDirection() == sf::Vector2i{ -1,0 })
+	//{
+	//	//sets sprite to left slash
+	//	sf::Sprite* leftSprite = new sf::Sprite(TextureManager::getInstance()->getTexture("left"));
+	//	test.setModel(leftSprite);
+	//	sf::FloatRect left = test.getModel().getLocalBounds();
+	//	test.getModel().setOrigin(sf::Vector2f(left.size.x / 2, left.size.y / 2));
+	//	test.getModel().setScale(sf::Vector2f(1, 1));
+	//	test.getModel().setPosition(gm->getPlayerPos() + sf::Vector2f(gm->getPlayer()->getDirection() * 30));
+	//}
+	////attacking right
+	//if (gm->getPlayer()->getDirection() == sf::Vector2i{ 1,0 })
+	//{
+	//	//sets sprite to right slash
+	//	sf::Sprite* rightSprite = new sf::Sprite(TextureManager::getInstance()->getTexture("right"));
+	//	test.setModel(rightSprite);
+	//	sf::FloatRect right = test.getModel().getLocalBounds();
+	//	test.getModel().setOrigin(sf::Vector2f(right.size.x / 2, right.size.y / 2));
+	//	test.getModel().setScale(sf::Vector2f(1, 1));
+	//	test.getModel().setPosition(gm->getPlayerPos() + sf::Vector2f(gm->getPlayer()->getDirection() * 30));
+	//}
+	////attacks using last used attack direction
+	//else
+	//{
+	//	test.getModel().setScale(sf::Vector2f(1, 1));
+	//	test.getModel().setPosition(gm->getPlayerPos() + sf::Vector2f(gm->getPlayer()->getDirection() * 30));
+	//}
+
+	sf::Sprite* downSprite = new sf::Sprite(TextureManager::getInstance()->getTexture("Deoderant"));
+	test.setModel(downSprite);
+	sf::FloatRect down = test.getModel().getLocalBounds();
+	test.getModel().setOrigin(sf::Vector2f(down.size.x / 2, down.size.y / 2));
+	test.getModel().setScale(sf::Vector2f(32.0f/test.getModel().getTextureRect().size.x, 32.0f/test.getModel().getTextureRect().size.y));
+	test.getModel().setPosition(gm->getPlayerPos() + sf::Vector2f(gm->getPlayer()->getDirection() * 30));
 
 	//draws the test model, baseed on directing above
 	gm->getWindow()->draw(test.getModel());  

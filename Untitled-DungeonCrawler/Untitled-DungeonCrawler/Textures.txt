@@ -11,3 +11,5 @@ up-slash-up.png
 down-slash-down.png
 left-slash-left.png
 right-slash-right.png
+Deoderant-deoderant.png
+Enemy-Enemy_AI.png

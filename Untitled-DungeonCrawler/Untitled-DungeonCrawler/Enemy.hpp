@@ -26,7 +26,7 @@ public:
 		this->atTarget = false;
 		this->targetPos = pos;
 		this->fov = 60;
-		this->setModel(new sf::Sprite(TextureManager::getInstance()->getTexture("Temp"))); // temp image (obv)
+		this->setModel(new sf::Sprite(TextureManager::getInstance()->getTexture("Enemy"))); // temp image (obv)
 		sf::FloatRect temp = this->getModel().getLocalBounds();
 		this->getModel().setOrigin(sf::Vector2f(temp.size.x / 2, temp.size.y / 2));
 		updateDirection();
@@ -47,6 +47,8 @@ public:
 
 	sf::VertexArray getPlayerRay() const;
 	sf::VertexArray getPatrolRay() const;
+
+	sf::Vector2f getDirection() const { return directon; };
 
 	// should only be used for test functions (manipulating where the enemy wants to go)
 	sf::Vector2f& getTargetPos() { return targetPos; }

@@ -98,9 +98,10 @@ void runGame()
                 if (realX < 0 || realX > window.getSize().x) { continue; } // skip updating any enemy that is out of view
                 else if (realY < 0 || realY > window.getSize().y) { continue; }
                 enemy->update();
-                window.draw(enemy->getModel());
                 window.draw(enemy->getPatrolRay()); // Keeping patrol ray because we do not have directional sprites, and we need some way to indicate the enemy's directional view
                 //window.draw(enemy->getPlayerRay()); // NOTE: DRAWING THE RAYS IS A PREFORMANCE KILLER! COMMENT THESE OUT BEFORE JUDGING GAME PREFORMANCE
+                window.draw(enemy->getModel());
+
 
             }
             window.draw(gameManager->getPlayer()->getModel());

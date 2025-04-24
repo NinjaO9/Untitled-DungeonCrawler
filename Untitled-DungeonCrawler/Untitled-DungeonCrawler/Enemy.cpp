@@ -183,7 +183,6 @@ void Enemy::getNewTargetPos() // Super Janky code, but a proof of concept
 		targetPos = this->getModel().getPosition();
 		//std::cout << "I give up!" << std::endl;
 	}
-
 }
 
 bool Enemy::isInFOV()
@@ -219,6 +218,8 @@ void Enemy::updateDirection()
 	{
 		directon = sf::Vector2f(distanceVector.normalized().x, distanceVector.normalized().y); // converting difference to the unit vector coords
 	}
+	int xDir = 0;
+	this->getDirection().x > 0 ? xDir = 1 : xDir = -1;
 
 }
 
