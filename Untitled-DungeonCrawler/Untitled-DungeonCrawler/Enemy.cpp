@@ -203,6 +203,7 @@ float Enemy::getDegreeTo(sf::Vector2f& const target) // This function took me wa
 void Enemy::updateDirection()
 {
 	if (state == IDLE) { return; } // if the enemy is idle, they can stay looking in the direction they are already looking at
+	sf::Vector2f oldDir = directon;
 	sf::Vector2f distanceVector = targetPos - this->getPos();
 	if (distanceVector.x == 0)
 	{
@@ -219,7 +220,9 @@ void Enemy::updateDirection()
 		directon = sf::Vector2f(distanceVector.normalized().x, distanceVector.normalized().y); // converting difference to the unit vector coords
 	}
 	int xDir = 0;
-	this->getDirection().x > 0 ? xDir = 1 : xDir = -1;
+	oldDir.x > 0 ? xDir = 1 : xDir = -1;
+	directon.x > 0 ? xDir *= 1 : xDir *= -1;
+	this->getModel().setScale({ this->getModel().getScale().x * xDir, this->getModel().getScale().y});
 
 }
 
