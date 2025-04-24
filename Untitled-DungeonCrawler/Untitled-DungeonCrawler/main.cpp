@@ -38,7 +38,6 @@ void runGame()
     sf::RenderWindow window(sf::VideoMode({ 1000, 1000 }), "GAME RUNNING");
     bool isPaused = false;
     int frameCount = 0, frameRate = 0;
-    Weapon testW; Sword sword;
     TextureManager* texManager = TextureManager::getInstance();
     GameManager* gameManager = GameManager::getInstance();
     LevelManager* lvl = gameManager->getLevel();
@@ -46,6 +45,8 @@ void runGame()
     fstream file;
     gameManager->setWindow(window);
     texManager->loadTextures("Textures.txt");  
+    Weapon testW; Sword sword;
+
 
     Growths inputGrowths[] = {
     Growths(90, 30, 40, 20, 10),
