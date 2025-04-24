@@ -12,8 +12,10 @@ void Player::update() {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::J)) {
 		attack();
 	}
-
-	
+	getStats().setCurSp(getStats().getCurSp() + .05);
+	if (getStats().getCurSp() > getStats().getMaxSp()) {
+		getStats().setCurSp(getStats().getMaxSp());
+	}
 }
 
 void Player::levelUp()
@@ -25,9 +27,9 @@ void Player::levelUp()
 
 void Player::attack()
 {
-	//if (getStats().getCurSp() > this->equippedWeapon->getSpCost()) { //weapon SP costs will be needed here and then we can check if player's SP is equal to SPcost of weapon
-	//	this->equippedWeapon->weaponAttack(); //function for weaponattack needed and will be excecuted here
-	//}
+//	//if (getStats().getCurSp() > this->equippedWeapon->getSpCost()) { //weapon SP costs will be needed here and then we can check if player's SP is equal to SPcost of weapon
+//	//	this->equippedWeapon->weaponAttack(); //function for weaponattack needed and will be excecuted here
+//	//}
 }
 
 void Player::checklvlup()
@@ -40,7 +42,7 @@ void Player::checklvlup()
 void Player::handleMovement()
 {
 	sf::Vector2i movement;
-	this->direction = { 0,0 };
+	this->direction = sf::Vector2i(0, 0);
 	if (sf::Keyboard::isKeyPressed(Scancode::W))
 	{
 		movement += {0, -1};
