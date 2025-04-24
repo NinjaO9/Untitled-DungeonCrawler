@@ -57,7 +57,7 @@ private:
 
 class Stats {
 public:
-	Stats(int hp = 10, float spd = 0.7, int atk = 1, int def = 0,int sp = 10) {
+	Stats(int hp = 10, float spd = 2, int atk = 2, int def = 1,int sp = 0) {
 		this->maxHp = hp;
 		this->curHp = maxHp;
 		this->speed = spd;
@@ -117,5 +117,13 @@ private:
 	int curSp;
 };
 
-static Stats defaultStatLine(10 /* hp */, 2 /* spd */, 1 /* atk */, 0 /* def */, 0 /* sp */);
-static Growths defaultGrowths(50 /* hpg */, 10 /* spdg */, 20 /* atkg */, 10 /* defg */, 0 /* spg */);
+#define ENTITY_COUNT 20
+extern Stats defaultStatLine;
+extern Growths defaultGrowths;
+extern Growths inputGrowths[];
+extern Stats inputStats[];
+extern int inputCount;
+extern Growths growthTable[ENTITY_COUNT];
+extern Stats statTable[ENTITY_COUNT];
+
+void initstats();

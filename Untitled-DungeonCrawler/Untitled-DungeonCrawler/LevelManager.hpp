@@ -43,6 +43,8 @@ public:
 
 	void handlePlayerSpawn();
 
+	void initStats();	
+
 private:
 	static GameManager* gm;
 	std::vector<Obstacle*> wallTiles;
@@ -63,7 +65,7 @@ private:
 
 	void placeWall();
 
-	void placeEnemy();
+	void placeEnemy(int n);//n should be at least 1 but at most the number unique enemies we've loaded so far (all this can be seen in Stats.hpp
 
 	void placeExit();
 

@@ -3,6 +3,7 @@
 #include <cmath>
 #include <random>
 #include <SFML/Graphics.hpp>
+#include "Stats.hpp"
 using std::string;
 using std::cout;
 using std::endl;

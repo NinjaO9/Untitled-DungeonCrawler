@@ -5,6 +5,7 @@
 using sf::Keyboard::Scancode;
 
 void Player::update() {
+	sf::Vector2f pos = GameObject::getPos();
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::D)) {
 		handleMovement();
 	}

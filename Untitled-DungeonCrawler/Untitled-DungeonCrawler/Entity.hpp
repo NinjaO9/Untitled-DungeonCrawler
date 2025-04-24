@@ -2,7 +2,6 @@
 #include <algorithm>
 #include "GameObject.hpp"
 #include "TextureManager.hpp"
-#include "Stats.hpp"
 
 class GameManager;
 
@@ -16,7 +15,9 @@ public:
 		statLine = stats;
 		statLine.setGrowths(grows);
 		level = lvl;
-
+		for (int i = 0; i < level;i++) {
+			boostStats();
+		}
 		this->model = nullptr; // get rid of warnings
 	}
 
@@ -29,8 +30,8 @@ public:
 	
 
 	virtual void levelUp();
+	void boostStats();
 
-	void setSpeed(float const speed);
 
 	bool handleDamage(int dmg);
 
