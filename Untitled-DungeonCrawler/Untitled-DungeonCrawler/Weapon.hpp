@@ -11,7 +11,7 @@ public:
 
 	
 	// constructor
-	Weapon(int dmg = 0)
+	Weapon(int dmg = 0, int spCost=1)
 	{
 		this->upSprite = (new sf::Sprite(TextureManager::getInstance()->getTexture("up"))); // upwards slash
 		this->downSprite = (new sf::Sprite(TextureManager::getInstance()->getTexture("down"))); // downwards slash
@@ -40,6 +40,7 @@ public:
 private:
 	// enter vars here
 	int dmg;
+	int spcost;
 
 	sf::Sprite* upSprite;
 	sf::Sprite* leftSprite;

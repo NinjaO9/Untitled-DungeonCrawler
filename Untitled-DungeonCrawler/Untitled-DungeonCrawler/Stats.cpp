@@ -11,10 +11,10 @@ Growths inputGrowths[] = {
 };
 
 Stats inputStats[] = {
-    Stats(20, 2.2, 1, 1, 30),
-    Stats(10, 2.2, 2, 2, 0),
-    Stats(8, 2.4, 3, 0, 0),
-    Stats(12, 2.0, 1, 1, 0)
+    Stats(20, 2.5, 1, 1, 30),
+    Stats(10, 2.5, 2, 2, 0),
+    Stats(8, 2.0, 3, 0, 0),
+    Stats(12, 3, 1, 1, 0)
 };
 
 int inputCount = std::min((int)(sizeof(inputStats) / sizeof(Stats)), ENTITY_COUNT);

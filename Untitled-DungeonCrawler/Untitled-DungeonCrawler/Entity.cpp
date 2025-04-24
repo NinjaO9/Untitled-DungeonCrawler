@@ -15,7 +15,7 @@ void Entity::boostStats() {
 			statLine.setMaxHp(statLine.getMaxHp() + 1);
 		}
 		if (rand() % 100 <= statLine.getGrowth(1)) {
-			statLine.setSpeed(statLine.getSpeed() + 0.1);
+			statLine.setSpeed(statLine.getSpeed() + 0.5);
 		}
 		if (rand() % 100 <= statLine.getGrowth(2)) {
 			statLine.setAttack(statLine.getAttack() + 1);
