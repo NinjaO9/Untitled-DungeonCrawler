@@ -2,7 +2,18 @@
 
 Obstacle::Obstacle(sf::Vector2f pos)
 {
-	sprite = new sf::Sprite(TextureManager::getInstance()->getTexture("Wall"));
+	int texture = rand() % 2;
+	switch (texture) // select a random texture to the wall
+	{
+	case 0:
+		sprite = new sf::Sprite(TextureManager::getInstance()->getTexture("Wall1"));
+		break;
+	case 1:
+		sprite = new sf::Sprite(TextureManager::getInstance()->getTexture("Wall2"));
+		break;
+	default:
+		break;
+	}
 	sprite->setPosition(pos);
 	sprite->setOrigin({ sprite->getPosition().x / 32, sprite->getPosition().y / 32 });
 	sf::IntRect rect = sprite->getTextureRect();
