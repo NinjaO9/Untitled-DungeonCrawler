@@ -36,6 +36,15 @@ Want to edit textures?
 - Either add, or replace a texture within the file
 - Done!
 
+# Running Test Cases
+As per the requirement, there are 5 test cases (0-4)
+
+In order to turn on DEBUG_MODE, go to line 10 in main.cpp and switch the vairiable 'false' to 'true' (or vise-versa to turn it off)
+
+Below (in line 11), there will be a variable that defines the test case that will be played out, wihtin a range of 0-4 being valid numbers.
+
+After adjusting the values to the settings you want, launch the program and then the proper test case will play out.
+
 ## Collaborator Names & Lab Sections
 David Montes (NinjaO9) - Lab Section 10
 
