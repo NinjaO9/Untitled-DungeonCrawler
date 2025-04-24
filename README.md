@@ -9,6 +9,7 @@ Additionally, the program includes an easy way to modify textues and levels, wit
 # How to play
 
 Directional Movement - W,A,S,D (Up,Left,Down,Right)
+
 Attack - Space
 
 # Level Editing guide
