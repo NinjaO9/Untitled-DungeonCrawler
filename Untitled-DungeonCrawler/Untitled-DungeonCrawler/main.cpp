@@ -36,7 +36,7 @@ void runGame()
 {
     sf::RenderWindow window(sf::VideoMode({ 1000, 1000 }), "GAME RUNNING");
     bool isPaused = false;
-    int frameCount = 0, frameRate = 0;
+    int frameCount = 0, frameRate = 60;
     TextureManager* texManager = TextureManager::getInstance();
     GameManager* gameManager = GameManager::getInstance();
     LevelManager* lvl = gameManager->getLevel();
@@ -67,7 +67,7 @@ void runGame()
         if (gameManager->getClock().getElapsedTime().asSeconds() > 1)
         {
             frameRate = frameCount;
-            cout << frameRate << endl;
+            cout << "FPS: " <<  frameRate << endl;
             gameManager->getClock().reset();
             frameCount = 0;
             gameManager->getClock().start();
@@ -98,9 +98,10 @@ void runGame()
                 if (realX < 0 || realX > window.getSize().x) { continue; } // skip updating any enemy that is out of view
                 else if (realY < 0 || realY > window.getSize().y) { continue; }
                 enemy->update();
-                window.draw(enemy->getModel());
-                window.draw(enemy->getPatrolRay()); // Keeping patrol ray because we do not have directional sprites, and we need some way to indicate the enemy's directional view
+                //window.draw(enemy->getPatrolRay()); // Keeping patrol ray because we do not have directional sprites, and we need some way to indicate the enemy's directional view
                 //window.draw(enemy->getPlayerRay()); // NOTE: DRAWING THE RAYS IS A PREFORMANCE KILLER! COMMENT THESE OUT BEFORE JUDGING GAME PREFORMANCE
+                window.draw(enemy->getModel());
+
 
             }
             window.draw(gameManager->getPlayer()->getModel());
@@ -205,7 +206,8 @@ void runDEBUG()
         break;
     case 2:
         
-        cout << "TEST_CASE description: Testing enemy collision logic - The enemy will constantly move into a wall, colliding and bouncing back. In this case, ending up at the top left of the wall is a predicted behavior because of the nature of the checkCollision() function." << endl;
+        cout << "TEST_CASE description: Testing enemy collision logic - The enemy will constantly move into a wall, colliding and bouncing back." << endl;
+        gameManager->getEnemies()[0]->setDirection({ -1,0 }); // moving the enemy in this direction, so we will manualy set the direction
         while (window.isOpen())
         {
             while (const std::optional event = window.pollEvent())

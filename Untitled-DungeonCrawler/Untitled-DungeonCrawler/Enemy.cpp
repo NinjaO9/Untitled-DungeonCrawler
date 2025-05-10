@@ -183,7 +183,6 @@ void Enemy::getNewTargetPos() // Super Janky code, but a proof of concept
 		targetPos = this->getModel().getPosition();
 		//std::cout << "I give up!" << std::endl;
 	}
-
 }
 
 bool Enemy::isInFOV()
@@ -195,7 +194,7 @@ bool Enemy::isInFOV()
 float Enemy::getDegreeTo(sf::Vector2f& const target) // This function took me way too long dude
 {
 	sf::Vector2f dirToTarget = target - getPos();
-	float angle = atan2f(dirToTarget.y, dirToTarget.x) - atan2f(directon.y, directon.x); // get the angle difference in radians from [-pi, pi]
+	float angle = atan2f(dirToTarget.y, dirToTarget.x) - atan2f(direction.y, direction.x); // get the angle difference in radians from [-pi, pi]
 	angle *= 180 / PI; // convert raidans to degrees
 
 	return abs(angle); // abs value to ensure equal evaluation
@@ -204,21 +203,26 @@ float Enemy::getDegreeTo(sf::Vector2f& const target) // This function took me wa
 void Enemy::updateDirection()
 {
 	if (state == IDLE) { return; } // if the enemy is idle, they can stay looking in the direction they are already looking at
+	sf::Vector2f oldDir = direction;
 	sf::Vector2f distanceVector = targetPos - this->getPos();
 	if (distanceVector.x == 0)
 	{
-		if (distanceVector.y == 0) { directon = sf::Vector2f(0, 0); }
-		else { directon = sf::Vector2f(0, 1); /* Janky solution */ }
+		if (distanceVector.y == 0) { direction = sf::Vector2f(0, 0); }
+		else { direction = sf::Vector2f(0, 1); /* Janky solution */ }
 	}
 	else if (distanceVector.y == 0)
 	{
-		if (distanceVector.x == 0) { directon = sf::Vector2f(0, 0); }
-		else { directon = sf::Vector2f(1, 0); }
+		if (distanceVector.x == 0) { direction = sf::Vector2f(0, 0); }
+		else { direction = sf::Vector2f(1, 0); }
 	}
 	else
 	{
-		directon = sf::Vector2f(distanceVector.normalized().x, distanceVector.normalized().y); // converting difference to the unit vector coords
+		direction = sf::Vector2f(distanceVector.normalized().x, distanceVector.normalized().y); // converting difference to the unit vector coords
 	}
+	int xDir = 0;
+	oldDir.x > 0 ? xDir = 1 : xDir = -1;
+	direction.x > 0 ? xDir *= 1 : xDir *= -1;
+	this->getModel().setScale({ this->getModel().getScale().x * xDir, this->getModel().getScale().y});
 
 }
 
@@ -226,7 +230,7 @@ bool Enemy::isTargetPosValid(sf::Vector2f target)
 {
 	float distance = checkDistance(target);
 	bool isValid = true;
-	sf::Vector2f direction(((target.x - getPos().x) / distance), ((target.y - getPos().y) / distance));
+	sf::Vector2f dir(((target.x - getPos().x) / distance), ((target.y - getPos().y) / distance));
 	sf::RectangleShape testRect({ 32,32 });
 	testRect.setOrigin({ testRect.getPosition().x / 2, testRect.getPosition().y / 2 });
 
@@ -237,7 +241,7 @@ bool Enemy::isTargetPosValid(sf::Vector2f target)
 
 	for (int i = 1; distance > getStats().getSpeed(); i++) // possibly change i++ to i += 32; this is because we are doing a 32x32 sprite style, so this could be helpful to prevent a higher number of operations
 	{
-		tempSprite.move(direction);
+		tempSprite.move(dir);
 		tempPos = tempSprite.getPosition();
 		//for (Obstacle* wall : nearbyObsticles) // replace with a literal wall class eventually
 		//{
@@ -282,7 +286,7 @@ void Enemy::handleCollision()
 		auto intersection = this->getModel().getGlobalBounds().findIntersection(wall->getModel().getGlobalBounds());
 		if (intersection.has_value())
 		{
-			sf::Vector2f trueIntersection(this->getModel().getPosition().x - intersection.value().position.x, this->getModel().getPosition().y - intersection.value().position.y);
+			/*sf::Vector2f trueIntersection(this->getModel().getPosition().x - intersection.value().position.x, this->getModel().getPosition().y - intersection.value().position.y);
 			int ySign = 0, xSign = 0;
 			if (trueIntersection.x == this->getModel().getPosition().x) { xSign = 0; }
 			else if (trueIntersection.x > 0) { xSign = 1; }
@@ -291,6 +295,10 @@ void Enemy::handleCollision()
 			else if (trueIntersection.y > 0) { ySign = -1; }
 			else { ySign = 1; }
 			this->getModel().move({intersection.value().size.x * xSign + (2 * xSign), -intersection.value().size.y * ySign + (2 * ySign)});
+			break;*/
+
+			this->getModel().move({ this->direction.x * -1 * getStats().getSpeed(), this->direction.y * -1 * getStats().getSpeed()});
+			//cout << "AHHHH" << endl;
 			break;
 		}
 	}

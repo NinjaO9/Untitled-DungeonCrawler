@@ -170,6 +170,7 @@
     <Image Include="Temp.png" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="End.txt" />
     <Text Include="Level1.txt" />
     <Text Include="Level2.txt" />
     <Text Include="Level3.txt" />
